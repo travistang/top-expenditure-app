@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import DigitInput from "./components/DigitInput";
+import DigitDisplay from "./components/DigitDisplay";
 import Header from "./components/Header";
 import Keypad from "./components/Keypad";
+import TextInput from "./components/TextInput";
 
 const amountStringToAmount = (str: string): number => {
   const decimalString = str.slice(-2);
@@ -13,6 +14,7 @@ const amountStringToAmount = (str: string): number => {
 
 function App() {
   const [amountString, setAmountString] = useState("");
+
   const onAddDigit = (d: number) => {
     setAmountString(amountString + d.toString());
   };
@@ -27,17 +29,19 @@ function App() {
   return (
     <div className="basic-background flex flex-col gap-2 fixed inset-0">
       <Header />
-      <DigitInput
-        value={amountStringToAmount(amountString)}
-        onChange={console.log}
-        className="py-4"
-      />
-      <Keypad
-        className="sticky bottom-0"
-        onDigit={onAddDigit}
-        onRemoveDigit={onRemoveDigit}
-        onClear={onClear}
-      />
+      <div className="flex flex-col gap-2 px-2 items-stretch">
+        <DigitDisplay
+          value={amountStringToAmount(amountString)}
+          className="py-4"
+        />
+        <TextInput label="Name" value="test" onChange={console.log} />
+        <Keypad
+          className="sticky bottom-0"
+          onDigit={onAddDigit}
+          onRemoveDigit={onRemoveDigit}
+          onClear={onClear}
+        />
+      </div>
     </div>
   );
 }

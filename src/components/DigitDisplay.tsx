@@ -3,10 +3,9 @@ import classNames from "classnames";
 
 type Props = {
   value: number;
-  onChange: (v: number) => void;
   className?: string;
 };
-export default function DigitInput({ value, onChange, className }: Props) {
+export default function DigitDisplay({ value, className }: Props) {
   return (
     <div
       className={classNames(
