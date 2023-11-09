@@ -1,5 +1,6 @@
-import Dexie, { Table } from "dexie";
+import Dexie, { Collection, Table } from "dexie";
 import { Mutex } from "async-mutex";
+import { containsSubstring } from "../utils/strings";
 
 export enum RegularExpenditureInterval {
   Daily = "daily",
@@ -47,6 +48,14 @@ export type Expenditure = {
   category: string;
   amount: number;
   repeat?: RegularExpenditureSettings;
+};
+
+export const DEFAULT_EXPENDITURE: Expenditure = {
+  name: "",
+  date: Date.now(),
+  tags: [],
+  category: "",
+  amount: 0,
 };
 
 export type ExpenditureWithId = Expenditure & {

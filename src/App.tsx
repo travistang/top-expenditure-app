@@ -1,49 +1,45 @@
-import React, { useState } from "react";
-import DigitDisplay from "./components/DigitDisplay";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+
 import Header from "./components/Header";
-import Keypad from "./components/Keypad";
-import TextInput from "./components/TextInput";
+import RecordExpenditurePage from "./pages/RecordExpenditurePage";
+import Footer from "./components/Footer";
+import ExpenditureListPage from "./pages/ExpenditureListPage";
 
-const amountStringToAmount = (str: string): number => {
-  const decimalString = str.slice(-2);
-  const integerString = str.slice(0, -2);
-  const integer = parseInt(integerString) || 0;
-  const decimal = parseInt(decimalString) || 0;
-  return integer + decimal / 100;
-};
-
-function App() {
-  const [amountString, setAmountString] = useState("");
-
-  const onAddDigit = (d: number) => {
-    setAmountString(amountString + d.toString());
-  };
-
-  const onRemoveDigit = () => {
-    setAmountString(amountString.slice(0, -1));
-  };
-  const onClear = () => {
-    setAmountString("");
-  };
-
+function AppLayout() {
   return (
-    <div className="basic-background flex flex-col gap-2 fixed inset-0">
+    <div
+      id="page"
+      className="bg-normal gap-2 fixed inset-0 overflow-hidden flex flex-col items-stretch"
+    >
       <Header />
-      <div className="flex flex-col gap-2 px-2 items-stretch">
-        <DigitDisplay
-          value={amountStringToAmount(amountString)}
-          className="py-4"
-        />
-        <TextInput label="Name" value="test" onChange={console.log} />
-        <Keypad
-          className="sticky bottom-0"
-          onDigit={onAddDigit}
-          onRemoveDigit={onRemoveDigit}
-          onClear={onClear}
-        />
+      <Toaster />
+      <div className="flex-1 flex items-stretch">
+        <Outlet />
       </div>
+      <Footer />
     </div>
   );
+}
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <RecordExpenditurePage />,
+      },
+      {
+        path: "/expenditures",
+        element: <ExpenditureListPage />,
+      },
+    ],
+  },
+]);
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

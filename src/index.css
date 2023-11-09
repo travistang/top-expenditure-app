@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,700;1,500&display=swap");
 
 @layer utilities {
   .bg-normal {
@@ -12,6 +13,11 @@
   }
 }
 
+* {
+  @apply transition-colors duration-300;
+  font-family: "Montserrat", sans-serif;
+}
+
 div {
-  @apply bg-normal text-normal;
+  @apply text-normal;
 }

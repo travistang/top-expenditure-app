@@ -19,7 +19,9 @@ export default function Keypad({
   return (
     <div className={classNames("grid grid-cols-3 gap-2", className)}>
       {DIGITS_WITHOUT_ZERO.map((d) => (
-        <KeyButton onClick={() => onDigit(d)}>{d}</KeyButton>
+        <KeyButton key={d} onClick={() => onDigit(d)}>
+          {d}
+        </KeyButton>
       ))}
       <KeyButton onClick={onClear} className="bg-red-500 active:bg-red-800">
         <FaTimes />
