@@ -1,6 +1,10 @@
 import classNames from "classnames";
 import { range } from "../../../utils/array";
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+
+export type NumberTickerControlProps = {
+  setTick: (num: number) => void;
+};
 
 type Props = {
   className?: string;
@@ -10,17 +14,34 @@ type Props = {
   defaultValue?: number;
   formatNumber?: (n: number) => string;
 };
-export default function NumberTicker({
-  formatNumber = (n) => n.toString(),
-  from,
-  to,
-  defaultValue,
-  className,
-  onChange,
-}: Props) {
+function NumberTicker(
+  {
+    formatNumber = (n) => n.toString(),
+    from,
+    to,
+    defaultValue,
+    className,
+    onChange,
+  }: Props,
+  ref: React.Ref<NumberTickerControlProps>
+) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollEndHandler = useRef<NodeJS.Timeout | null>(null);
   const numbers = range(Math.max(0, to - from)).map((i) => i + from);
+  useImperativeHandle(ref, () => {
+    return {
+      setTick: (n: number) => {
+        const index = numbers.findIndex((i) => i === n);
+        if (index === -1 || !containerRef.current) return;
+        const itemHeight = containerRef.current.clientHeight;
+
+        containerRef.current.scrollTo({
+          top: itemHeight * index,
+          behavior: "smooth",
+        });
+      },
+    };
+  });
   useEffect(() => {
     if (
       defaultValue &&
@@ -70,3 +91,5 @@ export default function NumberTicker({
     </div>
   );
 }
+
+export default forwardRef(NumberTicker);

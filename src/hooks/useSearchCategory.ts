@@ -12,14 +12,8 @@ export default function useSearchCategory(
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<CategoryWithId[]>([]);
   useEffect(() => {
-    if (searchString) setLoading(true);
     if (debounce.current) clearTimeout(debounce.current);
     setTimeout(() => {
-      if (!searchString) {
-        setLoading(false);
-        setResults([]);
-        return;
-      }
       expenditureDatabase
         .searchCategories(searchString)
         .then(setResults)

@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import { SearchParams } from "../../domain/expenditure-search";
 import { FaArrowDown, FaSearch } from "react-icons/fa";
-import TextInput from "../TextInput";
 import { Updater } from "../../utils/objects";
 import { useState } from "react";
 import Button from "../Button";
+import DateInput from "../DateInput";
+import AmountInput from "../AmountInput";
+import { formatNumberAsAmount } from "../../utils/strings";
 
 type Props = {
   searchParams: SearchParams;
@@ -56,7 +58,38 @@ export default function ExpenditureSearchForm({
           icon={FaArrowDown}
         />
       </div>
-      <div className={classNames("h-72")}>Rest of the form</div>
+      <div className={classNames("grid grid-cols-6 p-2 gap-2 col-span-full")}>
+        <DateInput
+          className="col-span-3"
+          label="From"
+          onChange={onChangeSearchParams("fromDate")}
+          nullable
+          date={searchParams.fromDate}
+        />
+        <DateInput
+          nullable
+          label="To"
+          className="col-span-3"
+          onChange={onChangeSearchParams("toDate")}
+          date={searchParams.toDate}
+        />
+        <AmountInput
+          nullable
+          label="Minimum amount"
+          className="col-span-3"
+          amount={searchParams.minimumAmount}
+          formatter={formatNumberAsAmount}
+          onChange={onChangeSearchParams("minimumAmount")}
+        />
+        <AmountInput
+          nullable
+          label="Maximum amount"
+          className="col-span-3"
+          amount={searchParams.maximumAmount}
+          formatter={formatNumberAsAmount}
+          onChange={onChangeSearchParams("maximumAmount")}
+        />
+      </div>
     </div>
   );
 }

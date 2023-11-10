@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { format } from "date-fns";
 import { ExpenditureWithId } from "../../domain/expenditure";
+import { formatNumberAsAmount } from "../../utils/strings";
 
 type Props = {
   expenditure: ExpenditureWithId;
@@ -32,7 +33,7 @@ export default function ExpenditureItem({
         {category}
       </div>
       <div className="row-start-1 row-span-full text-lg overflow-hidden text-ellipsis whitespace-nowrap text-right">
-        {new Intl.NumberFormat("de-DE", { currency: "EUR" }).format(amount)} €
+        {formatNumberAsAmount(amount)}
       </div>
     </div>
   );

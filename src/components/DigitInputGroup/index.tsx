@@ -3,6 +3,7 @@ import DigitDisplay from "../DigitDisplay";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 import Keypad from "../Keypad";
+import useDigitInput from "../../hooks/useDigitInput";
 
 type Props = {
   value: number;
@@ -32,36 +33,17 @@ export default function DigitInputGroup({
   keypadPortalId,
 }: Props) {
   const [domReady, setDomReady] = useState(false);
-  const [amountString, setAmountString] = useState(amountToAmountString(value));
+  const { onAddDigit, onRemoveDigit, onClear } = useDigitInput({
+    value,
+    onChange,
+  });
   useEffect(() => setDomReady(true), []);
-  useEffect(() => setAmountString(amountToAmountString(value)), [value]);
-
-  const onAddDigit = (d: number) => {
-    const newAmountString = amountString + d.toString();
-    console.log({
-      d,
-      newAmountString,
-      asAmount: amountStringToAmount(newAmountString),
-    });
-    setAmountString(newAmountString);
-    onChange(amountStringToAmount(newAmountString));
-  };
-
-  const onRemoveDigit = () => {
-    const newAmountString = amountString.slice(0, -1);
-    setAmountString(newAmountString);
-    onChange(amountStringToAmount(newAmountString));
-  };
-  const onClear = () => {
-    setAmountString("");
-    onChange(0);
-  };
 
   return (
     <>
       <DigitDisplay
         onClick={toggleNumPad}
-        value={amountStringToAmount(amountString)}
+        value={value}
         className={classNames(
           "transition-all duration-300",
           showNumPad ? "h-1/3" : "h-1/4"

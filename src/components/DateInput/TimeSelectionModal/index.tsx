@@ -1,21 +1,35 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { getHours, getMinutes, setHours, setMinutes } from "date-fns";
 import ConfirmationButtonRow from "../ConfirmationButtonRow";
 import { modalContext } from "../../Modal";
-import { range } from "../../../utils/array";
-import NumberTicker from "./NumberTicker";
-import { getHours, getMinutes, setHours, setMinutes } from "date-fns";
+import NumberTicker, { NumberTickerControlProps } from "./NumberTicker";
 
 type Props = {
-  date: number;
+  date?: number;
   onChange: (date: number) => void;
 };
 export default function TimeSelectionModal({ date, onChange }: Props) {
   const { onClose } = useContext(modalContext);
-  const [selectedDate, setSelectedDate] = useState(date);
+  const [selectedDate, setSelectedDate] = useState(date ?? Date.now());
+  const hourPickerRef = useRef<NumberTickerControlProps>(
+    {} as NumberTickerControlProps
+  );
+  const minutePickerRef = useRef<NumberTickerControlProps>(
+    {} as NumberTickerControlProps
+  );
 
   const confirmSelection = () => {
     onChange(selectedDate);
     onClose();
+  };
+
+  const setToNow = () => {
+    const now = Date.now();
+    const hour = getHours(now);
+    const minutes = getMinutes(now);
+    console.log({ hour, minutes });
+    hourPickerRef.current.setTick(hour);
+    minutePickerRef.current.setTick(minutes);
   };
 
   const onSelectValueFor =
@@ -30,17 +44,19 @@ export default function TimeSelectionModal({ date, onChange }: Props) {
     <div className="flex items-stretch gap-2 flex-col flex-1">
       <div className="flex items-center justify-center gap-2 flex-1 py-4">
         <NumberTicker
+          ref={hourPickerRef}
           from={0}
           to={24}
-          defaultValue={getHours(date)}
+          defaultValue={getHours(date ?? Date.now())}
           onChange={onSelectValueFor("hour")}
           formatNumber={(num) => num.toString().padStart(2, "0")}
         />
         <span className="text-normal text-2xl">:</span>
         <NumberTicker
+          ref={minutePickerRef}
           from={0}
           to={60}
-          defaultValue={getMinutes(date)}
+          defaultValue={getMinutes(date ?? Date.now())}
           onChange={onSelectValueFor("minute")}
           formatNumber={(num) => num.toString().padStart(2, "0")}
         />
@@ -48,7 +64,7 @@ export default function TimeSelectionModal({ date, onChange }: Props) {
       <ConfirmationButtonRow
         onCancel={onClose}
         onConfirm={confirmSelection}
-        onSetToNow={() => setSelectedDate(Date.now())}
+        onSetToNow={setToNow}
       />
     </div>
   );

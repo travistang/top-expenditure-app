@@ -8,6 +8,8 @@ export type SearchParams = {
   pageSize: number;
   fromDate?: number;
   toDate?: number;
+  minimumAmount?: number;
+  maximumAmount?: number;
 };
 
 export type ExpenditureSearchResult = {
@@ -29,6 +31,16 @@ class ExpenditureSearcher {
       if (
         params.searchString &&
         !containsSubstring(exp.name, params.searchString)
+      )
+        return false;
+      if (
+        params.maximumAmount !== undefined &&
+        exp.amount > params.maximumAmount
+      )
+        return false;
+      if (
+        params.minimumAmount !== undefined &&
+        exp.amount < params.minimumAmount
       )
         return false;
       if (params.fromDate && exp.date < params.fromDate) return false;

@@ -54,6 +54,6 @@ export default function Modal({ title, children, onClose, className }: Props) {
         </modalContext.Provider>
       </div>
     </div>,
-    document.getElementById("root")!
+    document.getElementById("page")!
   );
 }

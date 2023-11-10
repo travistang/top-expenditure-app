@@ -19,7 +19,8 @@ export default function Button({
 }: Props) {
   const [onClickRunning, setOnClickRunning] = useState(false);
   const shouldDisableButton = disabled || onClickRunning;
-  const onClickWithLoading = () => {
+  const onClickWithLoading = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (shouldDisableButton) return;
     Promise.resolve()
       .then(() => setOnClickRunning(true))
