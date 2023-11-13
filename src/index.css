@@ -16,13 +16,22 @@
 * {
   @apply transition-colors duration-300;
   font-family: "Montserrat", sans-serif;
+  scrollbar-width: none !important;
 }
 
+*:not(input, textarea) {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
 div {
   @apply text-normal;
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 0px !important;
   background: transparent; /* make scrollbar transparent */
 }

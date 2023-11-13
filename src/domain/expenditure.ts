@@ -1,6 +1,5 @@
-import Dexie, { Collection, Table } from "dexie";
+import Dexie, { Table } from "dexie";
 import { Mutex } from "async-mutex";
-import { containsSubstring } from "../utils/strings";
 
 export enum RegularExpenditureInterval {
   Daily = "daily",

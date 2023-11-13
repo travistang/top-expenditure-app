@@ -1,10 +1,4 @@
-import {
-  addDays,
-  getDay,
-  getDaysInMonth,
-  isSameDay,
-  startOfMonth,
-} from "date-fns";
+import { getDay, getDaysInMonth, startOfMonth } from "date-fns";
 import classNames from "classnames";
 import { range } from "../../utils/array";
 import DateCell from "./DateCell";

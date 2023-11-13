@@ -1,7 +1,5 @@
 import classNames from "classnames";
 import { useState } from "react";
-import Button from "../Button";
-import { FaTimes } from "react-icons/fa";
 import TagsDisplay from "./TagsDisplay";
 import InputBase from "../InputBase";
 
