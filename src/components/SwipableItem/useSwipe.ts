@@ -1,44 +1,23 @@
 import React, { useRef } from "react";
-import { clamp } from "../../utils/numbers";
 
-export type SwipeState = {
-  distance: number | null;
-  swiping: boolean;
+export type SwipeDirection = "left" | "right";
+export type UseSwipeParams = {
+  onSwipe: (direction: SwipeDirection) => void;
 };
+
 export type UseSwipeResult = {
-  handlers: {
-    onTouchStart: React.TouchEventHandler;
-    onTouchEnd: React.TouchEventHandler;
-    onTouchCancel: React.TouchEventHandler;
-    onTouchMove: React.TouchEventHandler;
-    onMouseDown: React.MouseEventHandler;
-    onMouseUp: React.MouseEventHandler;
-    onMouseMove: React.MouseEventHandler;
-    onMouseLeave: React.MouseEventHandler;
-  };
-  close: () => void;
+  onTouchStart: React.TouchEventHandler;
+  onTouchEnd: React.TouchEventHandler;
+  onTouchCancel: React.TouchEventHandler;
+  onTouchMove: React.TouchEventHandler;
+  onMouseDown: React.MouseEventHandler;
+  onMouseUp: React.MouseEventHandler;
+  onMouseMove: React.MouseEventHandler;
+  onMouseLeave: React.MouseEventHandler;
 };
 
-export default function useSwipe(
-  containerRef: React.MutableRefObject<HTMLElement>,
-  menuItemRef: React.MutableRefObject<HTMLElement>
-): UseSwipeResult {
+export default function useSwipe({ onSwipe }: UseSwipeParams): UseSwipeResult {
   const swipeStart = useRef<number | null>(null);
-
-  const handleScrollDistance = (distance: number) => {
-    const containerWidth = containerRef.current.getBoundingClientRect().width;
-    const totalDistance = containerRef.current.scrollWidth;
-    const scrollableDistance = totalDistance - containerWidth;
-    const clampedDistance = clamp(0, distance, scrollableDistance);
-    const scrollRatio = clampedDistance / scrollableDistance;
-
-    containerRef.current.scrollTo(clampedDistance, 0);
-
-    menuItemRef.current.setAttribute(
-      "style",
-      `opacity:${scrollRatio}; transform:scale(${scrollRatio})`
-    );
-  };
 
   const cancelScroll = () => {
     swipeStart.current = null;
@@ -59,7 +38,9 @@ export default function useSwipe(
   const onTouchMove: React.TouchEventHandler = (e) => {
     if (swipeStart.current === null) return;
     const distance = swipeStart.current - e.targetTouches[0].clientX;
-    handleScrollDistance(distance);
+    const direction: SwipeDirection = distance < 0 ? "right" : "left";
+    onSwipe(direction);
+    cancelScroll();
   };
 
   const onMouseDown: React.MouseEventHandler = (e) => {
@@ -72,28 +53,23 @@ export default function useSwipe(
   const onMouseMove: React.MouseEventHandler = (e) => {
     if (swipeStart.current === null) return;
     const distance = swipeStart.current - e.clientX;
-    handleScrollDistance(distance);
+    const direction: SwipeDirection = distance < 0 ? "right" : "left";
+    onSwipe(direction);
   };
 
   const onMouseLeave: React.MouseEventHandler = (e) => {
     cancelScroll();
   };
 
-  const close = () =>
-    containerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-
   return {
-    close,
-    handlers: {
-      onTouchStart,
-      onTouchEnd,
-      onTouchCancel,
-      onTouchMove,
+    onTouchStart,
+    onTouchEnd,
+    onTouchCancel,
+    onTouchMove,
 
-      onMouseDown,
-      onMouseUp,
-      onMouseMove,
-      onMouseLeave,
-    },
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    onMouseLeave,
   };
 }

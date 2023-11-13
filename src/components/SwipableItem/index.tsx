@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons/lib";
 import Button from "../Button";
 import useSwipe from "./useSwipe";
@@ -22,26 +22,39 @@ export default function SwipeableItem({
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null!);
   const menuItemRef = useRef<HTMLButtonElement>(null!);
-  const { handlers, close } = useSwipe(containerRef, menuItemRef);
+  const [menuOpened, setMenuOpened] = useState(false);
+  const handlers = useSwipe({ onSwipe: (dir) => setMenuOpened(true) });
 
+  useEffect(() => {}, []);
   return (
     <div
       {...handlers}
       ref={containerRef}
       className={classNames(
-        "flex flex-nowrap overflow-x-auto gap-2 snap-x",
+        "flex flex-nowrap overflow-x-auto gap-2 snap-x duration-300 transition-all",
+        menuOpened && "-ml-[40px]",
         className
       )}
     >
-      <div className="w-full flex-shrink-0 snap-start">{children}</div>
       <div
-        onClick={close}
+        className={classNames(
+          "w-full flex-shrink-0 snap-start duration-300 transition-all"
+        )}
+      >
+        {children}
+      </div>
+      <div
+        onClick={() => setMenuOpened(false)}
         className="flex flex-nowrap gap-2 items-center snap-start min-w-[33%] justify-end"
       >
         {menuItems.map((item) => (
           <Button
             ref={menuItemRef}
-            className={classNames("aspect-square rounded-full", item.className)}
+            className={classNames(
+              "aspect-square rounded-full duration-300 transition-all",
+              !menuOpened && "opacity-0 scale-0",
+              item.className
+            )}
             onClick={item.onClick}
             icon={item.icon}
             key={item.name}
