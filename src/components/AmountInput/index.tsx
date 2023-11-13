@@ -1,12 +1,12 @@
-import { useState } from "react";
 import classNames from "classnames";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 
-import DigitDisplay from "../DigitDisplay";
-import Keypad from "../Keypad";
+import { FaTimes } from "react-icons/fa";
 import useDigitInput from "../../hooks/useDigitInput";
 import Button from "../Button";
-import { FaTimes } from "react-icons/fa";
+import DigitDisplay from "../DigitDisplay";
+import Keypad from "../Keypad";
 
 type BaseProps = {
   label?: string;
@@ -36,7 +36,6 @@ export default function AmountInput({
   amount,
   onChange,
 }: Props) {
-  console.log({ amount });
   const [showNumPad, setShowNumPad] = useState(false);
   const { onAddDigit, onClear, onRemoveDigit } = useDigitInput({
     value: amount ?? 0,

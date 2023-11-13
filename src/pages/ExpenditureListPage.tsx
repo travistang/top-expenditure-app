@@ -1,14 +1,16 @@
 import { useState } from "react";
-import useExpenditureSearch from "../hooks/useExpenditureSearch";
+import { FaTrash } from "react-icons/fa";
+import ExpenditureItem from "../components/ExpenditureRecord";
+import ExpenditureRecordPlaceholder from "../components/ExpenditureRecord/ExpenditureRecordPlaceholder";
+import ExpenditureSearchForm from "../components/ExpenditureSearchForm";
+import SwipeableItem from "../components/SwipableItem";
 import {
   DEFAULT_SEARCH_PARAMS,
   SearchParams,
 } from "../domain/expenditure-search";
-import ExpenditureSearchForm from "../components/ExpenditureSearchForm";
-import ExpenditureItem from "../components/ExpenditureRecord";
-import { createUpdater } from "../utils/objects";
+import useExpenditureSearch from "../hooks/useExpenditureSearch";
 import { range } from "../utils/array";
-import ExpenditureRecordPlaceholder from "../components/ExpenditureRecord/ExpenditureRecordPlaceholder";
+import { createUpdater } from "../utils/objects";
 
 export default function ExpenditureListPage() {
   const [params, setParams] = useState<SearchParams>(DEFAULT_SEARCH_PARAMS);
@@ -36,7 +38,19 @@ export default function ExpenditureListPage() {
       )}
       {!loading &&
         results.map((expenditure) => (
-          <ExpenditureItem key={expenditure.id} expenditure={expenditure} />
+          <SwipeableItem
+            key={expenditure.id}
+            menuItems={[
+              {
+                name: "delete",
+                icon: FaTrash,
+                className: "bg-red-500 text-gray-200",
+                onClick: console.log,
+              },
+            ]}
+          >
+            <ExpenditureItem expenditure={expenditure} />
+          </SwipeableItem>
         ))}
     </div>
   );

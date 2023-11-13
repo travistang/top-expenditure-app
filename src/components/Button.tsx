@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 
@@ -10,13 +10,10 @@ type Props = {
   text?: string;
   disabled?: boolean;
 };
-export default function Button({
-  icon: Icon,
-  text,
-  onClick,
-  className,
-  disabled,
-}: Props) {
+function Button(
+  { icon: Icon, text, onClick, className, disabled }: Props,
+  ref: React.Ref<HTMLButtonElement>
+) {
   const [onClickRunning, setOnClickRunning] = useState(false);
   const shouldDisableButton = disabled || onClickRunning;
   const onClickWithLoading = (e: React.MouseEvent) => {
@@ -29,6 +26,7 @@ export default function Button({
   };
   return (
     <button
+      ref={ref}
       onClick={onClickWithLoading}
       className={classNames(
         "flex items-center justify-center gap-1 rounded-full py-1 px-2 transition-all",
@@ -47,3 +45,5 @@ export default function Button({
     </button>
   );
 }
+
+export default forwardRef(Button);

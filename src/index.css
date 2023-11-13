@@ -21,3 +21,8 @@
 div {
   @apply text-normal;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
