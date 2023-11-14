@@ -3,6 +3,7 @@ import { IconType } from "react-icons/lib";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import Button from "./Button";
+import { Routes } from "../routes";
 
 type Props = {
   icon: IconType;
@@ -24,10 +25,10 @@ function FooterTab({ icon, path }: Props) {
   );
 }
 const ROUTES = [
-  { icon: FaPen, path: "/" },
-  { icon: FaList, path: "/expenditures" },
-  { icon: FaTag, path: "/categories" },
-  { icon: FaChartBar, path: "/analysis" },
+  { icon: FaPen, path: Routes.RecordExpenditure },
+  { icon: FaList, path: Routes.ExpenditureList },
+  { icon: FaTag, path: Routes.CategoryList },
+  { icon: FaChartBar, path: Routes.Analysis },
 ];
 export default function Footer() {
   return (

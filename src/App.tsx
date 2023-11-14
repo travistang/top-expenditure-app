@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import RecordExpenditurePage from "./pages/RecordExpenditurePage";
 import Footer from "./components/Footer";
 import ExpenditureListPage from "./pages/ExpenditureListPage";
+import CategoryListPage from "./pages/CategoryListPage";
+import { Routes } from "./routes";
 
 function AppLayout() {
   return (
@@ -28,12 +30,24 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
+        path: Routes.RecordExpenditure,
         element: <RecordExpenditurePage />,
       },
       {
-        path: "/expenditures",
+        path: Routes.ExpenditureList,
         element: <ExpenditureListPage />,
+      },
+      {
+        path: Routes.ExpenditureDetails,
+        element: null,
+      },
+      {
+        path: Routes.CategoryList,
+        element: <CategoryListPage />,
+      },
+      {
+        path: Routes.CategoryDetails,
+        element: null,
       },
     ],
   },

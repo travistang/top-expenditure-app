@@ -8,6 +8,7 @@ import {
   expenditureDatabase,
 } from "../../../domain/expenditure";
 import Button from "../../Button";
+import CategoryItem from "../../CategoryItem";
 
 type Props = {
   onChange: (selectedCategory: string) => void;
@@ -49,7 +50,7 @@ export default function CategoryModal({ onChange }: Props) {
       </div>
       <div
         className={classNames(
-          "flex flex-col items-stretch gap-2 py-2 max-h-72 overflow-y-auto",
+          "flex flex-col items-stretch gap-2 my-2 max-h-72 overflow-y-auto",
           loading && "hidden"
         )}
       >
@@ -62,15 +63,11 @@ export default function CategoryModal({ onChange }: Props) {
           />
         )}
         {results.map((category) => (
-          <div
+          <CategoryItem
             key={category.id}
+            category={category}
             onClick={() => onSelectCategory(category)}
-            className={classNames(
-              "h-12 flex items-center px-2 py-1 cursor-pointer hover:bg-gray-500 active:bg-gray-700"
-            )}
-          >
-            {category.name}
-          </div>
+          />
         ))}
       </div>
     </>

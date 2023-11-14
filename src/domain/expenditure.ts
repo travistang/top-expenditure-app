@@ -64,6 +64,8 @@ export type ExpenditureWithId = Expenditure & {
 export type CategoryWithId = {
   name: string;
   id: string;
+  color?: string;
+  icon?: string;
 };
 
 class ExpenditureDatabase extends Dexie {
@@ -135,6 +137,10 @@ class ExpenditureDatabase extends Dexie {
       .between(from, to)
       .reverse()
       .sortBy("date");
+  }
+
+  async deleteExpenditure(id: string) {
+    return this.expenditures.delete(id);
   }
 }
 

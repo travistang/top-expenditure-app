@@ -18,9 +18,10 @@ export type UseSwipeResult = {
 
 export default function useSwipe({ onSwipe }: UseSwipeParams): UseSwipeResult {
   const swipeStart = useRef<number | null>(null);
-
+  const swipingDirection = useRef<SwipeDirection | null>(null);
   const cancelScroll = () => {
     swipeStart.current = null;
+    swipingDirection.current = null;
   };
 
   const onTouchStart: React.TouchEventHandler = (e) => {
@@ -39,12 +40,14 @@ export default function useSwipe({ onSwipe }: UseSwipeParams): UseSwipeResult {
     if (swipeStart.current === null) return;
     const distance = swipeStart.current - e.targetTouches[0].clientX;
     const direction: SwipeDirection = distance < 0 ? "right" : "left";
-    onSwipe(direction);
-    cancelScroll();
+    if (swipingDirection.current !== direction) {
+      swipingDirection.current = direction;
+      onSwipe(direction);
+    }
   };
 
   const onMouseDown: React.MouseEventHandler = (e) => {
-    swipeStart.current = e.clientX;
+    swipeStart.current = e.pageX;
     e.persist();
   };
   const onMouseUp: React.MouseEventHandler = (e) => {
@@ -52,9 +55,12 @@ export default function useSwipe({ onSwipe }: UseSwipeParams): UseSwipeResult {
   };
   const onMouseMove: React.MouseEventHandler = (e) => {
     if (swipeStart.current === null) return;
-    const distance = swipeStart.current - e.clientX;
+    const distance = swipeStart.current - e.pageX;
     const direction: SwipeDirection = distance < 0 ? "right" : "left";
-    onSwipe(direction);
+    if (swipingDirection.current !== direction) {
+      swipingDirection.current = direction;
+      onSwipe(direction);
+    }
   };
 
   const onMouseLeave: React.MouseEventHandler = (e) => {

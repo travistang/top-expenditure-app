@@ -22,7 +22,7 @@ export default function TextInput({
       {Icon && <Icon className="text-gray-800" />}
       <input
         placeholder={placeholder}
-        className="w-full outline-none border-none bg-transparent text-gray-800"
+        className="w-full outline-none border-none bg-transparent text-gray-800 placeholder:text-gray-500 "
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
