@@ -1,5 +1,6 @@
 import { IconType } from "react-icons/lib";
 import InputBase from "../InputBase";
+import classNames from "classnames";
 
 type Props = {
   className?: string;
@@ -18,7 +19,7 @@ export default function TextInput({
   label,
 }: Props) {
   return (
-    <InputBase label={label} className={className}>
+    <InputBase label={label} className={classNames("pr-2", className)}>
       {Icon && <Icon className="text-gray-800" />}
       <input
         placeholder={placeholder}

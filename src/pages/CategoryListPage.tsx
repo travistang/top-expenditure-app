@@ -18,30 +18,32 @@ export default function CategoryListPage() {
   );
 
   return (
-    <div className="flex flex-col items-stretch gap-2 flex-1 px-2">
+    <div className="flex flex-col items-stretch gap-2 flex-1 px-2 overflow-y-hidden">
       <TextInput
-        className=""
+        className="flex-shrink-0"
         value={searchString}
         onChange={setSearchString}
         icon={FaSearch}
         placeholder="Search categories..."
       />
-      {noResult && (
-        <div className="flex items-center justify-center text-sm flex-1">
-          No search results
-        </div>
-      )}
-      {loading && (
-        <>
-          {range(6).map((i) => (
-            <ExpenditureRecordPlaceholder key={i} />
+      <div className="flex flex-col flex-1 items-stretch gap-2 overflow-y-auto pb-16">
+        {noResult && (
+          <div className="flex items-center justify-center text-sm flex-1">
+            No search results
+          </div>
+        )}
+        {loading && (
+          <>
+            {range(6).map((i) => (
+              <ExpenditureRecordPlaceholder key={i} />
+            ))}
+          </>
+        )}
+        {!loading &&
+          results.map((category) => (
+            <CategoryItem key={category.id} category={category} />
           ))}
-        </>
-      )}
-      {!loading &&
-        results.map((category) => (
-          <CategoryItem key={category.id} category={category} />
-        ))}
+      </div>
     </div>
   );
 }
