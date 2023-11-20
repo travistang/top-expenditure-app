@@ -1,12 +1,12 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-
 import Header from "./components/Header";
 import RecordExpenditurePage from "./pages/RecordExpenditurePage";
 import Footer from "./components/Footer";
 import ExpenditureListPage from "./pages/ExpenditureListPage";
 import CategoryListPage from "./pages/CategoryListPage";
+import AnalysisPage from "./pages/AnalysisPage";
 import { Routes } from "./routes";
 
 function AppLayout() {
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: Routes.CategoryDetails,
         element: null,
+      },
+      {
+        path: Routes.Analysis,
+        element: <AnalysisPage />,
       },
     ],
   },

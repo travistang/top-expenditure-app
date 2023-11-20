@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ExpenditureRecord from "../components/ExpenditureRecord";
-import ExpenditureRecordPlaceholder from "../components/ExpenditureRecord/ExpenditureRecordPlaceholder";
+import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
 import ExpenditureSearchForm from "../components/ExpenditureSearchForm";
 import expenditureSearcher, {
   DEFAULT_SEARCH_PARAMS,

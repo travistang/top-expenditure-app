@@ -3,7 +3,7 @@ import useSearch from "../hooks/useSearch";
 import { expenditureDatabase } from "../domain/expenditure";
 import TextInput from "../components/TextInput";
 import { range } from "../utils/array";
-import ExpenditureRecordPlaceholder from "../components/ExpenditureRecord/ExpenditureRecordPlaceholder";
+import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
 import { FaSearch } from "react-icons/fa";
 import CategoryItem from "../components/CategoryItem";
 

@@ -96,6 +96,10 @@ class ExpenditureDatabase extends Dexie {
     return this.categories.where("name").equalsIgnoreCase(name).first();
   }
 
+  async getCategoryById(id: string) {
+    return this.categories.get(id);
+  }
+
   async createCategory(name: string): Promise<string | null> {
     return this.mutex.runExclusive(async () => {
       try {
@@ -115,9 +119,9 @@ class ExpenditureDatabase extends Dexie {
   async createExpenditure(data: Expenditure): Promise<string | null> {
     return this.mutex.runExclusive(async () => {
       try {
-        const existingCategory = await this.getCategoryByName(data.category);
+        const existingCategory = await this.getCategoryById(data.category);
         if (!existingCategory) {
-          await this.createCategory(data.category);
+          throw new Error("Unknown category");
         }
         const id = this.newId;
         await this.expenditures.add({ ...data, id });
