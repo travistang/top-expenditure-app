@@ -2,6 +2,7 @@ import { useState } from "react";
 import ExpenditureRecord from "../components/ExpenditureRecord";
 import ExpenditureSearchForm from "../components/ExpenditureSearchForm";
 import List from "../components/List/list";
+import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
 import expenditureSearcher, {
   DEFAULT_SEARCH_PARAMS,
   SearchParams,
@@ -25,6 +26,7 @@ export default function ExpenditureListPage() {
       />
       <List
         loading={loading}
+        placeholder={<ExpenditureRecordPlaceholder />}
         noResultMessage="No search results"
         items={results}
       >
