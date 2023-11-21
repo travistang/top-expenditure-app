@@ -5,12 +5,14 @@ type Props = {
   monthStart: number;
   dateOffset: number;
   selectedDate?: number;
+  highlightColor?: string;
   onClick?: (date: number) => void;
 };
 export default function DateCell({
   monthStart,
   dateOffset,
   selectedDate,
+  highlightColor,
   onClick,
 }: Props) {
   const dateOnCell = addDays(monthStart, dateOffset).getTime();
@@ -20,6 +22,7 @@ export default function DateCell({
     <div
       key={dateOnCell}
       onClick={() => onClick?.(dateOnCell)}
+      style={highlightColor ? { backgroundColor: highlightColor } : undefined}
       className={classNames(
         "aspect-square h-8 flex items-center justify-center rounded-full hover:bg-gray-400 cursor-pointer",
         selected

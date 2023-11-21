@@ -23,7 +23,7 @@ export default function CategoryItem({ onClick, category, className }: Props) {
       <div className="h-full aspect-square flex items-center justify-center rounded-full bg-gray-300">
         <Icon className="dark:text-gray-700" />
       </div>
-      {category.name}
+      {name}
     </div>
   );
 }

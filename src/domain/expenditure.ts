@@ -1,5 +1,5 @@
-import Dexie, { Table } from "dexie";
 import { Mutex } from "async-mutex";
+import Dexie, { Table } from "dexie";
 
 export enum RegularExpenditureInterval {
   Daily = "daily",
@@ -92,8 +92,21 @@ class ExpenditureDatabase extends Dexie {
       .toArray();
   }
 
+  async getCategoryById(id: string) {
+    return this.categories.get(id);
+  }
   async getCategoryByName(name: string) {
     return this.categories.where("name").equalsIgnoreCase(name).first();
+  }
+
+  async updateCategory(
+    id: string,
+    data: Partial<CategoryWithId>
+  ): Promise<string | null> {
+    return this.categories
+      .update(id, data)
+      .then(() => id)
+      .catch(() => null);
   }
 
   async createCategory(name: string): Promise<string | null> {

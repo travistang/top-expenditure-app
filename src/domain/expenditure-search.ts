@@ -1,9 +1,10 @@
 import { Collection } from "dexie";
+import { containsSubstring, equalCaseInsensitive } from "../utils/strings";
 import { ExpenditureWithId, expenditureDatabase } from "./expenditure";
-import { containsSubstring } from "../utils/strings";
 
 export type SearchParams = {
   searchString: string;
+  category: string;
   page: number;
   pageSize: number;
   fromDate?: number;
@@ -19,6 +20,7 @@ export type ExpenditureSearchResult = {
 
 export const DEFAULT_SEARCH_PARAMS: SearchParams = {
   searchString: "",
+  category: "",
   page: 0,
   pageSize: 15,
 };
@@ -31,6 +33,11 @@ class ExpenditureSearcher {
       if (
         params.searchString &&
         !containsSubstring(exp.name, params.searchString)
+      )
+        return false;
+      if (
+        params.category &&
+        !equalCaseInsensitive(exp.category, params.category)
       )
         return false;
       if (
@@ -52,10 +59,16 @@ class ExpenditureSearcher {
   async getPagesForSearch(params: SearchParams): Promise<number> {
     return this.getCollectionBySearch(params).count();
   }
-  async searchExpenditures(params: SearchParams): Promise<ExpenditureWithId[]> {
-    return this.getCollectionBySearch(params)
-      .limit(params.pageSize)
-      .offset(params.page * params.pageSize)
+  async searchExpenditures(
+    params: Partial<SearchParams>
+  ): Promise<ExpenditureWithId[]> {
+    const finalParams = {
+      ...DEFAULT_SEARCH_PARAMS,
+      ...params,
+    };
+    return this.getCollectionBySearch(finalParams)
+      .limit(finalParams.pageSize)
+      .offset(finalParams.page * finalParams.pageSize)
       .reverse()
       .sortBy("date");
   }

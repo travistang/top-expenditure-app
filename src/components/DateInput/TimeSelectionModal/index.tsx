@@ -1,7 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
 import { getHours, getMinutes, setHours, setMinutes } from "date-fns";
-import ConfirmationButtonRow from "../ConfirmationButtonRow";
+import { useContext, useRef, useState } from "react";
 import { modalContext } from "../../Modal";
+import ConfirmationButtonRow from "../ConfirmationButtonRow";
 import NumberTicker, { NumberTickerControlProps } from "./NumberTicker";
 
 type Props = {
@@ -27,7 +27,6 @@ export default function TimeSelectionModal({ date, onChange }: Props) {
     const now = Date.now();
     const hour = getHours(now);
     const minutes = getMinutes(now);
-    console.log({ hour, minutes });
     hourPickerRef.current.setTick(hour);
     minutePickerRef.current.setTick(minutes);
   };
