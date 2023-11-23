@@ -47,10 +47,6 @@ const router = createBrowserRouter(
           element: <CategoryListPage />,
         },
         {
-          path: Routes.CategoryDetails,
-          element: null,
-        },
-        {
           path: Routes.Analysis,
           element: <AnalysisPage />,
         },

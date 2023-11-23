@@ -50,7 +50,7 @@ export default function ExpenditureByCategoryWidget({
         {(group) => (
           <div
             key={group.category.id}
-            className="snap-start flex items-center gap-2 px-2 py-1 justify-between border-b-gray-500 border-b"
+            className="snap-start flex items-center gap-2 px-2 py-1 justify-between border-b-gray-500 border-b h-min"
           >
             <div className="flex items-center gap-1 overflow-hidden text-xs">
               <CategoryIcon className="h-8 w-8" category={group.category} />

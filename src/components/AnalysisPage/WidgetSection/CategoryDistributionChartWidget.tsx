@@ -39,7 +39,13 @@ export default function CategoryDistributionChartWidget({
   );
   return (
     <Widget icon={FaChartPie} title="Distribution" className="col-span-2">
-      <PercentageChart values={chartValues} total={totalExpenditures} />
+      <div className="flex items-center justify-center">
+        <PercentageChart
+          className="h-24 w-24"
+          values={chartValues}
+          total={totalExpenditures}
+        />
+      </div>
     </Widget>
   );
 }
