@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/top-expenditure-app/static/css/main.60927ba1.css",
-    "main.js": "/top-expenditure-app/static/js/main.1b259ddb.js",
+    "main.js": "/top-expenditure-app/static/js/main.793e38a7.js",
     "static/js/787.4e561987.chunk.js": "/top-expenditure-app/static/js/787.4e561987.chunk.js",
     "service-worker.js": "/top-expenditure-app/service-worker.js",
     "index.html": "/top-expenditure-app/index.html",
     "main.60927ba1.css.map": "/top-expenditure-app/static/css/main.60927ba1.css.map",
-    "main.1b259ddb.js.map": "/top-expenditure-app/static/js/main.1b259ddb.js.map",
+    "main.793e38a7.js.map": "/top-expenditure-app/static/js/main.793e38a7.js.map",
     "787.4e561987.chunk.js.map": "/top-expenditure-app/static/js/787.4e561987.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.60927ba1.css",
-    "static/js/main.1b259ddb.js"
+    "static/js/main.793e38a7.js"
   ]
 }
