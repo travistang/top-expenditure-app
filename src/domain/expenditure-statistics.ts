@@ -1,4 +1,4 @@
-import { format, startOfDay, startOfMonth, startOfYear } from "date-fns";
+import { format } from "date-fns";
 import { CategoryWithId, Expenditure, ExpenditureWithId } from "./expenditure";
 
 export type Metric = (expenditures: Expenditure[]) => number;

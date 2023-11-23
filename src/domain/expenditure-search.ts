@@ -1,5 +1,5 @@
 import { Collection } from "dexie";
-import { containsSubstring, equalCaseInsensitive } from "../utils/strings";
+import { containsSubstring } from "../utils/strings";
 import { ExpenditureWithId, expenditureDatabase } from "./expenditure";
 
 export type SearchParams = {

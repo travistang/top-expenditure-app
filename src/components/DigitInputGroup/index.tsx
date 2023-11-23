@@ -12,18 +12,6 @@ type Props = {
   onChange: (value: number) => void;
   keypadPortalId: string;
 };
-const amountStringToAmount = (str: string): number => {
-  const decimalString = str.slice(-2);
-  const integerString = str.slice(0, -2);
-  const integer = parseInt(integerString) || 0;
-  const decimal = parseInt(decimalString) || 0;
-  return integer + decimal / 100;
-};
-
-const amountToAmountString = (amount: number): string => {
-  if (!amount) return "";
-  return amount.toFixed(2).replace(".", "");
-};
 
 export default function DigitInputGroup({
   value,
