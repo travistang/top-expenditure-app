@@ -32,11 +32,13 @@ export default function CategoryExpenditureList({
 
   return (
     <>
-      <Calendar
-        displayingDate={Date.now()}
-        highlights={calendarHighlights}
-        className="bg-gray-500/20 rounded-xl"
-      />
+      {expenditures.length > 0 && (
+        <Calendar
+          displayingDate={Date.now()}
+          highlights={calendarHighlights}
+          className="bg-gray-500/20 rounded-xl"
+        />
+      )}
       <List
         title="Expenditures under category"
         noResultMessage="No expenditures under this category"

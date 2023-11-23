@@ -1,40 +1,28 @@
-import { FaChartPie, FaDivide, FaPlus } from "react-icons/fa";
+import { FaDivide, FaPlus } from "react-icons/fa";
 import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
-import {
-  average,
-  groupExpendituresByCategory,
-  total,
-} from "../../../domain/expenditure-statistics";
+import { average, total } from "../../../domain/expenditure-statistics";
 import WidgetPlaceholder from "../../Placeholders/WidgetPlaceholder";
 import AmountWidget from "../../Widget/AmountWidget";
-import Widget from "../../Widget";
-import PercentageChart from "../../Chart/PercentageChart";
+
+import ExpenditureByCategoryWidget from "./ExpenditureByCategoryWidget";
+import CategoryDistributionChartWidget from "./CategoryDistributionChartWidget";
+import ExpenditureTrendBarWidget from "./ExpenditureTrendBarWidget";
+import { isSameMonth } from "date-fns";
 
 type Props = {
   loading?: boolean;
   categories: CategoryWithId[];
   expenditures: ExpenditureWithId[];
-};
-
-const getChartLabelFromExpenditures = (
-  categories: CategoryWithId[],
-  expenditures: ExpenditureWithId[]
-): { value: number; color: string }[] => {
-  const totalByCategory = groupExpendituresByCategory(
-    categories,
-    expenditures,
-    total
-  );
-  return Object.entries(totalByCategory).map(([catId, total]) => ({
-    value: total,
-    color: categories.find((cat) => cat.id === catId)?.color ?? "gray",
-  }));
+  month: number;
+  onMonthChange: (month: number) => void;
 };
 
 export default function WidgetSection({
   loading,
   expenditures,
   categories,
+  month,
+  onMonthChange,
 }: Props) {
   if (loading) {
     return (
@@ -45,25 +33,39 @@ export default function WidgetSection({
       </div>
     );
   }
-  const totalExpenditures = total(expenditures);
-  const chartValues = getChartLabelFromExpenditures(categories, expenditures);
+
+  const expendituresOfMonth = expenditures.filter((exp) =>
+    isSameMonth(month, exp.date)
+  );
+
   return (
     <div className="grid grid-cols-6 gap-2">
       <AmountWidget
-        amount={totalExpenditures}
+        amount={total(expendituresOfMonth)}
         className="col-span-3"
         icon={FaPlus}
         title="Total"
       />
       <AmountWidget
-        amount={average(expenditures)}
+        amount={average(expendituresOfMonth)}
         className="col-span-3"
         icon={FaDivide}
         title="Average"
       />
-      <Widget icon={FaChartPie} title="Distribution" className="col-span-2">
-        <PercentageChart values={chartValues} total={totalExpenditures} />
-      </Widget>
+      <CategoryDistributionChartWidget
+        expenditures={expendituresOfMonth}
+        categories={categories}
+      />
+      <ExpenditureByCategoryWidget
+        categories={categories}
+        expenditures={expendituresOfMonth}
+      />
+      <ExpenditureTrendBarWidget
+        onSelectMonth={onMonthChange}
+        selectedMonth={month}
+        categories={categories}
+        expenditures={expenditures}
+      />
     </div>
   );
 }

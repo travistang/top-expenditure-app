@@ -35,11 +35,7 @@ class ExpenditureSearcher {
         !containsSubstring(exp.name, params.searchString)
       )
         return false;
-      if (
-        params.category &&
-        !equalCaseInsensitive(exp.category, params.category)
-      )
-        return false;
+      if (params.category && exp.category !== params.category) return false;
       if (
         params.maximumAmount !== undefined &&
         exp.amount > params.maximumAmount

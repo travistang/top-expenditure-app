@@ -26,7 +26,7 @@ export default function IconPicker({
   onClose,
   opened,
 }: Props) {
-  const [searchString, setSearchString] = useState("");
+  const [searchString, setSearchString] = useState(value as string);
   const { results, loading } = useSearch(searchString, searchForIcons);
   if (!opened) return null;
   const onSelectIconWithClose = (icon: IconType) => {

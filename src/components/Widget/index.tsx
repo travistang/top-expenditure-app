@@ -11,6 +11,7 @@ type Props = {
   children: React.ReactNode;
   collapsible?: boolean;
   onDismiss?: () => void;
+  onClick?: () => void;
 };
 export default function Widget({
   title,
@@ -19,6 +20,7 @@ export default function Widget({
   className,
   collapsible,
   onDismiss,
+  onClick,
 }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapse = useCallback(() => {
@@ -51,6 +53,7 @@ export default function Widget({
         )}
       </div>
       <div
+        onClick={onClick}
         className={classNames(
           "transition duration-300",
           collapsed && "max-h-0",

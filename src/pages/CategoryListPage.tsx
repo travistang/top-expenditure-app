@@ -17,11 +17,14 @@ const onSelectCategory = (id: string) => () => {
 
 export default function CategoryListPage() {
   const [searchString, setSearchString] = useState("");
-  const { results, loading } = useSearch(searchString, searchCategoryFunc);
+  const { results, loading, refetch } = useSearch(
+    searchString,
+    searchCategoryFunc
+  );
 
   return (
     <div className="flex flex-col items-stretch gap-2 flex-1 px-2 overflow-y-hidden">
-      <CategoryDetailPage />
+      <CategoryDetailPage onUpdated={refetch} />
       <TextInput
         className="flex-shrink-0"
         value={searchString}

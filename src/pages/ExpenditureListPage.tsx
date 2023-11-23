@@ -15,7 +15,7 @@ const searchFunc = (p: SearchParams) =>
 
 export default function ExpenditureListPage() {
   const [params, setParams] = useState<SearchParams>(DEFAULT_SEARCH_PARAMS);
-  const { results, loading, noResult } = useSearch(params, searchFunc);
+  const { results, loading } = useSearch(params, searchFunc);
   const searchParamsUpdater = createUpdater(params, setParams);
 
   return (

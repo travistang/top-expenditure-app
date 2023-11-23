@@ -15,13 +15,14 @@ const ButtonColorStyles: Record<ButtonColor, string> = {
 type Props = {
   icon?: IconType;
   color?: ButtonColor;
+  style?: React.CSSProperties;
   onClick?: () => void | Promise<void>;
   className?: string;
   text?: string;
   disabled?: boolean;
 };
 function Button(
-  { icon: Icon, text, onClick, className, disabled, color }: Props,
+  { icon: Icon, text, onClick, style, className, disabled, color }: Props,
   ref: React.Ref<HTMLButtonElement>
 ) {
   const [onClickRunning, setOnClickRunning] = useState(false);
@@ -37,6 +38,7 @@ function Button(
   return (
     <button
       ref={ref}
+      style={style}
       onClick={onClickWithLoading}
       className={classNames(
         "flex items-center justify-center gap-1 rounded-full py-1 px-2 transition-all",

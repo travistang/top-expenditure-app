@@ -22,7 +22,10 @@ const getExpendituresUnderCategory = (
   return expenditureSearcher.searchExpenditures({ category });
 };
 
-export default function CategoryDetailPage() {
+type Props = {
+  onUpdated?: () => void;
+};
+export default function CategoryDetailPage({ onUpdated }: Props) {
   const selectedId = useLocation().hash.replace(/^#/, "");
   const navigate = useNavigate();
   const [details, setDetails] = useState<CategoryWithId | null>(null);
@@ -38,7 +41,8 @@ export default function CategoryDetailPage() {
   const refetchCategoryWithToast = () => {
     Promise.resolve()
       .then(refetchCategory)
-      .then(() => toast.success("Data updated"));
+      .then(() => toast.success("Data updated"))
+      .then(onUpdated);
   };
   useEffect(refetchCategory, [refetchCategory]);
   useEffect(() => {

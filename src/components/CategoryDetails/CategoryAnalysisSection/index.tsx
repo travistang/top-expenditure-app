@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import * as Fa from "react-icons/fa";
 import {
   CategoryWithId,
@@ -10,6 +10,7 @@ import { average, total } from "../../../domain/expenditure-statistics";
 import { formatNumberAsAmount } from "../../../utils/strings";
 import IconPicker from "../../IconPicker";
 import Widget from "../../Widget";
+import ColorPicker from "../../ColorPicker";
 
 type Props = {
   expenditures: ExpenditureWithId[];
@@ -29,22 +30,25 @@ export default function CategoryAnalysisSection({
   const iconString = icon as keyof typeof Fa;
   const Icon = Fa[iconString] ?? Fa.FaTag;
 
-  const updateIcon = async (icon: string) => {
-    expenditureDatabase
-      .updateCategory(category.id, { icon })
-      .then(onRefreshCategory);
-  };
+  const update = useCallback(
+    async (data: Partial<CategoryWithId>) => {
+      expenditureDatabase
+        .updateCategory(category.id, data)
+        .then(onRefreshCategory);
+    },
+    [category, onRefreshCategory]
+  );
 
   return (
     <div className={classNames("grid grid-cols-6 gap-2", className)}>
       <IconPicker
         value={iconString ?? "FaTag"}
-        onChange={updateIcon}
+        onChange={(icon) => update({ icon })}
         opened={iconPickerOpened}
         onClose={() => setIconPickerOpened(false)}
       />
       <Widget
-        className="col-span-4 overflow-hidden"
+        className="col-span-2 overflow-hidden"
         title="Name"
         icon={Fa.FaTag}
       >
@@ -53,11 +57,20 @@ export default function CategoryAnalysisSection({
 
       <Widget
         onClick={() => setIconPickerOpened(true)}
-        className="relative col-span-2 aspect-square text-4xl"
+        className="relative col-span-2 text-4xl"
         title="icon"
       >
-        <div className=" flex items-center justify-center">
+        <div className="flex items-center justify-center">
           {Icon && <Icon />}
+        </div>
+      </Widget>
+      <Widget className="col-span-2" title="color">
+        <div className="flex items-center justify-center">
+          <ColorPicker
+            className="h-8"
+            color={category.color}
+            onChange={(color) => update({ color })}
+          />
         </div>
       </Widget>
       <Widget

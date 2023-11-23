@@ -5,14 +5,14 @@ import {
   expenditureDatabase,
 } from "../domain/expenditure";
 import useSearch from "../hooks/useSearch";
-import { endOfMonth, startOfMonth } from "date-fns";
+import { endOfYear, isSameYear, startOfYear } from "date-fns";
 import WidgetSection from "../components/AnalysisPage/WidgetSection";
 import MonthYearPicker from "../components/DateInput/DateSelectionModal/MonthYearPicker";
 
 const searchFunc = (date: number): Promise<ExpenditureWithId[]> => {
-  const monthStart = startOfMonth(date).getTime();
-  const monthEnd = endOfMonth(date).getTime();
-  return expenditureDatabase.getExpendituresInTimeRange(monthStart, monthEnd);
+  const yearStart = startOfYear(date).getTime();
+  const yearEnd = endOfYear(date).getTime();
+  return expenditureDatabase.getExpendituresInTimeRange(yearStart, yearEnd);
 };
 
 const loadCategoriesFunc = (): Promise<CategoryWithId[]> => {
@@ -22,22 +22,25 @@ export default function AnalysisPage() {
   const [viewingDate, setViewingDate] = useState(Date.now());
   const { results: expenditures, loading: loadingExpenditures } = useSearch(
     viewingDate,
-    searchFunc
+    searchFunc,
+    (a, b) => {
+      const isOneOfDayNull = (!!a && !b) || (!a && !!b);
+      if (isOneOfDayNull) return false;
+      if (!a && !b) return true;
+      return isSameYear(a!, b!);
+    }
   );
   const { results: categories, loading: loadingCategories } = useSearch(
     null,
     loadCategoriesFunc
   );
   const loading = loadingCategories || loadingExpenditures;
-
   return (
     <div className="flex flex-col items-stretch flex-1 gap-2 px-2 overflow-hidden">
-      <MonthYearPicker
-        onSelectModeChange={console.log}
-        date={viewingDate}
-        onChange={setViewingDate}
-      />
+      <MonthYearPicker date={viewingDate} onChange={setViewingDate} />
       <WidgetSection
+        onMonthChange={setViewingDate}
+        month={viewingDate}
         categories={categories}
         expenditures={expenditures}
         loading={loading}

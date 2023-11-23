@@ -6,7 +6,7 @@ import { DateSelectionModalState } from "./DatePickerGroup";
 type Props = {
   onChange: (date: number) => void;
   date: number;
-  onSelectModeChange: (mode: DateSelectionModalState) => void;
+  onSelectModeChange?: (mode: DateSelectionModalState) => void;
 };
 export default function MonthYearPicker({
   onSelectModeChange,
@@ -21,11 +21,11 @@ export default function MonthYearPicker({
       <Button onClick={moveMonth(-1)} icon={FaCaretLeft} />
       <div className="flex gap-2 items-center">
         <Button
-          onClick={() => onSelectModeChange(DateSelectionModalState.Month)}
+          onClick={() => onSelectModeChange?.(DateSelectionModalState.Month)}
           text={format(date, "MMM")}
         />
         <Button
-          onClick={() => onSelectModeChange(DateSelectionModalState.Year)}
+          onClick={() => onSelectModeChange?.(DateSelectionModalState.Year)}
           text={format(date, "yyyy")}
         />
       </div>

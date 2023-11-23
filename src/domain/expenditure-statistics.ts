@@ -1,3 +1,4 @@
+import { format, startOfDay, startOfMonth, startOfYear } from "date-fns";
 import { CategoryWithId, Expenditure, ExpenditureWithId } from "./expenditure";
 
 export type Metric = (expenditures: Expenditure[]) => number;
@@ -16,18 +17,80 @@ export const max: Metric = (exps) =>
 export const min: Metric = (exps) =>
   exps.reduce((min, exp) => (min > exp.amount ? exp.amount : min), 0);
 
-export const groupExpendituresByCategory = <T = ExpenditureWithId[]>(
+export const mapRecordValue = <K extends string | number | symbol, T, U>(
+  record: Record<K, T>,
+  mapFn: (t: T) => U
+): Record<K, U> => {
+  const entries = Object.entries<T>(record).map(([key, value]) => [
+    key,
+    mapFn(value),
+  ]);
+  return Object.fromEntries(entries);
+};
+
+export const reduceRecord = <K extends string | number | symbol, T, U>(
+  record: Record<K, T>,
+  reduceFn: (partial: U, t: T) => U,
+  initial: U
+) => {
+  return Object.values<T>(record).reduce(reduceFn, initial);
+};
+
+export const filterRecord = <K extends string | number | symbol, T>(
+  record: Record<K, T>,
+  filterFn: (t: T) => boolean
+) => {
+  const entries = Object.entries<T>(record).filter(([, value]) =>
+    filterFn(value)
+  );
+  return Object.fromEntries(entries);
+};
+export type ExpenditureByCategoryGroup = Record<
+  string,
+  {
+    category: CategoryWithId;
+    expenditures: ExpenditureWithId[];
+  }
+>;
+
+export const groupExpendituresByCategory = (
   categories: CategoryWithId[],
   expenditures: ExpenditureWithId[],
-  mapFunc: (expenditures: ExpenditureWithId[]) => T = (exp) => exp as T
-): Record<string, T> => {
-  return categories.reduce<Record<string, T>>((result, cat) => {
+  omitEmptyCategory = false
+): ExpenditureByCategoryGroup => {
+  const groups = categories.reduce((result, cat) => {
     const expendituresUnderCategory = expenditures.filter(
       (exp) => exp.category === cat.id
     );
     return {
       ...result,
-      [cat.id]: mapFunc(expendituresUnderCategory),
+      [cat.id]: {
+        category: cat,
+        expenditures: expendituresUnderCategory,
+      },
     };
-  }, {} as Record<string, T>);
+  }, {} as ExpenditureByCategoryGroup);
+
+  if (!omitEmptyCategory) return groups;
+  return filterRecord(groups, ({ expenditures }) => expenditures.length > 0);
+};
+
+export type GroupTimeInterval = "daily" | "monthly" | "yearly";
+export const FormatByInterval: Record<GroupTimeInterval, string> = {
+  daily: "dd/MM/yyyy",
+  monthly: "MM/yyyy",
+  yearly: "yyyy",
+};
+
+export const groupExpendituresByTimeRange = (
+  expenditures: ExpenditureWithId[],
+  timeRange: "daily" | "monthly" | "yearly"
+): Record<string, ExpenditureWithId[]> => {
+  return expenditures.reduce((groups, exp) => {
+    const label = format(exp.date, FormatByInterval[timeRange]);
+    return {
+      ...groups,
+      [label]: [...(groups[label] ?? []), exp],
+    };
+  }, {} as Record<string, ExpenditureWithId[]>);
 };

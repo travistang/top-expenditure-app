@@ -9,9 +9,10 @@ import {
 } from "../../../domain/expenditure";
 import Button from "../../Button";
 import CategoryItem from "../../CategoryItem";
+import toast from "react-hot-toast";
 
 type Props = {
-  onChange: (selectedCategory: string) => void;
+  onChange: (category: CategoryWithId) => void;
 };
 export default function CategoryModal({ onChange }: Props) {
   const [searchString, setSearchString] = useState("");
@@ -19,16 +20,21 @@ export default function CategoryModal({ onChange }: Props) {
   const { onClose } = useContext(modalContext);
   const onSelectCategory = (category: CategoryWithId) => {
     setSearchString(category.name);
-    onChange(category.name);
+    onChange(category);
     onClose();
   };
 
   const onCreateCategory = () => {
     const creatingCategory = searchString;
-    expenditureDatabase.createCategory(creatingCategory).then(() => {
-      onChange(creatingCategory);
-      onClose();
-    });
+    expenditureDatabase
+      .createCategory(creatingCategory)
+      .then((id) => expenditureDatabase.getCategoryById(id!))
+      .then((cat) => {
+        if (!cat) throw new Error("cannot create category");
+        onChange(cat);
+        onClose();
+      })
+      .catch((e) => toast.error(e));
   };
 
   const noSearchResults = !!searchString && !loading && results.length === 0;
