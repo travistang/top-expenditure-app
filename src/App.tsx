@@ -25,37 +25,40 @@ function AppLayout() {
   );
 }
 
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
-    children: [
-      {
-        path: Routes.RecordExpenditure,
-        element: <RecordExpenditurePage />,
-      },
-      {
-        path: Routes.ExpenditureList,
-        element: <ExpenditureListPage />,
-      },
-      {
-        path: Routes.ExpenditureDetails,
-        element: null,
-      },
-      {
-        path: Routes.CategoryList,
-        element: <CategoryListPage />,
-      },
-      {
-        path: Routes.CategoryDetails,
-        element: null,
-      },
-      {
-        path: Routes.Analysis,
-        element: <AnalysisPage />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      element: <AppLayout />,
+      children: [
+        {
+          path: Routes.RecordExpenditure,
+          element: <RecordExpenditurePage />,
+        },
+        {
+          path: Routes.ExpenditureList,
+          element: <ExpenditureListPage />,
+        },
+        {
+          path: Routes.ExpenditureDetails,
+          element: null,
+        },
+        {
+          path: Routes.CategoryList,
+          element: <CategoryListPage />,
+        },
+        {
+          path: Routes.CategoryDetails,
+          element: null,
+        },
+        {
+          path: Routes.Analysis,
+          element: <AnalysisPage />,
+        },
+      ],
+    },
+  ],
+  { basename: "/top-expenditure-app" }
+);
 function App() {
   return <RouterProvider router={router} />;
 }
