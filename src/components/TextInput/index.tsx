@@ -1,6 +1,8 @@
 import { IconType } from "react-icons/lib";
 import InputBase from "../InputBase";
 import classNames from "classnames";
+import Button from "../Button";
+import { FaTimes } from "react-icons/fa";
 
 type Props = {
   className?: string;
@@ -27,6 +29,13 @@ export default function TextInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
+      {value.length > 0 && (
+        <Button
+          icon={FaTimes}
+          className="text-gray-800"
+          onClick={() => onChange("")}
+        />
+      )}
     </InputBase>
   );
 }

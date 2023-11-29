@@ -31,7 +31,10 @@ export default function ExpenditureListPage() {
         items={results}
       >
         {(expenditure) => (
-          <ExpenditureRecord key={expenditure.id} expenditure={expenditure} />
+          <ExpenditureRecord
+            key={expenditure.id + expenditure.repeat ? expenditure.date : ""}
+            expenditure={expenditure}
+          />
         )}
       </List>
     </div>

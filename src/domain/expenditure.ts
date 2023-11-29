@@ -1,44 +1,10 @@
 import { Mutex } from "async-mutex";
 import Dexie, { Table } from "dexie";
-
-export enum RegularExpenditureInterval {
-  Daily = "daily",
-  Weekly = "weekly",
-  Monthly = "monthly",
-  Yearly = "yearly",
-}
-export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-export type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
-export type DayMonth = {
-  month: Month;
-  day: number;
-};
-
-export type DailyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Daily;
-  endDate?: number;
-};
-export type WeeklyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Weekly;
-  weekdays: Weekday[];
-  endDate?: number;
-};
-export type MonthlyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Monthly;
-  days: number[];
-  endDate?: number;
-};
-export type YearlyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Yearly;
-  days: DayMonth[];
-  endDate?: number;
-};
-
-export type RegularExpenditureSettings =
-  | DailyRegularExpenditureInterval
-  | WeeklyRegularExpenditureInterval
-  | MonthlyRegularExpenditureInterval
-  | YearlyRegularExpenditureInterval;
+import {
+  RegularExpenditureSettings,
+  getOccurrenceTimeInRange,
+  isTimeRangeOverlapWithInterval,
+} from "./regular-expenditure";
 
 export type Expenditure = {
   name: string;
@@ -58,6 +24,14 @@ export const DEFAULT_EXPENDITURE: Expenditure = {
 };
 
 export type ExpenditureWithId = Expenditure & {
+  id: string;
+};
+
+export type RegularExpenditure = Expenditure & {
+  repeat: RegularExpenditureSettings;
+};
+
+export type RegularExpenditureWithId = RegularExpenditure & {
   id: string;
 };
 
@@ -95,6 +69,11 @@ class ExpenditureDatabase extends Dexie {
   async getCategoryById(id: string) {
     return this.categories.get(id);
   }
+
+  async getExpenditureById(id: string) {
+    return this.expenditures.get(id);
+  }
+
   async getCategoryByName(name: string) {
     return this.categories.where("name").equalsIgnoreCase(name).first();
   }
@@ -149,7 +128,29 @@ class ExpenditureDatabase extends Dexie {
       .where("date")
       .between(from, to)
       .reverse()
+      .and((exp) => !exp.repeat)
       .sortBy("date");
+  }
+
+  async getRegularExpendituresOccurrenceInTimeRange(
+    from: number,
+    to: number
+  ): Promise<RegularExpenditureWithId[]> {
+    const regularExpenditures = (await this.expenditures
+      .filter((exp) =>
+        !exp.repeat
+          ? false
+          : isTimeRangeOverlapWithInterval(exp as RegularExpenditure, from, to)
+      )
+      .toArray()) as RegularExpenditureWithId[];
+
+    return regularExpenditures.flatMap((regularExp) => {
+      const occurrences = getOccurrenceTimeInRange(regularExp.repeat, from, to);
+      return occurrences.map<RegularExpenditureWithId>((occurrence) => ({
+        ...regularExp,
+        date: occurrence,
+      }));
+    });
   }
 
   async deleteExpenditure(id: string) {

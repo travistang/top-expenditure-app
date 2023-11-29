@@ -5,7 +5,7 @@ type UseFetchResult<T> = {
   loading: boolean;
   noResult: boolean;
 };
-export default function useSearch<Params, Result>(
+export default function useFetch<Params, Result>(
   params: Params,
   searchFunc: (p: Params) => Promise<Result>
 ): UseFetchResult<Result> {

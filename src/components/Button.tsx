@@ -5,9 +5,9 @@ import { IconType } from "react-icons/lib";
 
 export type ButtonColor = "red" | "green" | "indigo" | "gray" | "transparent";
 const ButtonColorStyles: Record<ButtonColor, string> = {
-  red: "bg-red-500 active:bg-red-700 text:gray-200",
-  green: "bg-green-500 active:bg-green-700 text:gray-200",
-  indigo: "bg-indigo-500 active:bg-indigo-700 text:gray-200",
+  red: "bg-red-500 active:bg-red-700 text-gray-200",
+  green: "bg-green-500 active:bg-green-700 text-gray-200",
+  indigo: "bg-indigo-500 active:bg-indigo-700 text-gray-200",
   gray: "bg-gray-500 active:bg-gray-700",
   transparent: "bg-transparent active:bg-gray-200/50",
 };

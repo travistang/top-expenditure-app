@@ -8,6 +8,7 @@ import ExpenditureListPage from "./pages/ExpenditureListPage";
 import CategoryListPage from "./pages/CategoryListPage";
 import AnalysisPage from "./pages/AnalysisPage";
 import { Routes } from "./routes";
+import RegularExpenditurePage from "./pages/RegularExpenditurePage";
 
 function AppLayout() {
   return (
@@ -45,6 +46,10 @@ const router = createBrowserRouter(
         {
           path: Routes.CategoryList,
           element: <CategoryListPage />,
+        },
+        {
+          path: Routes.RegularExpenditureList,
+          element: <RegularExpenditurePage />,
         },
         {
           path: Routes.Analysis,

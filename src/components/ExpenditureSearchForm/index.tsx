@@ -7,6 +7,7 @@ import Button from "../Button";
 import DateInput from "../DateInput";
 import AmountInput from "../AmountInput";
 import { formatNumberAsAmount } from "../../utils/strings";
+import CheckboxInput from "../CheckboxInput";
 
 type Props = {
   searchParams: SearchParams;
@@ -59,6 +60,16 @@ export default function ExpenditureSearchForm({
         />
       </div>
       <div className={classNames("grid grid-cols-6 p-2 gap-2 col-span-full")}>
+        <CheckboxInput
+          text="Include regular expenditures"
+          checked={searchParams.includesRepeatedExpenditure}
+          className="col-span-full"
+          onToggle={() =>
+            onChangeSearchParams("includesRepeatedExpenditure")(
+              !searchParams.includesRepeatedExpenditure
+            )
+          }
+        />
         <DateInput
           className="col-span-3"
           label="From"

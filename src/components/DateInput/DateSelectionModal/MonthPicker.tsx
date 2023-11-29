@@ -1,9 +1,9 @@
-import { addMonths, format, getMonth, setMonth, startOfYear } from "date-fns";
-import { range } from "../../../utils/array";
-import Button from "../../Button";
-import classNames from "classnames";
+import { format, getMonth, setMonth } from "date-fns";
 import { FaCaretLeft } from "react-icons/fa";
+import Button from "../../Button";
 import { DateSelectionModalState } from "./DatePickerGroup";
+import MonthPickerGrid from "../MonthPickerGrid";
+import { Month } from "../../../domain/regular-expenditure";
 
 type Props = {
   date: number;
@@ -17,11 +17,9 @@ export default function MonthPicker({
   date,
   onChange,
 }: Props) {
-  const yearStart = startOfYear(date);
-  const months = range(12).map((m) => addMonths(yearStart, m).getTime());
   const selectedMonth = getMonth(date);
-  const onMonthSelected = (monthStart: number) => {
-    onChange(setMonth(date, getMonth(monthStart)).getTime());
+  const onMonthSelected = (month: Month) => {
+    onChange(setMonth(date, month as number).getTime());
   };
   return (
     <div className="flex flex-col items-stretch gap-2">
@@ -34,20 +32,10 @@ export default function MonthPicker({
         />
         <span className="font-bold">{format(date, "yyyy")}</span>
       </div>
-      <div className={classNames("grid grid-cols-4 gap-2", className)}>
-        {months.map((month) => (
-          <Button
-            key={month}
-            text={format(month, "MMM")}
-            onClick={() => onMonthSelected(month)}
-            className={classNames(
-              "uppercase font-bold h-12",
-              selectedMonth === getMonth(month) &&
-                "bg-indigo-500 active:bg-indigo-700"
-            )}
-          />
-        ))}
-      </div>
+      <MonthPickerGrid
+        selected={selectedMonth as Month}
+        onSelect={onMonthSelected}
+      />
     </div>
   );
 }

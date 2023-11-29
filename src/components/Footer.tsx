@@ -1,4 +1,4 @@
-import { FaChartBar, FaList, FaPen, FaTag } from "react-icons/fa";
+import { FaCalendar, FaChartBar, FaList, FaPen, FaTag } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
@@ -28,6 +28,7 @@ const ROUTES = [
   { icon: FaPen, path: Routes.RecordExpenditure },
   { icon: FaList, path: Routes.ExpenditureList },
   { icon: FaTag, path: Routes.CategoryList },
+  { icon: FaCalendar, path: Routes.RegularExpenditureList },
   { icon: FaChartBar, path: Routes.Analysis },
 ];
 export default function Footer() {

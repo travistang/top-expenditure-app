@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
+import { FaTimes } from "react-icons/fa";
 import { createPortal } from "react-dom";
 import Button from "./Button";
-import { FaTimes } from "react-icons/fa";
-import { createContext } from "react";
 
 type Props = {
   children?: React.ReactNode;
@@ -39,11 +38,11 @@ export default function Modal({ title, children, onClose, className }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         className={classNames(
-          "rounded-t-3xl shadow-xl p-2 w-full min-h-[33vh] bg-normal transition-all duration-300",
+          "rounded-t-3xl shadow-xl p-2 w-full min-h-[33vh] max-h-[60vh] overflow-hidden bg-normal transition-all duration-300",
           !appearing && "translate-y-full"
         )}
       >
-        <div className="flex justify-end items-center py-1 overflow-hidden">
+        <div className="flex justify-end items-center py-1 overflow-hidden sticky top-0">
           {title && (
             <span className="text-normal flex-1 text-ellipsis">{title}</span>
           )}

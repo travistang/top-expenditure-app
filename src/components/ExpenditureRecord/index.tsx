@@ -14,11 +14,13 @@ import SwipeableItem, {
 type Props = {
   expenditure: ExpenditureWithId;
   className?: string;
+  children?: React.ReactNode;
   onClick?: () => void;
 };
 export default function ExpenditureRecord({
   expenditure,
   className,
+  children,
   onClick,
 }: Props) {
   const swipeableRef = useRef<SwipeableItemControlParams>(null!);
@@ -53,7 +55,9 @@ export default function ExpenditureRecord({
         },
       ]}
     >
-      <ExpenditureRecordContent onClick={onClick} expenditure={expenditure} />
+      <ExpenditureRecordContent onClick={onClick} expenditure={expenditure}>
+        {children}
+      </ExpenditureRecordContent>
     </SwipeableItem>
   );
 }
