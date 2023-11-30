@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import { FaCheck, FaRedo, FaTag, FaTimes } from "react-icons/fa";
 
 import { createUpdater } from "../../../utils/objects";
 import Modal from "../../Modal";
@@ -20,6 +20,8 @@ import {
 import RepeatIntervalForm from "./RepeatIntervalForm";
 import Button from "../../Button";
 import TextInput from "../../TextInput";
+import BasicInfoForm from "./BasicInfoForm";
+import ButtonGroup from "../../ButtonGroup";
 
 type Props = {
   onClose: () => void;
@@ -46,13 +48,20 @@ const DEFAULT_FORM_VALUE: RegularExpenditure = {
   ...DEFAULT_EXPENDITURE,
   repeat: DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS.daily,
 };
+enum Page {
+  BasicInfo,
+  RepeatInfo,
+}
+
 export default function CreateRegularExpenditureModal({
   onClose,
   onCreate,
   opened,
 }: Props) {
   const [form, setForm] = useState(DEFAULT_FORM_VALUE);
+  const [page, setPage] = useState<Page>(Page.BasicInfo);
   const updater = createUpdater(form, setForm);
+
   if (!opened) return null;
 
   const onCreateRegularExpenditure = () => {
@@ -71,54 +80,51 @@ export default function CreateRegularExpenditureModal({
 
   return (
     <Modal onClose={onClose} title="Create regular expenditure">
-      <div className="flex-1 overflow-y-auto">
-        <div className="grid grid-cols-6 gap-2">
-          <TextInput
-            label="Name"
-            className="col-span-4"
-            value={form.name}
-            onChange={updater("name")}
-          />
-          <AmountInput
-            label="Amount"
-            className="col-span-2"
-            amount={form.amount}
-            formatter={formatNumberAsAmount}
-            onChange={updater("amount")}
-          />
+      <div className="flex-1 flex flex-col items-stretch gap-2">
+        <ButtonGroup
+          className="my-2"
+          buttons={[
+            {
+              text: "Expenditure info",
+              icon: FaTag,
+              onClick: () => setPage(Page.BasicInfo),
+              id: Page.BasicInfo.toString(),
+              color: page === Page.BasicInfo ? 'indigo' : undefined,
+            },
+            {
+              text: "Repeat settings",
+              icon: FaRedo,
+              onClick: () => setPage(Page.RepeatInfo),
+              id: Page.RepeatInfo.toString(),
+              color: page === Page.RepeatInfo ? 'indigo' : undefined,
+            },
+          ]}
+        />
 
-          <CategoryInput
-            value={form.category}
-            className="col-span-full"
-            label="Category"
-            onChange={updater("category")}
-          />
-          <TagsInput
-            tags={form.tags}
-            className="col-span-full"
-            label="Tags"
-            onChange={updater("tags")}
-          />
+        {page === Page.BasicInfo && (
+          <BasicInfoForm form={form} updater={updater} />
+        )}
+        {page === Page.RepeatInfo && (
           <RepeatIntervalForm
-            className="col-span-full"
             settings={form.repeat}
             onChange={updater("repeat")}
           />
-          <div className="flex items-center justify-end gap-2 col-span-full sticky bottom-0">
-            <Button
-              className="aspect-square h-12"
-              icon={FaTimes}
-              color="gray"
-              onClick={onClose}
-            />
-            <Button
-              disabled={!isFormValid(form)}
-              className="aspect-square h-12"
-              icon={FaCheck}
-              color="green"
-              onClick={onCreateRegularExpenditure}
-            />
-          </div>
+        )}
+
+        <div className="flex items-center justify-end gap-2 col-span-full sticky bottom-0">
+          <Button
+            className="aspect-square h-12"
+            icon={FaTimes}
+            color="gray"
+            onClick={onClose}
+          />
+          <Button
+            disabled={!isFormValid(form)}
+            className="aspect-square h-12"
+            icon={FaCheck}
+            color="green"
+            onClick={onCreateRegularExpenditure}
+          />
         </div>
       </div>
     </Modal>

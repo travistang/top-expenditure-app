@@ -38,8 +38,9 @@ export default function Modal({ title, children, onClose, className }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         className={classNames(
-          "rounded-t-3xl shadow-xl p-2 w-full min-h-[33vh] max-h-[60vh] overflow-hidden bg-normal transition-all duration-300",
-          !appearing && "translate-y-full"
+          "rounded-t-3xl shadow-xl p-2 w-full min-h-[33vh] overflow-hidden bg-normal transition-all duration-300",
+          !appearing && "translate-y-full",
+          className
         )}
       >
         <div className="flex justify-end items-center py-1 overflow-hidden sticky top-0">

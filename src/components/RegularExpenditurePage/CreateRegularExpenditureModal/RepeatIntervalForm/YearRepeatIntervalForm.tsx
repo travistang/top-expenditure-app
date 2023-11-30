@@ -44,12 +44,23 @@ export default function YearRepeatIntervalForm({ settings, onChange }: Props) {
       ];
       updater("days")(newList);
     };
+  const monthsInvolved = settings.days.reduce(
+    (monthsInvolved, dayMonth) =>
+      monthsInvolved.includes(dayMonth.month)
+        ? monthsInvolved
+        : [...monthsInvolved, dayMonth.month],
+    [] as Month[]
+  );
   return (
     <RepeatIntervalFormBase settings={settings} onChange={onChange}>
       {({ settings, updater }) => (
         <>
-          <MonthPickerGrid selected={viewingMonth} onSelect={setViewingMonth} />
           <span className="text-xs font-bold">Days to repeat on</span>
+          <MonthPickerGrid
+            highlightedMonths={monthsInvolved}
+            selected={viewingMonth}
+            onSelect={setViewingMonth}
+          />
           <DayPicker
             numDays={getNumDaysInMonth(viewingMonth)}
             selectedDays={settings.days
