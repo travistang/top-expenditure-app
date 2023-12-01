@@ -26,7 +26,9 @@ const searchFunc = ({
       yearStart,
       yearEnd
     ),
-  ]).then(([exps, regExps]) => [...exps, ...regExps]);
+  ]).then(([exps, regExps]) => {
+    return [...exps, ...regExps];
+  });
 };
 
 export default function useExpenditureAnalysisSource({
@@ -41,7 +43,7 @@ export default function useExpenditureAnalysisSource({
       if (!propA && !propB) return true;
       const { withRegularExpenditure: withA, date: a } = propA!;
       const { withRegularExpenditure: withB, date: b } = propB!;
-      return withA === withB || isSameYear(a, b);
+      return withA === withB && isSameYear(a, b);
     }
   );
 }

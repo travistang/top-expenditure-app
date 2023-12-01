@@ -13,6 +13,12 @@ const computeChartStyle = (
   data: { value: number; color: string }[],
   total: number
 ): React.CSSProperties => {
+  if (data.length === 0) {
+    return {
+      backgroundImage: "conic-gradient(transparent 0deg, transparent 360deg)",
+    };
+  }
+
   const degsStrings: string[] = [];
   let degStart = 0;
   for (const { value, color } of data) {

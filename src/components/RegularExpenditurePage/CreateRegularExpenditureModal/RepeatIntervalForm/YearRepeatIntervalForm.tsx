@@ -30,7 +30,7 @@ const getNumDaysInMonth = (month: Month) => {
   }
 };
 export default function YearRepeatIntervalForm({ settings, onChange }: Props) {
-  const [viewingMonth, setViewingMonth] = useState<Month>(0);
+  const [viewingMonth, setViewingMonth] = useState<Month>(1);
 
   const toggleDay =
     (updater: Updater<YearlyRegularExpenditureInterval>) =>

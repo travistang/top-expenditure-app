@@ -75,14 +75,15 @@ function Bar({ selected, onClick, data, height }: BarProps) {
   );
 }
 
+const getBarHeightPercent = (maxBarHeight: number, barTotal: number) => {
+  return 80 * (barTotal / maxBarHeight);
+};
+
 type Props = {
   data: BarChartData[];
   className?: string;
   selectedBarIndex?: number;
   onSelectBar?: (id: number) => void;
-};
-const getBarHeightPercent = (maxBarHeight: number, barTotal: number) => {
-  return 80 * (barTotal / maxBarHeight);
 };
 
 export default function BarChart({

@@ -85,18 +85,18 @@ export default function CreateRegularExpenditureModal({
           className="my-2"
           buttons={[
             {
-              text: "Expenditure info",
+              text: "Info",
               icon: FaTag,
               onClick: () => setPage(Page.BasicInfo),
               id: Page.BasicInfo.toString(),
-              color: page === Page.BasicInfo ? 'indigo' : undefined,
+              color: page === Page.BasicInfo ? "indigo" : undefined,
             },
             {
-              text: "Repeat settings",
+              text: "Repeat",
               icon: FaRedo,
               onClick: () => setPage(Page.RepeatInfo),
               id: Page.RepeatInfo.toString(),
-              color: page === Page.RepeatInfo ? 'indigo' : undefined,
+              color: page === Page.RepeatInfo ? "indigo" : undefined,
             },
           ]}
         />

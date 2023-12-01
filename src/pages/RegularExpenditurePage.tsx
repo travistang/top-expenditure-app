@@ -10,6 +10,7 @@ import CreateRegularExpenditureModal from "../components/RegularExpenditurePage/
 import RegularExpenditureRecord from "../components/ExpenditureRecord/RegularExpenditureRecord";
 import { RegularExpenditureWithId } from "../domain/expenditure";
 import RegularExpenditureDetails from "../components/RegularExpenditurePage/RegularExpenditureDetails";
+import ExpenditureDetailPage from "../components/ExpenditureDetailPage";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(
@@ -30,7 +31,7 @@ export default function RegularExpenditurePage() {
 
   return (
     <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0">
-      <RegularExpenditureDetails />
+      <ExpenditureDetailPage onUpdate={refetch} />
       <div className="flex items-center py-1 justify-end px-2">
         <Button
           color="green"

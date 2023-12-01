@@ -56,7 +56,7 @@ export default function ExpenditureByCategoryWidget({
               <CategoryIcon className="h-8 w-8" category={group.category} />
               {group.category.name}
             </div>
-            <span className="text-xs font-bold">
+            <span className="text-xs font-bold whitespace-nowrap">
               {showingPercentage
                 ? `${((group.total / (grandTotal || 1)) * 100).toFixed(0)}%`
                 : formatNumberAsAmount(group.total)}

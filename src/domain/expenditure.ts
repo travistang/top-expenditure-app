@@ -88,6 +88,16 @@ class ExpenditureDatabase extends Dexie {
       .catch(() => null);
   }
 
+  async updateExpenditure(
+    id: string,
+    data: Partial<ExpenditureWithId>
+  ): Promise<string | null> {
+    return this.expenditures
+      .update(id, data)
+      .then(() => id)
+      .catch(() => null);
+  }
+
   async createCategory(name: string): Promise<string | null> {
     return this.mutex.runExclusive(async () => {
       try {

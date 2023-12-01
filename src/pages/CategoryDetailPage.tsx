@@ -46,13 +46,13 @@ export default function CategoryDetailPage({ onUpdated }: Props) {
   };
   useEffect(refetchCategory, [refetchCategory]);
   useEffect(() => {
-    if (!details?.name) return;
+    if (!details?.id) return;
     Promise.resolve()
       .then(() => setLoading(true))
-      .then(() => getExpendituresUnderCategory(details.name))
+      .then(() => getExpendituresUnderCategory(details.id))
       .then(setExpenditures)
       .finally(() => setLoading(false));
-  }, [details?.name]);
+  }, [details?.id]);
 
   return (
     <SubPage

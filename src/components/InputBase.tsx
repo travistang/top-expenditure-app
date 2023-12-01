@@ -18,7 +18,7 @@ export default function InputBase({
       className={classNames("flex flex-col items-stretch gap-1", className)}
     >
       {label && <span className="text-xs font-bold">{label}</span>}
-      <div className="h-12 w-full rounded-full px-4 py-1 flex items-center bg-gray-400 dark:bg-gray-300 focus:outline-indigo-500 gap-2">
+      <div className="h-10 w-full rounded-full px-4 py-1 flex items-center bg-gray-400 dark:bg-gray-300 focus:outline-indigo-500 gap-2">
         {children}
       </div>
     </div>

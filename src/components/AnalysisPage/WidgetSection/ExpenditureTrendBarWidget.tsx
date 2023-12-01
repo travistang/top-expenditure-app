@@ -59,7 +59,7 @@ export default function ExpenditureTrendBarWidget({
   selectedMonth,
   onSelectMonth,
 }: Props) {
-  const data = computeBarChartData(categories, expenditures);
+  const data = computeBarChartData(categories, expenditures, selectedMonth);
   const onSelectBarIndex = (monthId: number) => {
     onSelectMonth(setMonth(selectedMonth, monthId).getTime());
   };

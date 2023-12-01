@@ -13,6 +13,7 @@ type Props<T> = {
   numPlaceholder?: number;
   placeholder?: React.ReactNode;
   items: T[];
+  grid?: boolean;
   withScrollDownHint?: boolean;
   children: (t: T) => JSX.Element;
 };
@@ -41,7 +42,8 @@ export default function List<T>({
       ref={containerRef}
       style={{ gridTemplateColumns: `repeat(${itemsPerLine},1fr)` }}
       className={classNames(
-        "grid gap-2 items-center justify-center",
+        "flex flex-col items-stretch gap-2",
+        itemsPerLine === 1 ? "flex flex-col items-stretch" : "grid",
         className
       )}
     >
@@ -54,6 +56,7 @@ export default function List<T>({
         </div>
       )}
       {loading && <>{range(numPlaceholder).map(() => Placeholder)}</>}
+
       {!loading && items.map(renderFunc)}
       {!loading && withScrollDownHint && canScrollDown && <ScrollDownHint />}
     </div>
