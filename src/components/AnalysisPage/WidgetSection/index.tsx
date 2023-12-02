@@ -4,10 +4,10 @@ import { average, total } from "../../../domain/expenditure-statistics";
 import WidgetPlaceholder from "../../Placeholders/WidgetPlaceholder";
 import AmountWidget from "../../Widget/AmountWidget";
 
-import ExpenditureByCategoryWidget from "./ExpenditureByCategoryWidget";
-import CategoryDistributionChartWidget from "./CategoryDistributionChartWidget";
-import ExpenditureTrendBarWidget from "./ExpenditureTrendBarWidget";
 import { isSameMonth } from "date-fns";
+import CategoryDistributionChartWidget from "./CategoryDistributionChartWidget";
+import ExpenditureByCategoryWidget from "./ExpenditureByCategoryWidget";
+import ExpenditureTrendBarWidget from "./ExpenditureTrendBarWidget";
 
 type Props = {
   loading?: boolean;

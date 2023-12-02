@@ -69,6 +69,7 @@ export default function ExpenditureByCategoryWidget({
         )}
       </List>
       <Button
+        className="text-xs"
         onClick={() => setShowingPercentage(!showingPercentage)}
         text={showingPercentage ? "Show amount" : "Show percentage"}
         icon={showingPercentage ? FaDollarSign : FaPercentage}

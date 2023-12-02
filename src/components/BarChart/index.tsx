@@ -31,10 +31,11 @@ function XAxis({ data }: XAxisProps) {
 type BarProps = {
   data: BarChartData["values"];
   height: number;
+  className?: string;
   onClick?: () => void;
   selected?: boolean;
 };
-function Bar({ selected, onClick, data, height }: BarProps) {
+function Bar({ className, selected, onClick, data, height }: BarProps) {
   const total = data.reduce((total, point) => total + point.value, 0);
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
@@ -55,8 +56,9 @@ function Bar({ selected, onClick, data, height }: BarProps) {
       <div
         onClick={onClick}
         className={classNames(
-          "flex flex-col min-w-[8px] flex-1 w-full items-end transition-all duration-300 origin-bottom px-2",
-          !expanded ? "scale-y-0" : "scale-y-100"
+          "flex flex-col min-w-[8px] flex-1 w-full items-end transition-all duration-300 origin-bottom",
+          !expanded ? "scale-y-0" : "scale-y-100",
+          className
         )}
         style={{ height: `${height}%` }}
       >
@@ -82,6 +84,7 @@ const getBarHeightPercent = (maxBarHeight: number, barTotal: number) => {
 type Props = {
   data: BarChartData[];
   className?: string;
+  barClassName?: string;
   selectedBarIndex?: number;
   onSelectBar?: (id: number) => void;
 };
@@ -89,6 +92,7 @@ type Props = {
 export default function BarChart({
   data,
   className,
+  barClassName,
   selectedBarIndex,
   onSelectBar,
 }: Props) {
@@ -110,6 +114,7 @@ export default function BarChart({
             )}
           >
             <Bar
+              className={barClassName}
               selected={selectedBarIndex === i}
               data={values}
               height={getBarHeightPercent(maxBarHeight, totalByBars[i])}
