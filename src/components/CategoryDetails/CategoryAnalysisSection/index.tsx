@@ -8,9 +8,10 @@ import {
 } from "../../../domain/expenditure";
 import { average, total } from "../../../domain/expenditure-statistics";
 import { formatNumberAsAmount } from "../../../utils/strings";
-import IconPicker from "../../IconPicker";
-import Widget from "../../Widget";
 import ColorPicker from "../../ColorPicker";
+import IconPicker from "../../IconPicker";
+import TextDisplayInput from "../../TextInput/TextDisplayInput";
+import Widget from "../../Widget";
 
 type Props = {
   expenditures: ExpenditureWithId[];
@@ -47,24 +48,22 @@ export default function CategoryAnalysisSection({
         opened={iconPickerOpened}
         onClose={() => setIconPickerOpened(false)}
       />
-      <Widget
-        className="col-span-2 overflow-hidden"
-        title="Name"
-        icon={Fa.FaTag}
-      >
-        <span className="overflow-ellipsis line-clamp-2">{category.name}</span>
-      </Widget>
+      <TextDisplayInput
+        className="col-span-full overflow-hidden"
+        value={category.name}
+        onChange={(name) => update({ name })}
+      />
 
       <Widget
         onClick={() => setIconPickerOpened(true)}
-        className="relative col-span-2 text-4xl"
+        className="relative col-span-3 text-4xl"
         title="icon"
       >
         <div className="flex items-center justify-center">
           {Icon && <Icon />}
         </div>
       </Widget>
-      <Widget className="col-span-2" title="color">
+      <Widget className="col-span-3" title="color">
         <div className="flex items-center justify-center">
           <ColorPicker
             className="h-8"
