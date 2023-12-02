@@ -1,16 +1,15 @@
+import classNames from "classnames";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import classNames from "classnames";
-import expenditureSearcher from "../domain/expenditure-search";
-import useSearch from "../hooks/useSearch";
+import Button from "../components/Button";
+import ExpenditureDetailPage from "../components/ExpenditureDetailPage";
+import RegularExpenditureRecord from "../components/ExpenditureRecord/RegularExpenditureRecord";
 import List from "../components/List/list";
 import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
-import Button from "../components/Button";
 import CreateRegularExpenditureModal from "../components/RegularExpenditurePage/CreateRegularExpenditureModal";
-import RegularExpenditureRecord from "../components/ExpenditureRecord/RegularExpenditureRecord";
 import { RegularExpenditureWithId } from "../domain/expenditure";
-import RegularExpenditureDetails from "../components/RegularExpenditurePage/RegularExpenditureDetails";
-import ExpenditureDetailPage from "../components/ExpenditureDetailPage";
+import expenditureSearcher from "../domain/expenditure-search";
+import useSearch from "../hooks/useSearch";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(

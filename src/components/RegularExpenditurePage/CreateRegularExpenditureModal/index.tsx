@@ -2,26 +2,21 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaCheck, FaRedo, FaTag, FaTimes } from "react-icons/fa";
 
-import { createUpdater } from "../../../utils/objects";
-import Modal from "../../Modal";
 import {
   DEFAULT_EXPENDITURE,
   RegularExpenditure,
   expenditureDatabase,
 } from "../../../domain/expenditure";
-import AmountInput from "../../AmountInput";
-import { formatNumberAsAmount } from "../../../utils/strings";
-import CategoryInput from "../../CategoryInput";
-import TagsInput from "../../TagsInput";
 import {
   DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS,
   RegularExpenditureInterval,
 } from "../../../domain/regular-expenditure";
-import RepeatIntervalForm from "./RepeatIntervalForm";
+import { createUpdater } from "../../../utils/objects";
 import Button from "../../Button";
-import TextInput from "../../TextInput";
-import BasicInfoForm from "./BasicInfoForm";
 import ButtonGroup from "../../ButtonGroup";
+import Modal from "../../Modal";
+import BasicInfoForm from "./BasicInfoForm";
+import RepeatIntervalForm from "./RepeatIntervalForm";
 
 type Props = {
   onClose: () => void;

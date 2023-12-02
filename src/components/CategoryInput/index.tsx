@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../Modal";
 import CategoryModal from "./CategoryModal";
 
+import classNames from "classnames";
 import { CategoryWithId, expenditureDatabase } from "../../domain/expenditure";
+import useFetch from "../../hooks/useFetch";
 import CategoryItem from "../CategoryItem";
 import IconAndLinePlaceholder from "../Placeholders/IconAndLinePlaceholder";
-import classNames from "classnames";
-import useSearch from "../../hooks/useSearch";
-import useFetch from "../../hooks/useFetch";
 
 type Props = {
   label?: string;
