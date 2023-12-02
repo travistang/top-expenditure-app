@@ -1,15 +1,18 @@
-import { FaList } from "react-icons/fa";
-import Widget from "../../Widget";
-import List from "../../List/list";
-import CategoryIcon from "../../CategoryItem/CategoryIcon";
-import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
 import { useMemo, useState } from "react";
+import { FaDollarSign, FaList, FaPercentage } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
 import {
   groupExpendituresByCategory,
   mapRecordValue,
   total,
 } from "../../../domain/expenditure-statistics";
+import { Routes } from "../../../routes";
 import { formatNumberAsAmount } from "../../../utils/strings";
+import Button from "../../Button";
+import CategoryIcon from "../../CategoryItem/CategoryIcon";
+import List from "../../List/list";
+import Widget from "../../Widget";
 
 type Props = {
   categories: CategoryWithId[];
@@ -20,6 +23,7 @@ export default function ExpenditureByCategoryWidget({
   expenditures,
 }: Props) {
   const [showingPercentage, setShowingPercentage] = useState(false);
+  const navigate = useNavigate();
   const grandTotal = useMemo(() => total(expenditures), [expenditures]);
   const expendituresByCategory = useMemo(
     () =>
@@ -32,13 +36,12 @@ export default function ExpenditureByCategoryWidget({
       ),
     [categories, expenditures]
   );
+
+  const toCategoryDetails = (id: string) => {
+    navigate(`${Routes.CategoryList}#${id}`);
+  };
   return (
-    <Widget
-      onClick={() => setShowingPercentage(!showingPercentage)}
-      icon={FaList}
-      title="Categories"
-      className="col-span-4"
-    >
+    <Widget icon={FaList} title="Categories" className="col-span-4">
       <List
         withScrollDownHint
         noResultMessage="No expenditures this month"
@@ -50,6 +53,7 @@ export default function ExpenditureByCategoryWidget({
         {(group) => (
           <div
             key={group.category.id}
+            onClick={() => toCategoryDetails(group.category.id)}
             className="snap-start flex items-center gap-2 px-2 py-1 justify-between border-b-gray-500 border-b h-min"
           >
             <div className="flex items-center gap-1 overflow-hidden text-xs">
@@ -64,6 +68,11 @@ export default function ExpenditureByCategoryWidget({
           </div>
         )}
       </List>
+      <Button
+        onClick={() => setShowingPercentage(!showingPercentage)}
+        text={showingPercentage ? "Show amount" : "Show percentage"}
+        icon={showingPercentage ? FaDollarSign : FaPercentage}
+      />
     </Widget>
   );
 }
