@@ -29,7 +29,7 @@ export default function RegularExpenditurePage() {
   };
 
   return (
-    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0">
+    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2">
       <ExpenditureDetailPage onUpdate={refetch} />
       <div className="flex items-center py-1 justify-end px-2">
         <Button

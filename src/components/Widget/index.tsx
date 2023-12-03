@@ -31,7 +31,7 @@ export default function Widget({
   return (
     <div
       className={classNames(
-        "flex flex-col items-stretch gap-2 overflow-hidden bg-gray-500/50 rounded-xl p-2",
+        "flex flex-col items-stretch gap-2 overflow-hidden bg-gray-300/70 dark:bg-gray-500/50 rounded-xl p-2",
         className
       )}
     >
