@@ -1,13 +1,13 @@
 import { FaChartPie } from "react-icons/fa";
+import { getCategoryColor } from "../../../domain/category";
 import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
-import PercentageChart from "../../Chart/PercentageChart";
-import Widget from "../../Widget";
 import {
   groupExpendituresByCategory,
   mapRecordValue,
   total,
 } from "../../../domain/expenditure-statistics";
-import { getCategoryColor } from "../../../domain/category";
+import PercentageChart from "../../Chart/PercentageChart";
+import Widget from "../../Widget";
 
 type Props = {
   categories: CategoryWithId[];
@@ -38,7 +38,7 @@ export default function CategoryDistributionChartWidget({
     0
   );
   return (
-    <Widget icon={FaChartPie} title="Distribution" className="col-span-2">
+    <Widget icon={FaChartPie} title="Distribution" className="col-span-2 h-min">
       <div className="flex items-center justify-center">
         <PercentageChart
           className="h-24 w-24"

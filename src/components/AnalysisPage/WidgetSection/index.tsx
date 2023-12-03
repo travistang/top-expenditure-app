@@ -52,13 +52,13 @@ export default function WidgetSection({
         icon={FaDivide}
         title="Average"
       />
-      <CategoryDistributionChartWidget
-        expenditures={expendituresOfMonth}
-        categories={categories}
-      />
       <ExpenditureByCategoryWidget
         categories={categories}
         expenditures={expendituresOfMonth}
+      />
+      <CategoryDistributionChartWidget
+        expenditures={expendituresOfMonth}
+        categories={categories}
       />
       <ExpenditureTrendBarWidget
         onSelectMonth={onMonthChange}
