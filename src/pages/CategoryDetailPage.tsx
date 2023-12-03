@@ -1,8 +1,11 @@
+import { endOfMonth, startOfMonth } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import CategoryAnalysisSection from "../components/CategoryDetails/CategoryAnalysisSection";
+import CategoryBudgetSection from "../components/CategoryDetails/CategoryBudgetSection";
 import CategoryExpenditureList from "../components/CategoryDetails/CategoryExpenditureList";
+import MonthYearPicker from "../components/DateInput/DateSelectionModal/MonthYearPicker";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SubPage from "../components/SubPage";
 import {
@@ -17,9 +20,17 @@ const getCategoryDetails = (id: string) => {
 };
 
 const getExpendituresUnderCategory = (
-  category: string
+  category: string,
+  date: number
 ): Promise<ExpenditureWithId[]> => {
-  return expenditureSearcher.searchExpenditures({ category });
+  const from = startOfMonth(date).getTime();
+  const to = endOfMonth(date).getTime();
+
+  return expenditureSearcher.searchExpenditures({
+    category,
+    fromDate: from,
+    toDate: to,
+  });
 };
 
 type Props = {
@@ -28,31 +39,36 @@ type Props = {
 export default function CategoryDetailPage({ onUpdated }: Props) {
   const selectedId = useLocation().hash.replace(/^#/, "");
   const navigate = useNavigate();
-  const [details, setDetails] = useState<CategoryWithId | null>(null);
+  const [viewingDate, setViewingDate] = useState(Date.now());
+  const [category, setCategory] = useState<CategoryWithId | null>(null);
   const [expenditures, setExpenditures] = useState<ExpenditureWithId[]>([]);
   const [loading, setLoading] = useState(true);
-
   const refetchCategory = useCallback(() => {
-    getCategoryDetails(selectedId).then((details) => {
-      setDetails(details ?? null);
+    getCategoryDetails(selectedId).then((category) => {
+      setCategory(category ?? null);
     });
   }, [selectedId]);
+
+  const onUpdatedWithRefetch = () => {
+    onUpdated?.();
+    refetchCategory();
+  };
 
   const refetchCategoryWithToast = () => {
     Promise.resolve()
       .then(refetchCategory)
       .then(() => toast.success("Data updated"))
-      .then(onUpdated);
+      .then(onUpdatedWithRefetch);
   };
   useEffect(refetchCategory, [refetchCategory]);
   useEffect(() => {
-    if (!details?.id) return;
+    if (!category?.id) return;
     Promise.resolve()
       .then(() => setLoading(true))
-      .then(() => getExpendituresUnderCategory(details.id))
+      .then(() => getExpendituresUnderCategory(category.id, viewingDate))
       .then(setExpenditures)
       .finally(() => setLoading(false));
-  }, [details?.id]);
+  }, [category?.id, viewingDate]);
 
   return (
     <SubPage
@@ -60,12 +76,22 @@ export default function CategoryDetailPage({ onUpdated }: Props) {
       title="Category Details"
       onClose={() => navigate(-1)}
     >
-      {!details && <LoadingSpinner className="flex-1 h-full w-full text-3xl" />}
-      {details && (
+      {!category && (
+        <LoadingSpinner className="flex-1 h-full w-full text-3xl" />
+      )}
+      {category && (
         <CategoryAnalysisSection
           onRefreshCategory={refetchCategoryWithToast}
-          category={details}
+          category={category}
           expenditures={expenditures}
+        />
+      )}
+      <MonthYearPicker date={viewingDate} onChange={setViewingDate} />
+      {category && (
+        <CategoryBudgetSection
+          expenditures={expenditures}
+          onUpdate={onUpdatedWithRefetch}
+          category={category}
         />
       )}
       <CategoryExpenditureList expenditures={expenditures} loading={loading} />

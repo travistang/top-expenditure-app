@@ -35,11 +35,20 @@ export type RegularExpenditureWithId = RegularExpenditure & {
   id: string;
 };
 
+export type Budget = {
+  amount: number;
+  effectiveSince: number;
+};
+
 export type CategoryWithId = {
   name: string;
   id: string;
   color?: string;
   icon?: string;
+  budget?: Budget;
+};
+export type CategoryWithBudget = CategoryWithId & {
+  budget: Budget;
 };
 
 class ExpenditureDatabase extends Dexie {
