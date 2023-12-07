@@ -1,8 +1,5 @@
 import classNames from "classnames";
-import {
-  RegularExpenditureInterval,
-  RegularExpenditureSettings,
-} from "../../../../domain/regular-expenditure";
+import { RepeatInterval, Repeat } from "../../../../domain/regular-expenditure";
 import Widget from "../../../Widget";
 import {
   differenceInDays,
@@ -21,19 +18,19 @@ import RepeatIntervalForm from ".";
 import { useEffect, useState } from "react";
 
 type Props = {
-  settings: RegularExpenditureSettings;
-  onChange: (settings: RegularExpenditureSettings) => void;
+  settings: Repeat;
+  onChange: (settings: Repeat) => void;
   className?: string;
 };
-const repeatFrequencyText = (settings: RegularExpenditureSettings) => {
-  if (settings.interval === RegularExpenditureInterval.Daily) {
+const repeatFrequencyText = (settings: Repeat) => {
+  if (settings.interval === RepeatInterval.Daily) {
     return (
       <>
         This expenditure repeats <b>{settings.interval.toString()}</b>
       </>
     );
   }
-  if (settings.interval === RegularExpenditureInterval.Weekly) {
+  if (settings.interval === RepeatInterval.Weekly) {
     const description = weekdayDescription(settings.weekdays);
     if (description.includes(",")) {
       return (
@@ -55,7 +52,7 @@ const repeatFrequencyText = (settings: RegularExpenditureSettings) => {
       </>
     );
   }
-  if (settings.interval === RegularExpenditureInterval.Monthly) {
+  if (settings.interval === RepeatInterval.Monthly) {
     return (
       <>
         This expenditure repeats on{" "}
@@ -63,7 +60,7 @@ const repeatFrequencyText = (settings: RegularExpenditureSettings) => {
       </>
     );
   }
-  if (settings.interval === RegularExpenditureInterval.Yearly) {
+  if (settings.interval === RepeatInterval.Annually) {
     const sortedDays = settings.days.sort((a, b) => {
       return a.month - b.month || a.day - b.day;
     });

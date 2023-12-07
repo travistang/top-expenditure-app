@@ -1,7 +1,7 @@
 import { Mutex } from "async-mutex";
 import Dexie, { Table } from "dexie";
 import {
-  RegularExpenditureSettings,
+  Repeat,
   getOccurrenceTimeInRange,
   isTimeRangeOverlapWithInterval,
 } from "./regular-expenditure";
@@ -12,7 +12,7 @@ export type Expenditure = {
   tags: string[];
   category: string;
   amount: number;
-  repeat?: RegularExpenditureSettings;
+  repeat?: Repeat;
 };
 
 export const DEFAULT_EXPENDITURE: Expenditure = {
@@ -28,7 +28,7 @@ export type ExpenditureWithId = Expenditure & {
 };
 
 export type RegularExpenditure = Expenditure & {
-  repeat: RegularExpenditureSettings;
+  repeat: Repeat;
 };
 
 export type RegularExpenditureWithId = RegularExpenditure & {

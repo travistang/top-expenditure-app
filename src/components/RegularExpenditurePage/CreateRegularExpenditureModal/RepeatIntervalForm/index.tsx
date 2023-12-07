@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import {
   DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS,
-  RegularExpenditureInterval,
-  RegularExpenditureSettings,
+  RepeatInterval,
+  Repeat,
 } from "../../../../domain/regular-expenditure";
 import RepeatIntervalTypePicker from "../RepeatIntervalTypePicker";
 import DailyRepeatIntervalForm from "./DailyRepeatIntervalForm";
@@ -11,15 +11,15 @@ import MonthlyRepeatIntervalForm from "./MonthlyRepeatIntervalForm";
 import YearRepeatIntervalForm from "./YearRepeatIntervalForm";
 
 type Props = {
-  settings: RegularExpenditureSettings;
-  onChange: (settings: RegularExpenditureSettings) => void;
+  settings: Repeat;
+  onChange: (settings: Repeat) => void;
   className?: string;
 };
 
 const getFormOnIntervalChange = (
-  currentSettings: RegularExpenditureSettings,
-  newInterval: RegularExpenditureInterval
-): RegularExpenditureSettings => {
+  currentSettings: Repeat,
+  newInterval: RepeatInterval
+): Repeat => {
   if (currentSettings.interval === newInterval) return currentSettings;
   const { endDate } = currentSettings;
   return {
@@ -33,7 +33,7 @@ export default function RepeatIntervalForm({
   className,
 }: Props) {
   const { interval } = settings;
-  const onIntervalChange = (interval: RegularExpenditureInterval) =>
+  const onIntervalChange = (interval: RepeatInterval) =>
     onChange(getFormOnIntervalChange(settings, interval));
 
   return (
@@ -47,16 +47,16 @@ export default function RepeatIntervalForm({
         type={settings.interval}
         onChange={onIntervalChange}
       />
-      {interval === RegularExpenditureInterval.Daily && (
+      {interval === RepeatInterval.Daily && (
         <DailyRepeatIntervalForm settings={settings} onChange={onChange} />
       )}
-      {interval === RegularExpenditureInterval.Weekly && (
+      {interval === RepeatInterval.Weekly && (
         <WeeklyRepeatIntervalForm settings={settings} onChange={onChange} />
       )}
-      {interval === RegularExpenditureInterval.Monthly && (
+      {interval === RepeatInterval.Monthly && (
         <MonthlyRepeatIntervalForm settings={settings} onChange={onChange} />
       )}
-      {interval === RegularExpenditureInterval.Yearly && (
+      {interval === RepeatInterval.Annually && (
         <YearRepeatIntervalForm settings={settings} onChange={onChange} />
       )}
     </div>

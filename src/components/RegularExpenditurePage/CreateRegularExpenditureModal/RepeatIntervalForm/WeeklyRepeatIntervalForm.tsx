@@ -1,14 +1,14 @@
 import {
   Weekday,
-  WeeklyRegularExpenditureInterval,
+  WeeklyRepeatInterval,
 } from "../../../../domain/regular-expenditure";
 import { toggle } from "../../../../utils/array";
 import ButtonGroup from "../../../ButtonGroup";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 
 type Props = {
-  settings: WeeklyRegularExpenditureInterval;
-  onChange: (form: WeeklyRegularExpenditureInterval) => void;
+  settings: WeeklyRepeatInterval;
+  onChange: (form: WeeklyRepeatInterval) => void;
 };
 const Weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"] as const;
 

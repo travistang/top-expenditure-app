@@ -9,7 +9,7 @@ import {
 } from "../../../domain/expenditure";
 import {
   DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS,
-  RegularExpenditureInterval,
+  RepeatInterval,
 } from "../../../domain/regular-expenditure";
 import { createUpdater } from "../../../utils/objects";
 import Button from "../../Button";
@@ -28,12 +28,12 @@ const isFormValid = (expenditure: RegularExpenditure): boolean => {
   const { repeat, amount, category, name } = expenditure;
   if (!amount || !category || !name) return false;
   switch (repeat.interval) {
-    case RegularExpenditureInterval.Daily:
+    case RepeatInterval.Daily:
       return true;
-    case RegularExpenditureInterval.Weekly:
+    case RepeatInterval.Weekly:
       return repeat.weekdays.length > 0;
-    case RegularExpenditureInterval.Monthly:
-    case RegularExpenditureInterval.Yearly:
+    case RepeatInterval.Monthly:
+    case RepeatInterval.Annually:
       return repeat.days.length > 0;
     default:
       return false;

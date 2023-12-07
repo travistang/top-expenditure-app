@@ -1,15 +1,13 @@
 import classNames from "classnames";
-import { RegularExpenditureInterval } from "../../../domain/regular-expenditure";
+import { RepeatInterval } from "../../../domain/regular-expenditure";
 import ButtonGroup from "../../ButtonGroup";
 
 type Props = {
-  type: RegularExpenditureInterval;
-  onChange: (type: RegularExpenditureInterval) => void;
+  type: RepeatInterval;
+  onChange: (type: RepeatInterval) => void;
   className?: string;
 };
-const types: RegularExpenditureInterval[] = Object.values(
-  RegularExpenditureInterval
-);
+const types: RepeatInterval[] = Object.values(RepeatInterval);
 export default function RepeatIntervalTypePicker({
   type: selectedType,
   onChange,

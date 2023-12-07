@@ -1,6 +1,5 @@
 import {
   eachDayOfInterval,
-  format,
   getDate,
   getDay,
   getMonth,
@@ -8,11 +7,11 @@ import {
 } from "date-fns";
 import { RegularExpenditure } from "./expenditure";
 
-export enum RegularExpenditureInterval {
+export enum RepeatInterval {
   Daily = "daily",
   Weekly = "weekly",
   Monthly = "monthly",
-  Yearly = "yearly",
+  Annually = "yearly",
 }
 export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
@@ -21,52 +20,52 @@ export type DayMonth = {
   day: number;
 };
 
-export type DailyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Daily;
+export type DailyRepeatInterval = {
+  interval: RepeatInterval.Daily;
   endDate?: number;
 };
-export type WeeklyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Weekly;
+export type WeeklyRepeatInterval = {
+  interval: RepeatInterval.Weekly;
   weekdays: Weekday[];
   endDate?: number;
 };
-export type MonthlyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Monthly;
+export type MonthlyRepeatInterval = {
+  interval: RepeatInterval.Monthly;
   days: number[];
   endDate?: number;
 };
-export type YearlyRegularExpenditureInterval = {
-  interval: RegularExpenditureInterval.Yearly;
+export type AnnualRepeatInterval = {
+  interval: RepeatInterval.Annually;
   days: DayMonth[];
   endDate?: number;
 };
 
 export const DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS: Record<
-  RegularExpenditureInterval,
-  RegularExpenditureSettings
+  RepeatInterval,
+  Repeat
 > = {
-  [RegularExpenditureInterval.Daily]: {
-    interval: RegularExpenditureInterval.Daily,
+  [RepeatInterval.Daily]: {
+    interval: RepeatInterval.Daily,
   },
-  [RegularExpenditureInterval.Weekly]: {
-    interval: RegularExpenditureInterval.Weekly,
+  [RepeatInterval.Weekly]: {
+    interval: RepeatInterval.Weekly,
     weekdays: [],
   },
-  [RegularExpenditureInterval.Monthly]: {
-    interval: RegularExpenditureInterval.Monthly,
+  [RepeatInterval.Monthly]: {
+    interval: RepeatInterval.Monthly,
     days: [],
   },
-  [RegularExpenditureInterval.Yearly]: {
-    interval: RegularExpenditureInterval.Yearly,
+  [RepeatInterval.Annually]: {
+    interval: RepeatInterval.Annually,
     days: [],
   },
 };
 
-export type RegularExpenditureSettings =
-  | DailyRegularExpenditureInterval
-  | WeeklyRegularExpenditureInterval
-  | MonthlyRegularExpenditureInterval
-  | YearlyRegularExpenditureInterval;
+export type Repeat =
+  | DailyRepeatInterval
+  | WeeklyRepeatInterval
+  | MonthlyRepeatInterval
+  | AnnualRepeatInterval;
 
 export const isTimeInRepeatInterval = (
   expenditure: RegularExpenditure,
@@ -78,13 +77,13 @@ export const isTimeInRepeatInterval = (
   const isTimeBeforeEndDate = !endDate || isBefore(time, endDate);
   if (!isTimeBeforeEndDate) return false;
   switch (interval) {
-    case RegularExpenditureInterval.Daily:
+    case RepeatInterval.Daily:
       return true;
-    case RegularExpenditureInterval.Weekly:
+    case RepeatInterval.Weekly:
       return settings.weekdays.includes(getDay(time));
-    case RegularExpenditureInterval.Monthly:
+    case RepeatInterval.Monthly:
       return settings.days.includes(getDate(time));
-    case RegularExpenditureInterval.Yearly:
+    case RepeatInterval.Annually:
       return !!settings.days.find(
         ({ day, month }) => getDate(time) === day && getMonth(time) === month
       );
@@ -124,13 +123,13 @@ export const averageExpenditurePerMonth = (
 ): number => {
   const { repeat } = expenditure;
   switch (repeat.interval) {
-    case RegularExpenditureInterval.Daily:
+    case RepeatInterval.Daily:
       return expenditure.amount * 30;
-    case RegularExpenditureInterval.Weekly:
+    case RepeatInterval.Weekly:
       return expenditure.amount * 4;
-    case RegularExpenditureInterval.Monthly:
+    case RepeatInterval.Monthly:
       return expenditure.amount * repeat.days.length;
-    case RegularExpenditureInterval.Yearly:
+    case RepeatInterval.Annually:
       return (expenditure.amount * repeat.days.length) / 12;
   }
 };

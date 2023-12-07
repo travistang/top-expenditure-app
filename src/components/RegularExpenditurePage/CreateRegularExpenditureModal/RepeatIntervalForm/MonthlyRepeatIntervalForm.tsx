@@ -1,10 +1,10 @@
-import { MonthlyRegularExpenditureInterval } from "../../../../domain/regular-expenditure";
+import { MonthlyRepeatInterval } from "../../../../domain/regular-expenditure";
 import DayPicker from "./DayPicker";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 
 type Props = {
-  settings: MonthlyRegularExpenditureInterval;
-  onChange: (settings: MonthlyRegularExpenditureInterval) => void;
+  settings: MonthlyRepeatInterval;
+  onChange: (settings: MonthlyRepeatInterval) => void;
 };
 export default function MonthlyRepeatIntervalForm({
   settings,

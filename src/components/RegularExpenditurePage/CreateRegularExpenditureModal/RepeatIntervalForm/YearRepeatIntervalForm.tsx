@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Month,
-  YearlyRegularExpenditureInterval,
+  AnnualRepeatInterval,
 } from "../../../../domain/regular-expenditure";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 import MonthPickerGrid from "../../../DateInput/MonthPickerGrid";
@@ -9,8 +9,8 @@ import DayPicker from "./DayPicker";
 import { Updater } from "../../../../utils/objects";
 
 type Props = {
-  settings: YearlyRegularExpenditureInterval;
-  onChange: (settings: YearlyRegularExpenditureInterval) => void;
+  settings: AnnualRepeatInterval;
+  onChange: (settings: AnnualRepeatInterval) => void;
 };
 
 const getNumDaysInMonth = (month: Month) => {
@@ -33,8 +33,7 @@ export default function YearRepeatIntervalForm({ settings, onChange }: Props) {
   const [viewingMonth, setViewingMonth] = useState<Month>(1);
 
   const toggleDay =
-    (updater: Updater<YearlyRegularExpenditureInterval>) =>
-    (days: number[]) => {
+    (updater: Updater<AnnualRepeatInterval>) => (days: number[]) => {
       const newListWithoutViewingMonth = settings.days.filter(
         (dm) => dm.month !== viewingMonth
       );

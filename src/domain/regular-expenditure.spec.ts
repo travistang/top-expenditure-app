@@ -1,17 +1,17 @@
 import { addDays } from "date-fns";
 import {
-  DailyRegularExpenditureInterval,
-  MonthlyRegularExpenditureInterval,
-  RegularExpenditureInterval,
-  RegularExpenditureSettings,
-  WeeklyRegularExpenditureInterval,
-  YearlyRegularExpenditureInterval,
+  DailyRepeatInterval,
+  MonthlyRepeatInterval,
+  RepeatInterval,
+  Repeat,
+  WeeklyRepeatInterval,
+  AnnualRepeatInterval,
   isTimeInRepeatInterval,
 } from "./regular-expenditure";
 import { RegularExpenditure } from "./expenditure";
 
 const createExpenditureFromSettings = (
-  settings: RegularExpenditureSettings
+  settings: Repeat
 ): RegularExpenditure => {
   return {
     repeat: settings,
@@ -28,9 +28,9 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should recognize daily expenditure interval with an end date", () => {
-    const dailyRepeatInterval: DailyRegularExpenditureInterval = {
+    const dailyRepeatInterval: DailyRepeatInterval = {
       endDate: addDays(Date.now(), 2).getTime(),
-      interval: RegularExpenditureInterval.Daily,
+      interval: RepeatInterval.Daily,
     };
     expect(
       isTimeInRepeatInterval(
@@ -41,8 +41,8 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should recognize daily expenditure interval without  an end date", () => {
-    const dailyRepeatInterval: DailyRegularExpenditureInterval = {
-      interval: RegularExpenditureInterval.Daily,
+    const dailyRepeatInterval: DailyRepeatInterval = {
+      interval: RepeatInterval.Daily,
     };
     expect(
       isTimeInRepeatInterval(
@@ -53,8 +53,8 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should recognize weekly interval correctly", () => {
-    const weeklyInterval: WeeklyRegularExpenditureInterval = {
-      interval: RegularExpenditureInterval.Weekly,
+    const weeklyInterval: WeeklyRepeatInterval = {
+      interval: RepeatInterval.Weekly,
       weekdays: [2, 4],
     };
     const tuesday = new Date("2023-01-03").getTime();
@@ -73,8 +73,8 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should recognize monthly interval correctly", () => {
-    const monthlyInterval: MonthlyRegularExpenditureInterval = {
-      interval: RegularExpenditureInterval.Monthly,
+    const monthlyInterval: MonthlyRepeatInterval = {
+      interval: RepeatInterval.Monthly,
       days: [6, 12],
     };
     const twelfth = new Date("2023-01-12").getTime();
@@ -87,8 +87,8 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should recognize yearly interval correctly", () => {
-    const yearlyInterval: YearlyRegularExpenditureInterval = {
-      interval: RegularExpenditureInterval.Yearly,
+    const yearlyInterval: AnnualRepeatInterval = {
+      interval: RepeatInterval.Annually,
       days: [
         {
           day: 12,
@@ -110,8 +110,8 @@ describe("Regular expenditure interval", () => {
   });
 
   it("should ignore interval that starts after the given date", () => {
-    const yearlyInterval: YearlyRegularExpenditureInterval = {
-      interval: RegularExpenditureInterval.Yearly,
+    const yearlyInterval: AnnualRepeatInterval = {
+      interval: RepeatInterval.Annually,
       days: [
         {
           day: 12,
