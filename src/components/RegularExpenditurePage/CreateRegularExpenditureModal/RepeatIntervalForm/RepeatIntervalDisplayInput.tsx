@@ -64,10 +64,13 @@ const repeatFrequencyText = (settings: RegularExpenditureSettings) => {
     );
   }
   if (settings.interval === RegularExpenditureInterval.Yearly) {
+    const sortedDays = settings.days.sort((a, b) => {
+      return a.month - b.month || a.day - b.day;
+    });
     return (
       <>
         This expenditure repeats on{" "}
-        <b>{settings.days.map(dayMonthDescription).join(",")}</b> every year.
+        <b>{sortedDays.map(dayMonthDescription).join(", ")}</b> every year.
       </>
     );
   }

@@ -11,6 +11,7 @@ type Props = {
   updater: Updater<ExpenditureWithId>;
 };
 export default function ExpenditureDetailForm({ expenditure, updater }: Props) {
+  const isRegularExpenditure = !!expenditure.repeat;
   return (
     <div className="grid grid-cols-6 gap-2">
       <TextDisplayInput
@@ -25,7 +26,7 @@ export default function ExpenditureDetailForm({ expenditure, updater }: Props) {
         onChange={updater("amount")}
       />
       <DateInput
-        label="Date"
+        label={isRegularExpenditure ? "Start repeating at" : "Date"}
         date={expenditure.date}
         onChange={updater("date")}
         className="col-span-full"

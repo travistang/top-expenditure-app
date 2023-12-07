@@ -1,5 +1,6 @@
 import {
   eachDayOfInterval,
+  format,
   getDate,
   getDay,
   getMonth,
@@ -14,7 +15,7 @@ export enum RegularExpenditureInterval {
   Yearly = "yearly",
 }
 export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-export type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 export type DayMonth = {
   month: Month;
   day: number;
@@ -83,8 +84,7 @@ export const isTimeInRepeatInterval = (
       return settings.days.includes(getDate(time));
     case RegularExpenditureInterval.Yearly:
       return !!settings.days.find(
-        ({ day, month }) =>
-          getDate(time) === day && getMonth(month) === month - 1
+        ({ day, month }) => getDate(time) === day && getMonth(time) === month
       );
   }
 };

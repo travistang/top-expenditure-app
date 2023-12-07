@@ -31,7 +31,9 @@ export default function MonthPickerGrid({
           color={selected === month ? "indigo" : undefined}
           className={classNames(
             "uppercase font-bold h-12",
-            !selected && highlightedMonths.includes(month) && "bg-indigo-500/50"
+            selected !== month &&
+              highlightedMonths.includes(month) &&
+              "bg-indigo-500/50"
           )}
         />
       ))}

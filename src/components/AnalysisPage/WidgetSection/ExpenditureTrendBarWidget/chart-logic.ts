@@ -84,7 +84,6 @@ const computeDailyBarChartData = (
       ),
     };
   });
-  console.log({ timestamps, data });
 
   return data;
 };
