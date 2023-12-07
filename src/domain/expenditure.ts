@@ -5,6 +5,7 @@ import {
   isTimeRangeOverlapWithInterval,
 } from "./regular-expenditure";
 import { Repeat } from "./repeat";
+import { Income, IncomeWithId } from "./income";
 
 export type Expenditure = {
   name: string;
@@ -54,11 +55,13 @@ export type CategoryWithBudget = CategoryWithId & {
 class ExpenditureDatabase extends Dexie {
   expenditures!: Table<ExpenditureWithId>;
   categories!: Table<CategoryWithId>;
+  incomes!: Table<IncomeWithId>;
   private mutex = new Mutex();
 
   constructor() {
     super("expenditure-app");
     this.version(1).stores({
+      incomes: "++id,name",
       expenditures: "++id,name,date,category,amount,*tags",
       categories: "++id,name",
     });
@@ -174,6 +177,29 @@ class ExpenditureDatabase extends Dexie {
 
   async deleteExpenditure(id: string) {
     return this.expenditures.delete(id);
+  }
+
+  async getAllIncomes(): Promise<IncomeWithId[]> {
+    return this.incomes.toArray();
+  }
+
+  async getIncomeById(id: string): Promise<IncomeWithId | undefined> {
+    return this.incomes.get(id);
+  }
+  async createIncome(data: Income): Promise<string | null> {
+    return this.mutex.runExclusive(async () => {
+      try {
+        const id = this.newId;
+        await this.incomes.add({ ...data, id }, id);
+        return id;
+      } catch {
+        return null;
+      }
+    });
+  }
+
+  async deleteIncome(id: string) {
+    return this.incomes.delete(id);
   }
 }
 

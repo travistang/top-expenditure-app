@@ -16,13 +16,23 @@ type Props = {
   icon?: IconType;
   color?: ButtonColor;
   style?: React.CSSProperties;
+  squared?: boolean;
   onClick?: () => void | Promise<void>;
   className?: string;
   text?: string;
   disabled?: boolean;
 };
 function Button(
-  { icon: Icon, text, onClick, style, className, disabled, color }: Props,
+  {
+    icon: Icon,
+    text,
+    onClick,
+    style,
+    squared,
+    className,
+    disabled,
+    color,
+  }: Props,
   ref: React.Ref<HTMLButtonElement>
 ) {
   const [onClickRunning, setOnClickRunning] = useState(false);
@@ -41,7 +51,8 @@ function Button(
       style={style}
       onClick={onClickWithLoading}
       className={classNames(
-        "flex items-center justify-center gap-1 rounded-full py-1 px-2 transition-all",
+        "flex items-center justify-center gap-1 py-1 px-2 transition-all",
+        squared ? "rounded-xl" : "rounded-full",
         shouldDisableButton && "opacity-70 cursor-not-allowed",
         color && ButtonColorStyles[color],
         className
