@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Expenditure } from "../domain/expenditure";
 
 export default function useExpenditureForm(
-  defaultExpenditureValue: Expenditure
+  getDefaultExpenditure: () => Expenditure
 ) {
-  const [formValue, setFormValue] = useState(defaultExpenditureValue);
+  const [formValue, setFormValue] = useState(getDefaultExpenditure());
 
   const updateField =
     <K extends keyof Expenditure>(field: K) =>
@@ -12,7 +12,7 @@ export default function useExpenditureForm(
       setFormValue({ ...formValue, [field]: value });
     };
 
-  const reset = () => setFormValue(defaultExpenditureValue);
+  const reset = () => setFormValue(getDefaultExpenditure());
   const isFormValid =
     !!formValue.name && !!formValue.category && formValue.amount > 0;
 

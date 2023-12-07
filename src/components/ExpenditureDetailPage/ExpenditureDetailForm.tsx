@@ -2,6 +2,7 @@ import { ExpenditureWithId } from "../../domain/expenditure";
 import { Updater } from "../../utils/objects";
 import AmountDisplayInput from "../AmountInput/AmountDisplayInput";
 import CategoryInput from "../CategoryInput";
+import DateInput from "../DateInput";
 import TagsDisplayInput from "../TagsInput/TagsDisplayInput";
 import TextDisplayInput from "../TextInput/TextDisplayInput";
 
@@ -22,6 +23,12 @@ export default function ExpenditureDetailForm({ expenditure, updater }: Props) {
         className="col-span-3 self-end"
         amount={expenditure.amount}
         onChange={updater("amount")}
+      />
+      <DateInput
+        label="Date"
+        date={expenditure.date}
+        onChange={updater("date")}
+        className="col-span-full"
       />
       <CategoryInput
         label="Category"

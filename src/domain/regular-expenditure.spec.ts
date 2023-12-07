@@ -4,6 +4,7 @@ import {
   MonthlyRegularExpenditureInterval,
   RegularExpenditureInterval,
   WeeklyRegularExpenditureInterval,
+  YearlyRegularExpenditureInterval,
   isTimeInRepeatInterval,
 } from "./regular-expenditure";
 
@@ -43,6 +44,24 @@ describe("Regular expenditure interval", () => {
     const monthlyInterval: MonthlyRegularExpenditureInterval = {
       interval: RegularExpenditureInterval.Monthly,
       days: [6, 12],
+    };
+    const twelfth = new Date("2023-01-12").getTime();
+    expect(isTimeInRepeatInterval(monthlyInterval, twelfth)).toBe(true);
+  });
+
+  it("should recognize yearly interval correctly", () => {
+    const monthlyInterval: YearlyRegularExpenditureInterval = {
+      interval: RegularExpenditureInterval.Yearly,
+      days: [
+        {
+          day: 12,
+          month: 1,
+        },
+        {
+          day: 15,
+          month: 4,
+        },
+      ],
     };
     const twelfth = new Date("2023-01-12").getTime();
     expect(isTimeInRepeatInterval(monthlyInterval, twelfth)).toBe(true);

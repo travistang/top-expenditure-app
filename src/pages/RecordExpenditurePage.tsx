@@ -16,8 +16,9 @@ import { FaCheck, FaPen } from "react-icons/fa";
 
 export default function RecordExpenditurePage() {
   const [showNumPad, setShowNumPad] = useState(false);
-  const { formValue, updateField, isFormValid, reset } =
-    useExpenditureForm(DEFAULT_EXPENDITURE);
+  const { formValue, updateField, isFormValid, reset } = useExpenditureForm(
+    () => ({ ...DEFAULT_EXPENDITURE, date: Date.now() })
+  );
 
   const onCreateExpenditure = () => {
     expenditureDatabase

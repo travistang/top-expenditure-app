@@ -52,5 +52,5 @@ export const dayDescription = (day: number) => {
 
 export const dayMonthDescription = (dayMonth: DayMonth) => {
   const dayDesc = dayDescription(dayMonth.day);
-  return `${dayDesc} ${MONTH_NAME[dayMonth.month]}`;
+  return `${dayDesc} ${MONTH_NAME[(dayMonth.month - 1) as Month]}`;
 };

@@ -83,7 +83,8 @@ export const isTimeInRepeatInterval = (
       return settings.days.includes(getDate(time));
     case RegularExpenditureInterval.Yearly:
       return !!settings.days.find(
-        ({ day, month }) => getDate(time) === day && getMonth(month) === month
+        ({ day, month }) =>
+          getDate(time) === day && getMonth(month) === month - 1
       );
   }
 };
