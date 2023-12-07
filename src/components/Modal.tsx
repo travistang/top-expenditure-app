@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { useEffect, useState, createContext } from "react";
-import { FaTimes } from "react-icons/fa";
+import { createContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { FaTimes } from "react-icons/fa";
 import Button from "./Button";
 
 type Props = {
@@ -38,7 +38,7 @@ export default function Modal({ title, children, onClose, className }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         className={classNames(
-          "rounded-t-3xl shadow-xl p-2 w-full min-h-[33vh] overflow-hidden bg-normal transition-all duration-300",
+          "rounded-t-3xl shadow-xl p-2 w-full overflow-hidden bg-normal transition-all duration-300",
           !appearing && "translate-y-full",
           className
         )}

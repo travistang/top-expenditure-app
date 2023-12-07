@@ -1,21 +1,8 @@
-import { startOfDay } from "date-fns";
-import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { ExpenditureWithId } from "../../../domain/expenditure";
-import Calendar, { CalendarHighlights } from "../../Calendar";
+import { Routes } from "../../../routes";
 import ExpenditureRecord from "../../ExpenditureRecord";
 import List from "../../List/list";
-
-const computeHighlightedDates = (
-  expenditures: ExpenditureWithId[]
-): CalendarHighlights[] => {
-  const datesToHighlight = expenditures.reduce<number[]>((dates, exp) => {
-    const expDate = startOfDay(exp.date).getTime();
-    if (dates.includes(expDate)) return dates;
-    return [...dates, expDate];
-  }, []);
-
-  return datesToHighlight.map((date) => ({ date, color: "indigo" }));
-};
 
 type Props = {
   expenditures: ExpenditureWithId[];
@@ -25,20 +12,11 @@ export default function CategoryExpenditureList({
   loading,
   expenditures,
 }: Props) {
-  const calendarHighlights = useMemo(
-    () => computeHighlightedDates(expenditures),
-    [expenditures]
-  );
-
+  const navigate = useNavigate();
+  const goToExpenditureDetails = (id: string) =>
+    navigate(`${Routes.ExpenditureList}#${id}`);
   return (
-    <>
-      {expenditures.length > 0 && (
-        <Calendar
-          displayingDate={Date.now()}
-          highlights={calendarHighlights}
-          className="bg-gray-500/20 rounded-xl"
-        />
-      )}
+    <div className="flex-1 overflow-y-auto">
       <List
         title="Expenditures under category"
         noResultMessage="No expenditures under this category"
@@ -47,9 +25,13 @@ export default function CategoryExpenditureList({
         items={expenditures}
       >
         {(expenditure) => (
-          <ExpenditureRecord key={expenditure.id} expenditure={expenditure} />
+          <ExpenditureRecord
+            onClick={() => goToExpenditureDetails(expenditure.id)}
+            key={expenditure.id}
+            expenditure={expenditure}
+          />
         )}
       </List>
-    </>
+    </div>
   );
 }
