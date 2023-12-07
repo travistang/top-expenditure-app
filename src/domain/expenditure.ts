@@ -155,7 +155,7 @@ class ExpenditureDatabase extends Dexie {
       .toArray()) as RegularExpenditureWithId[];
 
     return regularExpenditures.flatMap((regularExp) => {
-      const occurrences = getOccurrenceTimeInRange(regularExp.repeat, from, to);
+      const occurrences = getOccurrenceTimeInRange(regularExp, from, to);
       return occurrences.map<RegularExpenditureWithId>((occurrence) => ({
         ...regularExp,
         date: occurrence,

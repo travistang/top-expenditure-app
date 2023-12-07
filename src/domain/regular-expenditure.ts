@@ -69,10 +69,12 @@ export type RegularExpenditureSettings =
   | YearlyRegularExpenditureInterval;
 
 export const isTimeInRepeatInterval = (
-  settings: RegularExpenditureSettings,
+  expenditure: RegularExpenditure,
   time = Date.now()
 ) => {
+  const { date: startDate, repeat: settings } = expenditure;
   const { endDate, interval } = settings;
+  if (isBefore(time, startDate)) return false;
   const isTimeBeforeEndDate = !endDate || isBefore(time, endDate);
   if (!isTimeBeforeEndDate) return false;
   switch (interval) {
@@ -105,7 +107,7 @@ export const isTimeRangeOverlapWithInterval = (
 };
 
 export const getOccurrenceTimeInRange = (
-  settings: RegularExpenditureSettings,
+  expenditure: RegularExpenditure,
   from: number,
   to: number
 ) => {
@@ -113,7 +115,7 @@ export const getOccurrenceTimeInRange = (
     start: from,
     end: to,
   })
-    .filter((date) => isTimeInRepeatInterval(settings, date.getTime()))
+    .filter((date) => isTimeInRepeatInterval(expenditure, date.getTime()))
     .map((d) => d.getTime());
 };
 
