@@ -1,10 +1,10 @@
 import { Mutex } from "async-mutex";
 import Dexie, { Table } from "dexie";
 import {
-  Repeat,
   getOccurrenceTimeInRange,
   isTimeRangeOverlapWithInterval,
 } from "./regular-expenditure";
+import { Repeat } from "./repeat";
 
 export type Expenditure = {
   name: string;

@@ -3,7 +3,7 @@ import { FaCaretLeft } from "react-icons/fa";
 import Button from "../../Button";
 import { DateSelectionModalState } from "./DatePickerGroup";
 import MonthPickerGrid from "../MonthPickerGrid";
-import { Month } from "../../../domain/regular-expenditure";
+import { Month } from "../../../domain/repeat";
 
 type Props = {
   date: number;

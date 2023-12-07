@@ -8,9 +8,9 @@ import {
   expenditureDatabase,
 } from "../../../domain/expenditure";
 import {
-  DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS,
+  DEFAULT_REPEAT_SETTINGS,
   RepeatInterval,
-} from "../../../domain/regular-expenditure";
+} from "../../../domain/repeat";
 import { createUpdater } from "../../../utils/objects";
 import Button from "../../Button";
 import ButtonGroup from "../../ButtonGroup";
@@ -41,7 +41,7 @@ const isFormValid = (expenditure: RegularExpenditure): boolean => {
 };
 const DEFAULT_FORM_VALUE: RegularExpenditure = {
   ...DEFAULT_EXPENDITURE,
-  repeat: DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS.daily,
+  repeat: DEFAULT_REPEAT_SETTINGS.daily,
 };
 enum Page {
   BasicInfo,

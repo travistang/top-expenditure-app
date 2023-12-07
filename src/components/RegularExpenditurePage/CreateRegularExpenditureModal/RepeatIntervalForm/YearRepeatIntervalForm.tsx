@@ -1,12 +1,9 @@
 import { useState } from "react";
-import {
-  Month,
-  AnnualRepeatInterval,
-} from "../../../../domain/regular-expenditure";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 import MonthPickerGrid from "../../../DateInput/MonthPickerGrid";
 import DayPicker from "./DayPicker";
 import { Updater } from "../../../../utils/objects";
+import { AnnualRepeatInterval, Month } from "../../../../domain/repeat";
 
 type Props = {
   settings: AnnualRepeatInterval;

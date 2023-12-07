@@ -1,4 +1,4 @@
-import { DayMonth, Month, Weekday } from "../domain/regular-expenditure";
+import { DayMonth, Month, Weekday } from "../domain/repeat";
 
 const WEEKDAYS: Weekday[] = [1, 2, 3, 4, 5];
 const WEEKENDS: Weekday[] = [0, 6];

@@ -1,4 +1,4 @@
-import { DailyRepeatInterval } from "../../../../domain/regular-expenditure";
+import { DailyRepeatInterval } from "../../../../domain/repeat";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 
 type Props = {

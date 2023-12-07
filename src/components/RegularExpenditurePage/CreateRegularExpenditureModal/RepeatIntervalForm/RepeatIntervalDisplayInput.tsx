@@ -1,6 +1,5 @@
+import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { RepeatInterval, Repeat } from "../../../../domain/regular-expenditure";
-import Widget from "../../../Widget";
 import {
   differenceInDays,
   format,
@@ -8,6 +7,7 @@ import {
   isSameDay,
   startOfDay,
 } from "date-fns";
+import Widget from "../../../Widget";
 import {
   dayDescription,
   dayMonthDescription,
@@ -15,7 +15,7 @@ import {
 } from "../../../../utils/date";
 import DisplayInputBase from "../../../DisplayInput/DisplayInputBase";
 import RepeatIntervalForm from ".";
-import { useEffect, useState } from "react";
+import { Repeat, RepeatInterval } from "../../../../domain/repeat";
 
 type Props = {
   settings: Repeat;

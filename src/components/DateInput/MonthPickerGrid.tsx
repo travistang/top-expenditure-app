@@ -1,7 +1,7 @@
 import { format, setMonth } from "date-fns";
 import classNames from "classnames";
 
-import { Month } from "../../domain/regular-expenditure";
+import { Month } from "../../domain/repeat";
 import Button from "../Button";
 import { range } from "../../utils/array";
 

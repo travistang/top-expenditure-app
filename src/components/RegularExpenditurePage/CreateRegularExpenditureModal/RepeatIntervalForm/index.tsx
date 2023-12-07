@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import {
-  DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS,
+  DEFAULT_REPEAT_SETTINGS,
   RepeatInterval,
   Repeat,
-} from "../../../../domain/regular-expenditure";
+} from "../../../../domain/repeat";
 import RepeatIntervalTypePicker from "../RepeatIntervalTypePicker";
 import DailyRepeatIntervalForm from "./DailyRepeatIntervalForm";
 import WeeklyRepeatIntervalForm from "./WeeklyRepeatIntervalForm";
@@ -23,7 +23,7 @@ const getFormOnIntervalChange = (
   if (currentSettings.interval === newInterval) return currentSettings;
   const { endDate } = currentSettings;
   return {
-    ...DEFAULT_REGULAR_EXPENDITURE_INTERVAL_SETTINGS[newInterval],
+    ...DEFAULT_REPEAT_SETTINGS[newInterval],
     endDate,
   };
 };

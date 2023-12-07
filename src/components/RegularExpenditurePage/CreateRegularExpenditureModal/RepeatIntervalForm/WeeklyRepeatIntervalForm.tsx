@@ -1,7 +1,4 @@
-import {
-  Weekday,
-  WeeklyRepeatInterval,
-} from "../../../../domain/regular-expenditure";
+import { Weekday, WeeklyRepeatInterval } from "../../../../domain/repeat";
 import { toggle } from "../../../../utils/array";
 import ButtonGroup from "../../../ButtonGroup";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";

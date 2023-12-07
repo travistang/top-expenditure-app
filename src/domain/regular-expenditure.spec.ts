@@ -6,9 +6,9 @@ import {
   Repeat,
   WeeklyRepeatInterval,
   AnnualRepeatInterval,
-  isTimeInRepeatInterval,
-} from "./regular-expenditure";
+} from "./repeat";
 import { RegularExpenditure } from "./expenditure";
+import { isTimeInRepeatInterval } from "./regular-expenditure";
 
 const createExpenditureFromSettings = (
   settings: Repeat

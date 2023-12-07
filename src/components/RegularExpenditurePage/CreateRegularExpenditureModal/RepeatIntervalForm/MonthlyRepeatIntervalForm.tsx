@@ -1,4 +1,4 @@
-import { MonthlyRepeatInterval } from "../../../../domain/regular-expenditure";
+import { MonthlyRepeatInterval } from "../../../../domain/repeat";
 import DayPicker from "./DayPicker";
 import RepeatIntervalFormBase from "./RepeatIntervalFormBase";
 

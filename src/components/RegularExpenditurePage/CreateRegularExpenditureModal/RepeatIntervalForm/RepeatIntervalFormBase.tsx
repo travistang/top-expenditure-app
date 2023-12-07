@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Repeat } from "../../../../domain/regular-expenditure";
+import { Repeat } from "../../../../domain/repeat";
 import DateInput from "../../../DateInput";
 import { Updater, createUpdater } from "../../../../utils/objects";
 

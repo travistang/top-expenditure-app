@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { RepeatInterval } from "../../../domain/regular-expenditure";
+import { RepeatInterval } from "../../../domain/repeat";
 import ButtonGroup from "../../ButtonGroup";
 
 type Props = {
