@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ExpenditureWithId } from "../../../domain/expenditure";
 import { Routes } from "../../../routes";
-import ExpenditureRecord from "../../ExpenditureRecord";
+import ExpenditureRecord from "../../Record";
 import List from "../../List/list";
 
 type Props = {

@@ -58,19 +58,3 @@ export const getOccurrenceTimeInRange = (
     .filter((date) => isTimeInRepeatInterval(expenditure, date.getTime()))
     .map((d) => d.getTime());
 };
-
-export const averageExpenditurePerMonth = (
-  expenditure: RegularExpenditure
-): number => {
-  const { repeat } = expenditure;
-  switch (repeat.interval) {
-    case RepeatInterval.Daily:
-      return expenditure.amount * 30;
-    case RepeatInterval.Weekly:
-      return expenditure.amount * 4;
-    case RepeatInterval.Monthly:
-      return expenditure.amount * repeat.days.length;
-    case RepeatInterval.Annually:
-      return (expenditure.amount * repeat.days.length) / 12;
-  }
-};

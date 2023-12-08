@@ -61,6 +61,10 @@ class ExpenditureDatabase extends Dexie {
   constructor() {
     super("expenditure-app");
     this.version(1).stores({
+      expenditures: "++id,name,date,category,amount,*tags",
+      categories: "++id,name",
+    });
+    this.version(2).stores({
       incomes: "++id,name",
       expenditures: "++id,name,date,category,amount,*tags",
       categories: "++id,name",

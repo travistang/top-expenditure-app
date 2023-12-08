@@ -54,3 +54,30 @@ export type Repeat =
   | WeeklyRepeatInterval
   | MonthlyRepeatInterval
   | AnnualRepeatInterval;
+
+export const isValidRepeat = (repeat: Repeat) => {
+  switch (repeat.interval) {
+    case RepeatInterval.Daily:
+      return true;
+    case RepeatInterval.Weekly:
+      return repeat.weekdays.length > 0;
+    case RepeatInterval.Monthly:
+    case RepeatInterval.Annually:
+      return repeat.days.length > 0;
+    default:
+      return false;
+  }
+};
+
+export const monthlyAverageFromRepeat = (amount: number, repeat: Repeat) => {
+  switch (repeat.interval) {
+    case RepeatInterval.Daily:
+      return amount * 30;
+    case RepeatInterval.Weekly:
+      return amount * 4;
+    case RepeatInterval.Monthly:
+      return amount * repeat.days.length;
+    case RepeatInterval.Annually:
+      return (amount * repeat.days.length) / 12;
+  }
+};

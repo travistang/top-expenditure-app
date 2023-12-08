@@ -1,15 +1,14 @@
 import classNames from "classnames";
 import { LuCircleSlash2 } from "react-icons/lu";
-import { format } from "date-fns";
 import {
   RegularExpenditureWithId,
   expenditureDatabase,
 } from "../../domain/expenditure";
-import { averageExpenditurePerMonth } from "../../domain/regular-expenditure";
 import LinePlaceholder from "../Placeholders/LinePlaceholder";
 import { formatNumberAsAmount } from "../../utils/strings";
 import useFetch from "../../hooks/useFetch";
-import RegularExpenditureRecordIcon from "./RegularExpenditureRecordIcon";
+import RepeatInfo from "./RepeatInfo";
+import { monthlyAverageFromRepeat } from "../../domain/repeat";
 
 type Props = {
   expenditure: RegularExpenditureWithId;
@@ -21,13 +20,12 @@ export default function RegularExpenditureRecord({
   expenditure,
   onClick,
 }: Props) {
-  const { repeat, name } = expenditure;
+  const { repeat, name, amount } = expenditure;
   const { result: category } = useFetch(
     expenditure.category,
     expenditureDatabase.getCategoryById.bind(expenditureDatabase)
   );
-  const RepeatIcon = RegularExpenditureRecordIcon[repeat.interval];
-  const averagePerMonth = averageExpenditurePerMonth(expenditure);
+  const averagePerMonth = monthlyAverageFromRepeat(amount, repeat);
   return (
     <div
       onClick={onClick}
@@ -36,14 +34,7 @@ export default function RegularExpenditureRecord({
         className
       )}
     >
-      <div className="h-full flex flex-col items-center justify-center gap-1 col-span-1 text-xs">
-        <RepeatIcon />
-        <span>
-          {repeat.endDate
-            ? format(repeat.endDate, "dd/MM/yyyy")
-            : "no end date"}
-        </span>
-      </div>
+      <RepeatInfo repeat={repeat} className="h-full col-span-1" />
       <div className="col-span-2 flex flex-col items-stretch overflow-hidden">
         <div className="text-md font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {name}
@@ -53,9 +44,11 @@ export default function RegularExpenditureRecord({
         </div>
       </div>
       <div className="flex flex-col items-end overflow-hidden text-ellipsis whitespace-nowrap text-right">
-        <span className="text-lg">{formatNumberAsAmount(averagePerMonth)}</span>
+        <span className="text-sm">
+          -{formatNumberAsAmount(averagePerMonth)}
+        </span>
         <span className="text-xs flex items-center gap-2">
-          <LuCircleSlash2 className="text-sm flex-shrink-0" />
+          <LuCircleSlash2 className="text-xs flex-shrink-0" />
           monthly
         </span>
       </div>

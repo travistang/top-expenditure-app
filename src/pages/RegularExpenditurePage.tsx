@@ -2,28 +2,47 @@ import { useState } from "react";
 import { FaCalendar, FaMoneyBill } from "react-icons/fa";
 import Button from "../components/Button";
 import ExpenditureDetailPage from "../components/ExpenditureDetailPage";
-import RegularExpenditureRecord from "../components/ExpenditureRecord/RegularExpenditureRecord";
+import RegularExpenditureRecord from "../components/Record/RegularExpenditureRecord";
 import List from "../components/List/list";
 import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
-import { RegularExpenditureWithId } from "../domain/expenditure";
+import {
+  RegularExpenditureWithId,
+  expenditureDatabase,
+} from "../domain/expenditure";
 import expenditureSearcher from "../domain/expenditure-search";
 import useSearch from "../hooks/useSearch";
 import CreateRegularEntryModal from "../components/RegularExpenditurePage/CreateRegularEntryModal";
 import Widget from "../components/Widget";
+import RegularIncomeRecord from "../components/Record/RegularIncomeRecord";
+import { RegularIncomeWithId } from "../domain/income";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(
     includePreviousExpenditures
   );
 };
+const regularIncomeFetchFunc = () =>
+  expenditureDatabase.getAllIncomes() as Promise<RegularIncomeWithId[]>;
+
 export default function RegularExpenditurePage() {
   const [includePreviousExpenditures] = useState(false);
   const [showOptionModal, setShowCreateModal] = useState(false);
   const {
     results: regularExpenditures,
-    loading,
-    refetch,
+    loading: loadingRegularExpenditures,
+    refetch: refetchExpenditure,
   } = useSearch(includePreviousExpenditures, searchFunc);
+  const {
+    results: regularIncomes,
+    loading: loadingIncomes,
+    refetch: refetchIncome,
+  } = useSearch(undefined, regularIncomeFetchFunc);
+
+  const refetch = () => {
+    refetchExpenditure();
+    refetchIncome();
+  };
+
   const onSelectRegularExpenditure = (exp: RegularExpenditureWithId) => {
     window.location.hash = exp.id;
   };
@@ -44,13 +63,29 @@ export default function RegularExpenditurePage() {
         refetch={refetch}
         onClose={() => setShowCreateModal(false)}
       />
-      <Widget sensitive icon={FaMoneyBill} title="Regular income">
-        WIP
-      </Widget>
+      {regularIncomes.length > 0 && (
+        <Widget sensitive icon={FaMoneyBill} title="Regular income">
+          <List
+            numPlaceholder={1}
+            items={regularIncomes}
+            placeholder={<ExpenditureRecordPlaceholder />}
+            loading={loadingIncomes}
+            noResultMessage=""
+          >
+            {(item) => (
+              <RegularIncomeRecord
+                income={item}
+                key={item.id}
+                className="hover:bg-gray-500 rounded-xl"
+              />
+            )}
+          </List>
+        </Widget>
+      )}
       <List
         items={regularExpenditures}
         placeholder={<ExpenditureRecordPlaceholder />}
-        loading={loading}
+        loading={loadingRegularExpenditures}
         noResultMessage="No regular expenditures configured"
       >
         {(item) => (

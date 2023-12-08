@@ -26,7 +26,6 @@ export default function Widget({
   onClick,
 }: Props) {
   const [maskState, toggleMasked] = useSensitiveMask(sensitive);
-  console.log({ maskState });
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapse = useCallback(() => {
     if (!collapsible) return;
@@ -77,9 +76,8 @@ export default function Widget({
       >
         {sensitive && (
           <div
-            onClick={toggleMasked}
             className={classNames(
-              "rounded-sm absolute inset-0 transition-all duration-300 bg-gray-700/40 flex flex-col gap-2 items-center justify-center text-normal text-sm p-4",
+              "rounded-sm absolute inset-0 transition-all duration-300 bg-gray-300/40 dark:bg-gray-700/40 flex flex-col gap-2 items-center justify-center text-normal text-sm p-4",
               [MaskState.Masking, MaskState.Masked].includes(maskState) &&
                 "backdrop-blur-sm opacity-100",
               [MaskState.Revealed, MaskState.Revealing].includes(maskState) &&

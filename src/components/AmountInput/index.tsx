@@ -51,7 +51,7 @@ export default function AmountInput({
       <div
         onClick={() => setShowNumPad(true)}
         className={classNames(
-          "flex items-center px-2 py-1 border rounded-lg border-gray-800 dark:border-gray-200"
+          "flex items-center text-right px-2 py-1 border rounded-lg border-gray-800 dark:border-gray-200"
         )}
       >
         <span className="flex-1 font-mono">

@@ -10,6 +10,7 @@ import {
 import {
   DEFAULT_REPEAT_SETTINGS,
   RepeatInterval,
+  isValidRepeat,
 } from "../../../domain/repeat";
 import { createUpdater } from "../../../utils/objects";
 import Button from "../../Button";
@@ -27,17 +28,7 @@ type Props = {
 const isFormValid = (expenditure: RegularExpenditure): boolean => {
   const { repeat, amount, category, name } = expenditure;
   if (!amount || !category || !name) return false;
-  switch (repeat.interval) {
-    case RepeatInterval.Daily:
-      return true;
-    case RepeatInterval.Weekly:
-      return repeat.weekdays.length > 0;
-    case RepeatInterval.Monthly:
-    case RepeatInterval.Annually:
-      return repeat.days.length > 0;
-    default:
-      return false;
-  }
+  return isValidRepeat(repeat);
 };
 const DEFAULT_FORM_VALUE: RegularExpenditure = {
   ...DEFAULT_EXPENDITURE,

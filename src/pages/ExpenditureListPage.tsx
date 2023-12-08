@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ExpenditureRecord from "../components/ExpenditureRecord";
+import ExpenditureRecord from "../components/Record";
 import ExpenditureSearchForm from "../components/ExpenditureSearchForm";
 import List from "../components/List/list";
 import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
