@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useCallback, useState } from "react";
-import { FaLock, FaTimes } from "react-icons/fa";
+import { FaLock, FaTimes, FaUnlock } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import Button from "../Button";
 import useSensitiveMask, { MaskState } from "./useSensitiveMaskState";
@@ -51,7 +51,7 @@ export default function Widget({
           <Button
             color="transparent"
             className="text-xs p-0"
-            icon={FaLock}
+            icon={maskState === MaskState.Masked ? FaUnlock : FaLock}
             text={maskState === MaskState.Masked ? "Reveal" : "Hide"}
             onClick={toggleMasked}
           />
@@ -81,8 +81,8 @@ export default function Widget({
               [MaskState.Masking, MaskState.Masked].includes(maskState) &&
                 "backdrop-blur-sm opacity-100",
               [MaskState.Revealed, MaskState.Revealing].includes(maskState) &&
-                "opacity-0 bg-opacity-0 backdrop-blur-0"
-              // maskState === MaskState.Revealed && "scale-0"
+                "opacity-0 bg-opacity-0 backdrop-blur-0",
+              maskState === MaskState.Revealed && "-z-10"
             )}
           >
             <FaLock className="text-normal text-3xl" />

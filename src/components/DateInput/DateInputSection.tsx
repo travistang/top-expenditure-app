@@ -14,7 +14,7 @@ export default function DateInputSection({
     <div
       onClick={onClick}
       className={classNames(
-        "justify-center rounded-xl h-10 px-2 bg-gray-400 dark:bg-gray-300 flex items-center overflow-hidden text-gray-800",
+        "text-sm justify-center rounded-xl h-10 px-2 bg-gray-400 dark:bg-gray-300 flex items-center overflow-hidden text-gray-800",
         className
       )}
     >

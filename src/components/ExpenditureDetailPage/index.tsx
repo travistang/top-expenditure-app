@@ -1,15 +1,15 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ExpenditureWithId,
   expenditureDatabase,
 } from "../../domain/expenditure";
 import useFetch from "../../hooks/useFetch";
-import SubPage from "../SubPage";
 import { Updater, createUpdater } from "../../utils/objects";
+import RepeatIntervalDisplayInput from "../RegularExpenditurePage/CreateRegularExpenditureModal/RepeatIntervalForm/RepeatIntervalDisplayInput";
+import SubPage from "../SubPage";
 import ExpenditureDetailForm from "./ExpenditureDetailForm";
 import ExpenditureDetailPlaceholder from "./ExpenditureDetailPlaceholder";
-import RepeatIntervalDisplayInput from "../RegularExpenditurePage/CreateRegularExpenditureModal/RepeatIntervalForm/RepeatIntervalDisplayInput";
 
 const searchFunc = (id: string) => {
   return expenditureDatabase.getExpenditureById(id);
@@ -17,8 +17,17 @@ const searchFunc = (id: string) => {
 type Props = {
   onUpdate: () => void;
 };
+
+const EXPENDITURE_HASH_PREFIX = "expenditure-";
+const getExpenditureIdFromHash = (hash: string) => {
+  const isExpenditureHash = hash.startsWith(EXPENDITURE_HASH_PREFIX);
+  if (!isExpenditureHash) return null;
+  return hash.replace(EXPENDITURE_HASH_PREFIX, "");
+};
+
 export default function ExpenditureDetailPage({ onUpdate }: Props) {
-  const expenditureId = useLocation().hash.slice(1);
+  const expenditureId =
+    getExpenditureIdFromHash(useLocation().hash.slice(1)) || "";
   const navigate = useNavigate();
   const { result: expenditure, refetch } = useFetch(expenditureId, searchFunc);
   const updateExpenditure = (

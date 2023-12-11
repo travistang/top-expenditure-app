@@ -2,19 +2,20 @@ import { useState } from "react";
 import { FaCalendar, FaMoneyBill } from "react-icons/fa";
 import Button from "../components/Button";
 import ExpenditureDetailPage from "../components/ExpenditureDetailPage";
-import RegularExpenditureRecord from "../components/Record/RegularExpenditureRecord";
 import List from "../components/List/list";
 import ExpenditureRecordPlaceholder from "../components/Placeholders/ExpenditureRecordPlaceholder";
+import RegularExpenditureRecord from "../components/Record/RegularExpenditureRecord";
+import RegularIncomeRecord from "../components/Record/RegularIncomeRecord";
+import CreateRegularEntryModal from "../components/RegularExpenditurePage/CreateRegularEntryModal";
+import RegularIncomeDetailPage from "../components/RegularExpenditurePage/RegularIncomeDetailPage";
+import Widget from "../components/Widget";
 import {
   RegularExpenditureWithId,
   expenditureDatabase,
 } from "../domain/expenditure";
 import expenditureSearcher from "../domain/expenditure-search";
-import useSearch from "../hooks/useSearch";
-import CreateRegularEntryModal from "../components/RegularExpenditurePage/CreateRegularEntryModal";
-import Widget from "../components/Widget";
-import RegularIncomeRecord from "../components/Record/RegularIncomeRecord";
 import { RegularIncomeWithId } from "../domain/income";
+import useSearch from "../hooks/useSearch";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(
@@ -43,12 +44,16 @@ export default function RegularExpenditurePage() {
     refetchIncome();
   };
 
+  const onSelectRegularIncome = (income: RegularIncomeWithId) => {
+    window.location.hash = `income-${income.id}`;
+  };
   const onSelectRegularExpenditure = (exp: RegularExpenditureWithId) => {
-    window.location.hash = exp.id;
+    window.location.hash = `expenditure-${exp.id}`;
   };
 
   return (
     <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2">
+      <RegularIncomeDetailPage onUpdate={refetch} />
       <ExpenditureDetailPage onUpdate={refetch} />
       <div className="flex items-center py-1 justify-end px-2 gap-2">
         <Button
@@ -75,6 +80,7 @@ export default function RegularExpenditurePage() {
             {(item) => (
               <RegularIncomeRecord
                 income={item}
+                onClick={() => onSelectRegularIncome(item)}
                 key={item.id}
                 className="hover:bg-gray-500 rounded-xl"
               />

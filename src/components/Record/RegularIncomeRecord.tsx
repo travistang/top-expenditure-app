@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { LuCircleSlash2 } from "react-icons/lu";
 import { RegularIncome } from "../../domain/income";
-import RepeatInfo from "./RepeatInfo";
-import { formatNumberAsAmount } from "../../utils/strings";
 import { monthlyAverageFromRepeat } from "../../domain/repeat";
+import { formatNumberAsAmount } from "../../utils/strings";
+import RepeatInfo from "./RepeatInfo";
 
 type Props = {
   income: RegularIncome;
@@ -25,11 +25,14 @@ export default function RegularIncomeRecord({
         className
       )}
     >
-      <RepeatInfo repeat={repeat} className="h-full col-span-1" />
-      <div className="col-span-2 flex flex-col items-stretch overflow-hidden">
+      <div className="col-span-3 flex flex-col justify-center items-stretch overflow-hidden">
         <div className="text-md font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {name}
         </div>
+        <RepeatInfo
+          repeat={repeat}
+          className="col-span-1 flex-row items-center"
+        />
       </div>
       <div className="flex flex-col items-end overflow-visible text-ellipsis whitespace-nowrap text-right">
         <span className="text-sm text-green-500">

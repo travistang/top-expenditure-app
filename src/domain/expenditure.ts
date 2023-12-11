@@ -1,11 +1,11 @@
 import { Mutex } from "async-mutex";
 import Dexie, { Table } from "dexie";
+import { Income, IncomeWithId } from "./income";
 import {
   getOccurrenceTimeInRange,
   isTimeRangeOverlapWithInterval,
 } from "./regular-expenditure";
 import { Repeat } from "./repeat";
-import { Income, IncomeWithId } from "./income";
 
 export type Expenditure = {
   name: string;
@@ -194,12 +194,26 @@ class ExpenditureDatabase extends Dexie {
     return this.mutex.runExclusive(async () => {
       try {
         const id = this.newId;
-        await this.incomes.add({ ...data, id }, id);
+        await this.incomes.add(
+          { ...data, startDate: data.startDate ?? Date.now(), id },
+          id
+        );
         return id;
       } catch {
         return null;
       }
     });
+  }
+  async updateIncome(
+    id: string,
+    data: Partial<IncomeWithId>
+  ): Promise<string | null> {
+    try {
+      await this.incomes.update(id, data);
+      return id;
+    } catch {
+      return null;
+    }
   }
 
   async deleteIncome(id: string) {

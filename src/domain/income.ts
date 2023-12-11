@@ -4,6 +4,8 @@ export type Income = {
   name: string;
   amount: number;
   repeat?: Repeat;
+  endDate?: number;
+  startDate?: number;
 };
 export type IncomeWithId = Income & {
   id: string;

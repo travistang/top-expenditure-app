@@ -4,11 +4,11 @@ import {
   RegularExpenditureWithId,
   expenditureDatabase,
 } from "../../domain/expenditure";
-import LinePlaceholder from "../Placeholders/LinePlaceholder";
-import { formatNumberAsAmount } from "../../utils/strings";
-import useFetch from "../../hooks/useFetch";
-import RepeatInfo from "./RepeatInfo";
 import { monthlyAverageFromRepeat } from "../../domain/repeat";
+import useFetch from "../../hooks/useFetch";
+import { formatNumberAsAmount } from "../../utils/strings";
+import LinePlaceholder from "../Placeholders/LinePlaceholder";
+import RepeatInfo from "./RepeatInfo";
 
 type Props = {
   expenditure: RegularExpenditureWithId;
@@ -34,7 +34,10 @@ export default function RegularExpenditureRecord({
         className
       )}
     >
-      <RepeatInfo repeat={repeat} className="h-full col-span-1" />
+      <RepeatInfo
+        repeat={repeat}
+        className="h-full col-span-1 flex-col items-center justify-center"
+      />
       <div className="col-span-2 flex flex-col items-stretch overflow-hidden">
         <div className="text-md font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {name}

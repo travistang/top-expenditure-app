@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { createUpdater } from "../../../utils/objects";
-import Modal from "../../Modal";
-import RepeatIntervalForm from "../CreateRegularExpenditureModal/RepeatIntervalForm";
-import { RegularIncome } from "../../../domain/income";
-import { DEFAULT_REPEAT_SETTINGS, isValidRepeat } from "../../../domain/repeat";
-import TextInput from "../../TextInput";
-import AmountInput from "../../AmountInput";
-import { formatNumberAsAmount } from "../../../utils/strings";
-import Button from "../../Button";
+import toast from "react-hot-toast";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { expenditureDatabase } from "../../../domain/expenditure";
-import toast from "react-hot-toast";
+import { RegularIncome } from "../../../domain/income";
+import { DEFAULT_REPEAT_SETTINGS, isValidRepeat } from "../../../domain/repeat";
+import { createUpdater } from "../../../utils/objects";
+import { formatNumberAsAmount } from "../../../utils/strings";
+import AmountInput from "../../AmountInput";
+import Button from "../../Button";
+import DateInput from "../../DateInput";
+import Modal from "../../Modal";
+import TextInput from "../../TextInput";
+import RepeatIntervalForm from "../CreateRegularExpenditureModal/RepeatIntervalForm";
 
 type Props = {
   onClose: () => void;
@@ -50,9 +51,9 @@ export default function CreateRegularIncomeModal({
   if (!opened) return null;
   return (
     <Modal onClose={onClose} title="Create regular income">
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-12 gap-2">
         <TextInput
-          className="col-span-2"
+          className="col-span-7"
           label="Name"
           value={form.name}
           onChange={updater("name")}
@@ -60,9 +61,23 @@ export default function CreateRegularIncomeModal({
         <AmountInput
           amount={form.amount}
           onChange={updater("amount")}
-          className="col-span-2"
+          className="col-span-5"
           label="Amount"
           formatter={formatNumberAsAmount}
+        />
+        <DateInput
+          nullable
+          date={form.startDate}
+          onChange={updater("startDate")}
+          className="col-span-6"
+          label="Start at"
+        />
+        <DateInput
+          nullable
+          date={form.endDate}
+          onChange={updater("endDate")}
+          className="col-span-6"
+          label="Ends at"
         />
         <RepeatIntervalForm
           className="col-span-full"
