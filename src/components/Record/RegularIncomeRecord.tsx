@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { LuCircleSlash2 } from "react-icons/lu";
-import { RegularIncome } from "../../domain/income";
+import { Income } from "../../domain/income";
 import { monthlyAverageFromRepeat } from "../../domain/repeat";
 import { formatNumberAsAmount } from "../../utils/strings";
 import RepeatInfo from "./RepeatInfo";
 
 type Props = {
-  income: RegularIncome;
+  income: Income;
   className?: string;
   onClick?: () => void;
 };

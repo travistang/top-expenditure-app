@@ -1,4 +1,4 @@
-import { RegularIncomeWithId } from "../../../../domain/income";
+import { IncomeWithId } from "../../../../domain/income";
 import { Updater } from "../../../../utils/objects";
 import AmountDisplayInput from "../../../AmountInput/AmountDisplayInput";
 import DateInput from "../../../DateInput";
@@ -6,8 +6,8 @@ import TextDisplayInput from "../../../TextInput/TextDisplayInput";
 import RepeatIntervalDisplayInput from "../../CreateRegularExpenditureModal/RepeatIntervalForm/RepeatIntervalDisplayInput";
 
 type Props = {
-  income: RegularIncomeWithId;
-  updater: Updater<RegularIncomeWithId>;
+  income: IncomeWithId;
+  updater: Updater<IncomeWithId>;
 };
 export default function RegularIncomeForm({ income, updater }: Props) {
   return (

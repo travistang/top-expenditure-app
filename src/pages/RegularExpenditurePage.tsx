@@ -14,8 +14,9 @@ import {
   expenditureDatabase,
 } from "../domain/expenditure";
 import expenditureSearcher from "../domain/expenditure-search";
-import { RegularIncomeWithId } from "../domain/income";
+import { IncomeWithId } from "../domain/income";
 import useSearch from "../hooks/useSearch";
+import RegularExpenditureSummary from "../components/RegularExpenditurePage/RegularExpenditureSummary";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(
@@ -23,7 +24,7 @@ const searchFunc = (includePreviousExpenditures: boolean) => {
   );
 };
 const regularIncomeFetchFunc = () =>
-  expenditureDatabase.getAllIncomes() as Promise<RegularIncomeWithId[]>;
+  expenditureDatabase.getAllIncomes() as Promise<IncomeWithId[]>;
 
 export default function RegularExpenditurePage() {
   const [includePreviousExpenditures] = useState(false);
@@ -44,7 +45,7 @@ export default function RegularExpenditurePage() {
     refetchIncome();
   };
 
-  const onSelectRegularIncome = (income: RegularIncomeWithId) => {
+  const onSelectRegularIncome = (income: IncomeWithId) => {
     window.location.hash = `income-${income.id}`;
   };
   const onSelectRegularExpenditure = (exp: RegularExpenditureWithId) => {
@@ -67,6 +68,10 @@ export default function RegularExpenditurePage() {
         opened={showOptionModal}
         refetch={refetch}
         onClose={() => setShowCreateModal(false)}
+      />
+      <RegularExpenditureSummary
+        incomes={regularIncomes}
+        expenditures={regularExpenditures}
       />
       {regularIncomes.length > 0 && (
         <Widget sensitive icon={FaMoneyBill} title="Regular income">

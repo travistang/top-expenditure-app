@@ -55,6 +55,14 @@ export type Repeat =
   | MonthlyRepeatInterval
   | AnnualRepeatInterval;
 
+export interface Repeatable {
+  repeat: Repeat;
+  date?: number;
+  startDate?: number;
+  amount: number;
+  endDate?: number;
+}
+
 export const isValidRepeat = (repeat: Repeat) => {
   switch (repeat.interval) {
     case RepeatInterval.Daily:

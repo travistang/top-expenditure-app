@@ -14,11 +14,13 @@ type Props = {
   expenditure: RegularExpenditureWithId;
   className?: string;
   onClick?: () => void;
+  onDelete?: () => void;
 };
 export default function RegularExpenditureRecord({
   className,
   expenditure,
   onClick,
+  onDelete,
 }: Props) {
   const { repeat, name, amount } = expenditure;
   const { result: category } = useFetch(

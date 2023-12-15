@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { expenditureDatabase } from "../../../domain/expenditure";
-import { RegularIncome } from "../../../domain/income";
+import { Income } from "../../../domain/income";
 import { DEFAULT_REPEAT_SETTINGS, isValidRepeat } from "../../../domain/repeat";
 import { createUpdater } from "../../../utils/objects";
 import { formatNumberAsAmount } from "../../../utils/strings";
@@ -18,13 +18,13 @@ type Props = {
   opened?: boolean;
   onCreate?: () => void;
 };
-const DEFAULT_FORM_VALUE: RegularIncome = {
+const DEFAULT_FORM_VALUE: Income = {
   name: "",
   amount: 0,
   repeat: DEFAULT_REPEAT_SETTINGS.monthly,
 };
 
-const isFormValid = (form: RegularIncome) => {
+const isFormValid = (form: Income) => {
   return !!form.name && !!form.amount && isValidRepeat(form.repeat);
 };
 

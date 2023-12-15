@@ -1,15 +1,8 @@
-import { Repeat } from "./repeat";
+import { Repeatable } from "./repeat";
 
-export type Income = {
+export type Income = Repeatable & {
   name: string;
-  amount: number;
-  repeat?: Repeat;
-  endDate?: number;
-  startDate?: number;
 };
 export type IncomeWithId = Income & {
   id: string;
 };
-
-export type RegularIncome = Income & { repeat: Repeat };
-export type RegularIncomeWithId = RegularIncome & { id: string };
