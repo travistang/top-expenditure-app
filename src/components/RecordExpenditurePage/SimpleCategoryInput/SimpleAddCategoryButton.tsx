@@ -8,7 +8,7 @@ export default function SimpleAddCategoryButton({ onClick }: Props) {
   return (
     <SimpleInputItem
       onClick={onClick}
-      className="h-16 border-dashed border-2 border-gray-800 dark:border-gray-50 px-4"
+      className="h-full border-dashed border-2 border-gray-800 dark:border-gray-50 px-4"
     >
       <FaPlus />
       New

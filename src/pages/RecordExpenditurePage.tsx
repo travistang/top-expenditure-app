@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FaCaretDown, FaCaretUp, FaCheck, FaPen } from "react-icons/fa";
+import { FaCheck, FaPen } from "react-icons/fa";
 import Button from "../components/Button";
 import DateInput from "../components/DateInput";
 import DigitInputGroup from "../components/DigitInputGroup";
+import InputSectionToggle from "../components/RecordExpenditurePage/InputSectionToggle";
 import SimpleCategoryInput from "../components/RecordExpenditurePage/SimpleCategoryInput";
 import TagsInput from "../components/TagsInput";
 import TextInput from "../components/TextInput";
@@ -39,7 +40,7 @@ export default function RecordExpenditurePage() {
   return (
     <div
       className={classNames(
-        "flex flex-col flex-1 gap-2 items-stretch bg-transparent overflow-hidden relative pb-4 px-4"
+        "flex flex-col flex-1 gap-2 items-stretch bg-transparent overflow-hidden relative pb-4"
       )}
     >
       <DigitInputGroup
@@ -49,23 +50,29 @@ export default function RecordExpenditurePage() {
         keypadPortalId="page"
         onChange={updateField("amount")}
       />
-      <span className="text-lg">Category</span>
-      <SimpleCategoryInput
-        className="max-h-[calc(16px+6*32px)] overflow-y-auto"
-        category={formValue.category ?? undefined}
-        onChange={onCategorySelected}
+      <InputSectionToggle
+        showingInfoSection={showMore}
+        onChange={setShowMore}
       />
-      <Button
-        className="w-fit self-end"
-        onClick={() => setShowMore(!showMore)}
-        text={showMore ? "hide options" : "more options"}
-        icon={showMore ? FaCaretUp : FaCaretDown}
-      />
-      <div className="flex flex-1 overflow-hidden items-stretch">
+      <div
+        className={classNames(
+          "grid grid-cols-2 transition-transform w-[200vw]",
+          showMore ? "-translate-x-[100vw]" : "translate-x-0"
+        )}
+      >
+        <div className="px-4 w-screen">
+          <SimpleCategoryInput
+            className={classNames(
+              "overflow-y-auto transition-[max-height] flex-shrink-0",
+              "max-h-[calc(16px+8*32px)]"
+            )}
+            category={formValue.category ?? undefined}
+            onChange={onCategorySelected}
+          />
+        </div>
         <div
           className={classNames(
-            "duration-300 transition-[opacity,transform,margin] flex-1 flex flex-col items-stretch gap-2 px-4 h-full overflow-y-auto",
-            !showMore ? "opacity-0 -translate-y-[100vw] " : "opacity-100"
+            "flex flex-col items-stretch gap-2 px-4 w-screen"
           )}
         >
           <TextInput
@@ -98,7 +105,7 @@ export default function RecordExpenditurePage() {
           icon={!isFormValid ? FaPen : FaCheck}
           onClick={onCreateExpenditure}
           className={classNames(
-            " text-gray-200 h-20 aspect-square duration-300 transition-all",
+            " text-gray-200 h-20 aspect-square duration-300 transition-transform",
             isFormValid ? "bg-green-500 active:bg-green-700" : "bg-gray-400"
           )}
         />

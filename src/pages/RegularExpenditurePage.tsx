@@ -7,6 +7,7 @@ import ExpenditureRecordPlaceholder from "../components/Placeholders/Expenditure
 import RegularExpenditureRecord from "../components/Record/RegularExpenditureRecord";
 import RegularIncomeRecord from "../components/Record/RegularIncomeRecord";
 import CreateRegularEntryModal from "../components/RegularExpenditurePage/CreateRegularEntryModal";
+import RegularExpenditureSummary from "../components/RegularExpenditurePage/RegularExpenditureSummary";
 import RegularIncomeDetailPage from "../components/RegularExpenditurePage/RegularIncomeDetailPage";
 import Widget from "../components/Widget";
 import {
@@ -16,7 +17,6 @@ import {
 import expenditureSearcher from "../domain/expenditure-search";
 import { IncomeWithId } from "../domain/income";
 import useSearch from "../hooks/useSearch";
-import RegularExpenditureSummary from "../components/RegularExpenditurePage/RegularExpenditureSummary";
 
 const searchFunc = (includePreviousExpenditures: boolean) => {
   return expenditureSearcher.getRegularExpenditures(
@@ -53,7 +53,7 @@ export default function RegularExpenditurePage() {
   };
 
   return (
-    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2">
+    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2 overflow-y-auto">
       <RegularIncomeDetailPage onUpdate={refetch} />
       <ExpenditureDetailPage onUpdate={refetch} />
       <div className="flex items-center py-1 justify-end px-2 gap-2">

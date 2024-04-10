@@ -11,7 +11,7 @@ export default function RepeatInfo({ repeat, className }: Props) {
   const RepeatIcon = RegularExpenditureRecordIcon[repeat.interval];
 
   return (
-    <div className={classNames("flex gap-1 text-xs", className)}>
+    <div className={classNames("flex gap-1", className)}>
       <RepeatIcon />
       <span>
         {repeat.endDate ? format(repeat.endDate, "dd/MM/yyyy") : "No end date"}
