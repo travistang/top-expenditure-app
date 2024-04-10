@@ -53,7 +53,7 @@ export default function RegularExpenditurePage() {
   };
 
   return (
-    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2 overflow-y-auto">
+    <div className="flex flex-col items-stretch gap-2 flex-1 flex-shrink-0 px-2 max-h-screen overflow-y-hidden">
       <RegularIncomeDetailPage onUpdate={refetch} />
       <ExpenditureDetailPage onUpdate={refetch} />
       <div className="flex items-center py-1 justify-end px-2 gap-2">
@@ -70,11 +70,17 @@ export default function RegularExpenditurePage() {
         onClose={() => setShowCreateModal(false)}
       />
       <RegularExpenditureSummary
+        className="flex-shrink-0"
         incomes={regularIncomes}
         expenditures={regularExpenditures}
       />
       {regularIncomes.length > 0 && (
-        <Widget sensitive icon={FaMoneyBill} title="Regular income">
+        <Widget
+          sensitive
+          icon={FaMoneyBill}
+          className="flex-shrink-0"
+          title="Regular income"
+        >
           <List
             numPlaceholder={1}
             items={regularIncomes}

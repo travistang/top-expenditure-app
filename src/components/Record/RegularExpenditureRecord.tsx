@@ -32,7 +32,7 @@ export default function RegularExpenditureRecord({
     <div
       onClick={onClick}
       className={classNames(
-        "rounded-sm grid grid-cols-4 gap-x-2 gap-y-0 py-1 px-2 cursor-pointer bg-normal hover:bg-gray-500 active:bg-gray-700",
+        "rounded-sm grid grid-cols-4 gap-x-2 gap-y-0 py-1 px-2 cursor-pointer bg-normal hover:bg-gray-500 active:bg-gray-700 flex-shrink-0",
         className
       )}
     >

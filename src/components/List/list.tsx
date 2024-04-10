@@ -1,7 +1,7 @@
 import classNames from "classnames";
+import { useMemo, useRef } from "react";
 import { range } from "../../utils/array";
 import ExpenditureRecordPlaceholder from "../Placeholders/ExpenditureRecordPlaceholder";
-import { useMemo, useRef } from "react";
 import ScrollDownHint from "./ScrollDownHint";
 
 type Props<T> = {
@@ -42,7 +42,7 @@ export default function List<T>({
       ref={containerRef}
       style={{ gridTemplateColumns: `repeat(${itemsPerLine},1fr)` }}
       className={classNames(
-        "flex flex-col items-stretch gap-2",
+        "flex flex-col items-stretch gap-2 overflow-y-auto",
         itemsPerLine === 1 ? "flex flex-col items-stretch" : "grid",
         className
       )}

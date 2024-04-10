@@ -1,14 +1,13 @@
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import Header from "./components/Header";
-import RecordExpenditurePage from "./pages/RecordExpenditurePage";
 import Footer from "./components/Footer";
-import ExpenditureListPage from "./pages/ExpenditureListPage";
-import CategoryListPage from "./pages/CategoryListPage";
+import Header from "./components/Header";
 import AnalysisPage from "./pages/AnalysisPage";
-import { Routes } from "./routes";
+import CategoryListPage from "./pages/CategoryListPage";
+import ExpenditureListPage from "./pages/ExpenditureListPage";
+import RecordExpenditurePage from "./pages/RecordExpenditurePage";
 import RegularExpenditurePage from "./pages/RegularExpenditurePage";
+import { Routes } from "./routes";
 
 function AppLayout() {
   return (
@@ -18,7 +17,7 @@ function AppLayout() {
     >
       <Header />
       <Toaster />
-      <div className="flex-1 flex items-stretch">
+      <div className="flex-1 flex items-stretch overflow-y-hidden">
         <Outlet />
       </div>
       <Footer />
