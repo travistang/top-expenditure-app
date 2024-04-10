@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/top-expenditure-app/static/css/main.8ea40b71.css",
-    "main.js": "/top-expenditure-app/static/js/main.76c2aa94.js",
+    "main.css": "/top-expenditure-app/static/css/main.0393d0cc.css",
+    "main.js": "/top-expenditure-app/static/js/main.876fbe8c.js",
     "static/js/787.4e561987.chunk.js": "/top-expenditure-app/static/js/787.4e561987.chunk.js",
     "service-worker.js": "/top-expenditure-app/service-worker.js",
     "index.html": "/top-expenditure-app/index.html",
-    "main.8ea40b71.css.map": "/top-expenditure-app/static/css/main.8ea40b71.css.map",
-    "main.76c2aa94.js.map": "/top-expenditure-app/static/js/main.76c2aa94.js.map",
+    "main.0393d0cc.css.map": "/top-expenditure-app/static/css/main.0393d0cc.css.map",
+    "main.876fbe8c.js.map": "/top-expenditure-app/static/js/main.876fbe8c.js.map",
     "787.4e561987.chunk.js.map": "/top-expenditure-app/static/js/787.4e561987.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8ea40b71.css",
-    "static/js/main.76c2aa94.js"
+    "static/css/main.0393d0cc.css",
+    "static/js/main.876fbe8c.js"
   ]
 }
