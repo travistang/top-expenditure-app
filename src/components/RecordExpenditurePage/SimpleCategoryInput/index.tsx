@@ -28,7 +28,7 @@ export default function SimpleCategoryInput({
     <>
       <div
         className={classNames(
-          "grid grid-cols-3 grid-row-[repeat(auto-fit,32px)] gap-2 flex-nowrap snap-y snap-mandatory overflow-x-auto overflow-y-visible",
+          "grid grid-cols-2 grid-row-[repeat(auto-fit,32px)] gap-2 flex-nowrap snap-y snap-mandatory overflow-x-auto overflow-y-visible",
           className
         )}
       >

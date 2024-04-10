@@ -7,11 +7,7 @@ import {
   RegularExpenditure,
   expenditureDatabase,
 } from "../../../domain/expenditure";
-import {
-  DEFAULT_REPEAT_SETTINGS,
-  RepeatInterval,
-  isValidRepeat,
-} from "../../../domain/repeat";
+import { DEFAULT_REPEAT_SETTINGS, isValidRepeat } from "../../../domain/repeat";
 import { createUpdater } from "../../../utils/objects";
 import Button from "../../Button";
 import ButtonGroup from "../../ButtonGroup";

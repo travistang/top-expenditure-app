@@ -25,9 +25,12 @@ export default function SimpleCategoryItem({
         color: selected ? "#fff" : color,
         borderColor: color,
       }}
-      className={classNames("p-4 text-center border-2", className)}
+      className={classNames(
+        "p-4 text-center border-2 overflow-hidden whitespace-nowrap overflow-ellipsis",
+        className
+      )}
     >
-      <Icon className="text-xl" />
+      <Icon className="text-xl w-8 flex-shrink-0" />
       {category.name}
     </SimpleInputItem>
   );
