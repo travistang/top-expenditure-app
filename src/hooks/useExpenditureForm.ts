@@ -21,5 +21,6 @@ export default function useExpenditureForm(
     updateField,
     reset,
     isFormValid,
+    setFormValue,
   };
 }

@@ -20,6 +20,7 @@ type Props = {
   onClick?: () => void | Promise<void>;
   className?: string;
   text?: string;
+  iconClassName?: string;
   disabled?: boolean;
 };
 function Button(
@@ -32,6 +33,7 @@ function Button(
     className,
     disabled,
     color,
+    iconClassName,
   }: Props,
   ref: React.Ref<HTMLButtonElement>
 ) {
@@ -62,7 +64,7 @@ function Button(
         <FaSpinner className="animate-spin text-gray-800" />
       ) : (
         <>
-          {Icon && <Icon />}
+          {Icon && <Icon className={iconClassName} />}
           {text}
         </>
       )}

@@ -37,6 +37,7 @@ export default function CreateRegularEntryModal({
       <div className="grid grid-cols-2 gap-2">
         <Button
           squared
+          iconClassName="text-5xl"
           onClick={() => setModalType(ModalType.IncomeModal)}
           className="flex-col gap-2 h-24"
           color="green"
@@ -45,6 +46,7 @@ export default function CreateRegularEntryModal({
         />
         <Button
           squared
+          iconClassName="text-5xl"
           onClick={() => setModalType(ModalType.ExpenditureModal)}
           className="flex-col gap-2 h-24"
           color="red"

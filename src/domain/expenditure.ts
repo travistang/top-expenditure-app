@@ -79,7 +79,7 @@ class ExpenditureDatabase extends Dexie {
     return this.categories
       .where("name")
       .startsWithIgnoreCase(searchString)
-      .toArray();
+      .sortBy("name");
   }
 
   async getCategoryById(id: string) {
