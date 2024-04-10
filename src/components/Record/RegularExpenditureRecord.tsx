@@ -41,18 +41,18 @@ export default function RegularExpenditureRecord({
         className="h-full col-span-1 flex-col items-center justify-center"
       />
       <div className="col-span-2 flex flex-col items-stretch overflow-hidden">
-        <div className="text-xl font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {name}
         </div>
-        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className="overflow-hidden text-sm text-ellipsis whitespace-nowrap">
           {category?.name ?? <LinePlaceholder rounded className="h-4 w-12" />}
         </div>
       </div>
       <div className="flex flex-col items-end overflow-hidden text-ellipsis whitespace-nowrap text-right">
-        <span className="text-2xl">
+        <span className="text-xl">
           -{formatNumberAsAmount(averagePerMonth)}
         </span>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-2 text-sm">
           <LuCircleSlash2 className="flex-shrink-0" />
           monthly
         </span>

@@ -13,7 +13,7 @@ export default function RepeatInfo({ repeat, className }: Props) {
   return (
     <div className={classNames("flex gap-1", className)}>
       <RepeatIcon />
-      <span>
+      <span className="text-xs">
         {repeat.endDate ? format(repeat.endDate, "dd/MM/yyyy") : "No end date"}
       </span>
     </div>
