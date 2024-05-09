@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { getCategoryColor, getCategoryIcon } from "../../../domain/category";
-import { CategoryWithId } from "../../../domain/expenditure";
-import SimpleInputItem from "./SimpleInputItem";
+import { getCategoryColor, getCategoryIcon } from "../../../../domain/category";
+import { CategoryWithId } from "../../../../domain/expenditure";
+import SimpleInputItem from "../SimpleInputItem";
+import CategoryUsageProgressBarBackground from "./CategoryUsageProgressBarBackground";
 
 type Props = {
   category: CategoryWithId;
@@ -17,6 +18,7 @@ export default function SimpleCategoryItem({
 }: Props) {
   const color = getCategoryColor(category);
   const Icon = getCategoryIcon(category);
+
   return (
     <SimpleInputItem
       onClick={onClick}
@@ -26,10 +28,11 @@ export default function SimpleCategoryItem({
         borderColor: color,
       }}
       className={classNames(
-        "p-4 text-center border-2 overflow-hidden whitespace-nowrap overflow-ellipsis",
+        "relative p-4 text-center border-2 overflow-hidden whitespace-nowrap overflow-ellipsis",
         className
       )}
     >
+      <CategoryUsageProgressBarBackground category={category} />
       <Icon className="text-xl w-8 flex-shrink-0" />
       {category.name}
     </SimpleInputItem>
