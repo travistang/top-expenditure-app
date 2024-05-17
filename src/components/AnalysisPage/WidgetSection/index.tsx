@@ -1,10 +1,17 @@
 import { FaDivide, FaPlus } from "react-icons/fa";
-import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
+import {
+  CategoryWithId,
+  ExpenditureWithId,
+  groupExpendituresByCurrency,
+} from "../../../domain/expenditure";
 import { average, total } from "../../../domain/expenditure-statistics";
 import WidgetPlaceholder from "../../Placeholders/WidgetPlaceholder";
 import AmountWidget from "../../Widget/AmountWidget";
 
 import { isSameMonth } from "date-fns";
+import { useState } from "react";
+import { Currency } from "../../../domain/currency";
+import CurrencyPicker from "../../CurrencyPicker";
 import CategoryDistributionChartWidget from "./CategoryDistributionChartWidget";
 import ExpenditureByCategoryWidget from "./ExpenditureByCategoryWidget";
 import ExpenditureTrendBarWidget from "./ExpenditureTrendBarWidget";
@@ -24,6 +31,7 @@ export default function WidgetSection({
   month,
   onMonthChange,
 }: Props) {
+  const [currency, setCurrency] = useState<Currency>("EUR");
   if (loading) {
     return (
       <div className="grid grid-cols-6 gap-2">
@@ -38,33 +46,45 @@ export default function WidgetSection({
     isSameMonth(month, exp.date)
   );
 
+  const expendituresByCurrency =
+    groupExpendituresByCurrency(expendituresOfMonth);
+  const expendituresConsidered = expendituresByCurrency[currency] ?? [];
   return (
     <div className="grid grid-cols-6 gap-2">
+      <CurrencyPicker
+        currency={currency}
+        onChange={setCurrency}
+        className="col-span-full h-12 bg-gray-500/50"
+      />
       <AmountWidget
-        amount={total(expendituresOfMonth)}
+        currency={currency}
+        amount={total(expendituresConsidered)}
         className="col-span-3"
         icon={FaPlus}
         title="Total"
       />
       <AmountWidget
-        amount={average(expendituresOfMonth)}
+        currency={currency}
+        amount={average(expendituresConsidered)}
         className="col-span-3"
         icon={FaDivide}
         title="Average"
       />
       <ExpenditureByCategoryWidget
         categories={categories}
-        expenditures={expendituresOfMonth}
+        currency={currency}
+        expenditures={expendituresConsidered}
       />
       <CategoryDistributionChartWidget
-        expenditures={expendituresOfMonth}
+        expenditures={expendituresConsidered}
         categories={categories}
       />
       <ExpenditureTrendBarWidget
         onSelectMonth={onMonthChange}
         selectedMonth={month}
+        currency={currency}
         categories={categories}
-        expenditures={expenditures}
+        expenditures={expendituresConsidered}
       />
     </div>
   );

@@ -1,16 +1,23 @@
-import React from "react";
 import classNames from "classnames";
+import { Currency } from "../domain/currency";
+import { formatNumberAsAmount } from "../utils/strings";
 
 type Props = {
   value: number;
   onClick?: () => void;
   className?: string;
+  currency: Currency;
 };
 const computeFontSize = (str: string): number => {
   return Math.min(128, 400 / str.length);
 };
-export default function DigitDisplay({ onClick, value, className }: Props) {
-  const displayString = `${value.toFixed(2).padStart(5, "0")}€`;
+export default function DigitDisplay({
+  currency,
+  onClick,
+  value,
+  className,
+}: Props) {
+  const displayString = formatNumberAsAmount(value, currency);
   return (
     <div
       onClick={onClick}

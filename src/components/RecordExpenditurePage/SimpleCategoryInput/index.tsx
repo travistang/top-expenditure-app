@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
+import { Currency } from "../../../domain/currency";
 import { CategoryWithId } from "../../../domain/expenditure";
 import useSearchCategory from "../../../hooks/useSearchCategory";
 import LoadingSpinner from "../../LoadingSpinner";
@@ -10,11 +11,13 @@ import SimpleCategoryItem from "./SimpleCategoryItem";
 type Props = {
   className?: string;
   category?: string;
+  currency: Currency;
   onChange: (category: CategoryWithId) => void;
 };
 export default function SimpleCategoryInput({
   className,
   category: selectedCategoryId,
+  currency,
   onChange,
 }: Props) {
   const { loading, results, refetch } = useSearchCategory("");
@@ -37,6 +40,7 @@ export default function SimpleCategoryInput({
           <SimpleCategoryItem
             key={category.id}
             category={category}
+            currency={currency}
             onClick={() => onChange(category)}
             className="snap-start h-min"
             selected={category.id === selectedCategoryId}

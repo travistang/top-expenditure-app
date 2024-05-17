@@ -1,69 +1,63 @@
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { FaCheck, FaTrash } from "react-icons/fa";
-import { CategoryWithId } from "../../../../domain/expenditure";
-import { formatNumberAsAmount } from "../../../../utils/strings";
-import AmountInput from "../../../AmountInput";
+import { FaCheck } from "react-icons/fa";
+import { Currency } from "../../../../domain/currency";
 import Button from "../../../Button";
 import Modal from "../../../Modal";
+import BudgetForm from "./BudgetForm";
+import CurrencyTab from "./CurrencyTab";
+import {
+  Budget,
+  removeCurrencyBudget,
+  updateBudgetForCurrency,
+} from "./helper";
 
-type Budget = CategoryWithId["budget"];
 type Props = {
   opened: boolean;
   onClose: () => void;
-  budget?: Budget;
+  budget: Budget;
   onUpdate: (budget: Budget) => void;
 };
+
 export default function CategoryBudgetModal({
   onClose,
   opened,
   budget,
   onUpdate,
 }: Props) {
-  const [placeholder, setPlaceholder] = useState<number | undefined>(
-    budget?.amount
-  );
+  const [modified, setModified] = useState(false);
+  const [currency, setCurrency] = useState<Currency>("EUR");
+  const [placeholder, setPlaceholder] = useState<Budget>(budget);
   useEffect(() => {
-    setPlaceholder(budget?.amount);
+    setPlaceholder(budget);
   }, [budget]);
 
   if (!opened) return null;
 
   const commitUpdateBudget = () => {
-    if (placeholder === undefined) {
-      return onUpdate(undefined);
-    }
-    onUpdate({ amount: placeholder, effectiveSince: Date.now() });
+    onUpdate(placeholder);
+  };
+
+  const onBudgetChange = (value: number | undefined) => {
+    setModified(true);
+    const updatedPlaceholder = value
+      ? updateBudgetForCurrency(placeholder, currency, value)
+      : removeCurrencyBudget(placeholder, currency);
+    setPlaceholder(updatedPlaceholder);
   };
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} title="Configure category budget">
       <div className="flex items-stretch flex-col gap-2">
-        <AmountInput
-          nullable
-          amount={placeholder}
-          formatter={formatNumberAsAmount}
-          onChange={setPlaceholder}
-          className="h-14"
-          label="Budget on this category"
+        <CurrencyTab currency={currency} onChange={setCurrency} />
+        <BudgetForm
+          budget={placeholder[currency]}
+          currency={currency}
+          onChange={onBudgetChange}
         />
-        <div className="flex items-center justify-between">
-          {budget?.effectiveSince && (
-            <span className="text-xs">
-              Last updated on {format(budget.effectiveSince, "dd/MM/yyyy")}
-            </span>
-          )}
-        </div>
         <div className="flex items-center gap-2 justify-end justify-self-end">
-          <Button
-            onClick={() => onUpdate(undefined)}
-            color="red"
-            text="Remove"
-            icon={FaTrash}
-          />
           <Button
             color="green"
             onClick={commitUpdateBudget}
-            disabled={budget?.amount === placeholder}
+            disabled={!modified}
             text="Update"
             icon={FaCheck}
           />

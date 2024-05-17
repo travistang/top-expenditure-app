@@ -3,7 +3,9 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 
 import { FaTimes } from "react-icons/fa";
+import { Currency } from "../../domain/currency";
 import useDigitInput from "../../hooks/useDigitInput";
+import { formatNumberAsAmount } from "../../utils/strings";
 import Button from "../Button";
 import DigitDisplay from "../DigitDisplay";
 import Keypad from "../Keypad";
@@ -11,6 +13,7 @@ import Keypad from "../Keypad";
 type BaseProps = {
   label?: string;
   className?: string;
+  currency: Currency;
   formatter?: (value: number) => string;
 };
 
@@ -31,10 +34,10 @@ type Props = BaseProps & (NullableProps | NonNullableProps);
 export default function AmountInput({
   label,
   nullable,
-  formatter = (v) => v.toString(),
   className,
   amount,
   onChange,
+  currency,
 }: Props) {
   const [showNumPad, setShowNumPad] = useState(false);
   const { onAddDigit, onClear, onRemoveDigit } = useDigitInput({
@@ -55,7 +58,7 @@ export default function AmountInput({
         )}
       >
         <span className="flex-1 font-mono">
-          {amount === undefined ? "--" : formatter(amount)}
+          {amount === undefined ? "--" : formatNumberAsAmount(amount, currency)}
         </span>
         {nullable && amount !== undefined && (
           <Button
@@ -86,7 +89,7 @@ export default function AmountInput({
                 )}
               >
                 <span className="text-normal">{label}</span>
-                <DigitDisplay value={amount ?? 0} />
+                <DigitDisplay value={amount ?? 0} currency={currency} />
               </div>
             </div>
             <div

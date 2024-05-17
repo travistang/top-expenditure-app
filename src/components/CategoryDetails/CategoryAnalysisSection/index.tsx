@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import { useCallback, useState } from "react";
 import * as Fa from "react-icons/fa";
+import { CURRENCIES } from "../../../domain/currency";
 import {
   CategoryWithId,
   ExpenditureWithId,
   expenditureDatabase,
+  groupExpendituresByCurrency,
 } from "../../../domain/expenditure";
 import { average, total } from "../../../domain/expenditure-statistics";
 import { formatNumberAsAmount } from "../../../utils/strings";
@@ -39,7 +41,7 @@ export default function CategoryAnalysisSection({
     },
     [category, onRefreshCategory]
   );
-
+  const expendituresByCurrency = groupExpendituresByCurrency(expenditures);
   return (
     <div className={classNames("grid grid-cols-6 gap-2", className)}>
       <IconPicker
@@ -72,20 +74,32 @@ export default function CategoryAnalysisSection({
           />
         </div>
       </Widget>
-      <Widget
-        className="col-span-3 text-xl text-right overflow-hidden text-ellipsis"
-        title="Total"
-        icon={Fa.FaPlus}
-      >
-        {formatNumberAsAmount(total(expenditures))}
-      </Widget>
-      <Widget
-        className="col-span-3 text-xl text-right overflow-hidden text-ellipsis"
-        title="Average"
-        icon={Fa.FaDivide}
-      >
-        {formatNumberAsAmount(average(expenditures))}
-      </Widget>
+      {CURRENCIES.map((currency) =>
+        !!expendituresByCurrency[currency]?.length ? (
+          <div key={currency} className="contents">
+            <Widget
+              className="col-span-3 text-xl text-right overflow-hidden text-ellipsis"
+              title="Total"
+              icon={Fa.FaPlus}
+            >
+              {formatNumberAsAmount(
+                total(expendituresByCurrency[currency] ?? []),
+                currency
+              )}
+            </Widget>
+            <Widget
+              className="col-span-3 text-xl text-right overflow-hidden text-ellipsis"
+              title="Average"
+              icon={Fa.FaDivide}
+            >
+              {formatNumberAsAmount(
+                average(expendituresByCurrency[currency] ?? []),
+                currency
+              )}
+            </Widget>
+          </div>
+        ) : null
+      )}
     </div>
   );
 }

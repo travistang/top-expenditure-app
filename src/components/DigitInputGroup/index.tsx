@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import DigitDisplay from "../DigitDisplay";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Keypad from "../Keypad";
+import { Currency } from "../../domain/currency";
 import useDigitInput from "../../hooks/useDigitInput";
+import DigitDisplay from "../DigitDisplay";
+import Keypad from "../Keypad";
 
 type Props = {
   value: number;
+  currency: Currency;
   showNumPad: boolean;
   toggleNumPad: () => void;
   onChange: (value: number) => void;
@@ -15,6 +17,7 @@ type Props = {
 
 export default function DigitInputGroup({
   value,
+  currency,
   showNumPad,
   toggleNumPad,
   onChange,
@@ -32,6 +35,7 @@ export default function DigitInputGroup({
       <DigitDisplay
         onClick={toggleNumPad}
         value={value}
+        currency={currency}
         className={classNames(
           "transition-all duration-300",
           showNumPad ? "h-1/3" : "h-1/4"

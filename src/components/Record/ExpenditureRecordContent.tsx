@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { format } from "date-fns";
+import { FaCalendar } from "react-icons/fa";
 import {
   ExpenditureWithId,
   expenditureDatabase,
 } from "../../domain/expenditure";
-import { formatNumberAsAmount } from "../../utils/strings";
 import useFetch from "../../hooks/useFetch";
+import { formatNumberAsAmount } from "../../utils/strings";
 import LinePlaceholder from "../Placeholders/LinePlaceholder";
-import { FaCalendar } from "react-icons/fa";
 
 type Props = {
   expenditure: ExpenditureWithId;
@@ -21,7 +21,7 @@ export default function ExpenditureRecordContent({
   onClick,
   children,
 }: Props) {
-  const { date, name, amount } = expenditure;
+  const { date, name, amount, currency } = expenditure;
   const { result: category } = useFetch(
     expenditure.category,
     expenditureDatabase.getCategoryById.bind(expenditureDatabase)
@@ -55,7 +55,7 @@ export default function ExpenditureRecordContent({
         {category?.name ?? <LinePlaceholder rounded className="h-4 w-12" />}
       </div>
       <div className="row-start-1 row-span-full text-lg overflow-hidden text-ellipsis whitespace-nowrap text-right">
-        {formatNumberAsAmount(amount)}
+        {formatNumberAsAmount(amount, currency)}
       </div>
       {children && <div className="col-span-full">{children}</div>}
     </div>

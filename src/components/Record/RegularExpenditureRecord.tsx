@@ -50,7 +50,7 @@ export default function RegularExpenditureRecord({
       </div>
       <div className="flex flex-col items-end overflow-hidden text-ellipsis whitespace-nowrap text-right">
         <span className="text-xl">
-          -{formatNumberAsAmount(averagePerMonth)}
+          -{formatNumberAsAmount(averagePerMonth, expenditure.currency)}
         </span>
         <span className="flex items-center gap-2 text-sm">
           <LuCircleSlash2 className="flex-shrink-0" />

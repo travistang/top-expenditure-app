@@ -5,7 +5,6 @@ import { expenditureDatabase } from "../../../domain/expenditure";
 import { Income } from "../../../domain/income";
 import { DEFAULT_REPEAT_SETTINGS, isValidRepeat } from "../../../domain/repeat";
 import { createUpdater } from "../../../utils/objects";
-import { formatNumberAsAmount } from "../../../utils/strings";
 import AmountInput from "../../AmountInput";
 import Button from "../../Button";
 import DateInput from "../../DateInput";
@@ -21,6 +20,7 @@ type Props = {
 const DEFAULT_FORM_VALUE: Income = {
   name: "",
   amount: 0,
+  currency: "EUR",
   repeat: DEFAULT_REPEAT_SETTINGS.monthly,
 };
 
@@ -60,10 +60,10 @@ export default function CreateRegularIncomeModal({
         />
         <AmountInput
           amount={form.amount}
+          currency={form.currency}
           onChange={updater("amount")}
           className="col-span-5"
           label="Amount"
-          formatter={formatNumberAsAmount}
         />
         <DateInput
           nullable

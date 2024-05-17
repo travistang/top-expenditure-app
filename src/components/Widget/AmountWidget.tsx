@@ -1,21 +1,22 @@
-import { IconType } from "react-icons/lib";
-import { formatNumberAsAmount } from "../../utils/strings";
-import Widget from ".";
 import classNames from "classnames";
+import { IconType } from "react-icons/lib";
+import Widget from ".";
+import { Currency } from "../../domain/currency";
+import { formatNumberAsAmount } from "../../utils/strings";
 
 type Props = {
   title?: string;
   icon?: IconType;
   className?: string;
   amount: number;
-  formatter?: (amount: number) => string;
+  currency: Currency;
 };
 export default function AmountWidget({
   title,
   icon,
   className,
+  currency,
   amount,
-  formatter = formatNumberAsAmount,
 }: Props) {
   return (
     <Widget
@@ -23,7 +24,7 @@ export default function AmountWidget({
       className={classNames("text-3xl", className)}
       title={title}
     >
-      {formatter(amount)}
+      {formatNumberAsAmount(amount, currency)}
     </Widget>
   );
 }

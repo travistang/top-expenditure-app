@@ -18,8 +18,9 @@ export default function RegularIncomeForm({ income, updater }: Props) {
         className="col-span-full"
       />
       <AmountDisplayInput
-        amount={income.amount}
         onChange={updater("amount")}
+        currency={income.currency}
+        amount={income.amount}
         className="col-span-full"
       />
       <DateInput

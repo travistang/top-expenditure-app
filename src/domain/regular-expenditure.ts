@@ -4,9 +4,9 @@ import {
   getDay,
   getMonth,
   isBefore,
-  isSameDay,
 } from "date-fns";
-import { RepeatInterval, Repeatable } from "./repeat";
+import { ByCurrency } from "./currency";
+import { RepeatInterval, Repeatable, monthlyAverageFromRepeat } from "./repeat";
 
 export const isTimeInRepeatInterval = (
   repeatable: Repeatable,
@@ -61,49 +61,11 @@ export const getOccurrenceTimeInRange = (
     .map((d) => d.getTime());
 };
 
-type Reading = {
-  date: number;
-  amount: number;
-};
-type ReadingsFromRecordsParams = {
-  readings: Reading[];
-  incomes: Repeatable[];
-  expenditures: Repeatable[];
-  from: number;
-  to: number;
-};
-export const getReadingsFromRecords = ({
-  readings,
-  incomes,
-  expenditures,
-  from,
-  to,
-}: ReadingsFromRecordsParams): Record<number, number> => {
-  const results: Record<number, number> = {};
-  const datesInInterval = eachDayOfInterval({ start: from, end: to }).map((d) =>
-    d.getTime()
-  );
-  let currentAmount = 0;
-  for (const date of datesInInterval) {
-    const readingsOnDate = readings.find((reading) =>
-      isSameDay(date, reading.date)
-    );
-    if (readingsOnDate) {
-      currentAmount = readingsOnDate.amount;
-      results[date] = currentAmount;
-      continue;
-    }
-
-    const incomesOnDay = incomes
-      .filter((income) => isTimeInRepeatInterval(income, date))
-      .reduce((totalIncome, income) => totalIncome + income.amount, 0);
-    const expendituresOnDay = expenditures
-      .filter((exp) => isTimeInRepeatInterval(exp, date))
-      .reduce((totalExpenditure, exp) => totalExpenditure + exp.amount, 0);
-
-    currentAmount += incomesOnDay - expendituresOnDay;
-    results[date] = currentAmount;
-  }
-
-  return results;
+export const getRepeatableByCurrency = (repeatables: Repeatable[]) => {
+  return repeatables.reduce((acc, expenditure) => {
+    const { amount, currency, repeat } = expenditure;
+    const monthlyAmount = monthlyAverageFromRepeat(amount, repeat);
+    acc[currency] = (acc[currency] ?? 0) + monthlyAmount;
+    return acc;
+  }, {} as ByCurrency<number>);
 };

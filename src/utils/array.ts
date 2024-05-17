@@ -17,3 +17,8 @@ export const toggle = <T>(
     return [...arr, val];
   }
 };
+
+export const unique = <T>(
+  arr: T[],
+  equalFn: (a: T, b: T) => boolean = (a, b) => a === b
+) => arr.filter((v, i) => arr.findIndex((v2) => equalFn(v, v2)) === i);

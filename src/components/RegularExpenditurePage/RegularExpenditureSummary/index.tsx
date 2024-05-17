@@ -1,11 +1,12 @@
 import classNames from "classnames";
+import { FaChartPie, FaFire, FaMoneyBill } from "react-icons/fa";
+import { CURRENCY_NAMES, Currency } from "../../../domain/currency";
 import { RegularExpenditureWithId } from "../../../domain/expenditure";
 import { IncomeWithId } from "../../../domain/income";
-import Widget from "../../Widget";
-import { FaChartPie, FaFire, FaMoneyBill } from "react-icons/fa";
-import { monthlyAverageFromRepeat } from "../../../domain/repeat";
+import { getRepeatableByCurrency } from "../../../domain/regular-expenditure";
+import { unique } from "../../../utils/array";
 import { formatNumberAsAmount } from "../../../utils/strings";
-import { sum } from "../../../utils/numbers";
+import Widget from "../../Widget";
 import DigitSection from "./DigitSection";
 
 type Props = {
@@ -20,12 +21,12 @@ export default function RegularExpenditureSummary({
 }: Props) {
   const hasRecord = !!incomes.length || !!expenditures.length;
   if (!hasRecord) return null;
-  const monthlyExpenditures = sum(
-    ...expenditures.map((e) => monthlyAverageFromRepeat(e.amount, e.repeat))
-  );
-  const monthlyIncomes = sum(
-    ...incomes.map((i) => monthlyAverageFromRepeat(i.amount, i.repeat))
-  );
+  const monthlyExpendituresByCurrency = getRepeatableByCurrency(expenditures);
+  const monthlyIncomesByCurrency = getRepeatableByCurrency(incomes);
+  const relevantCurrencies: Currency[] = unique([
+    ...(Object.keys(monthlyExpendituresByCurrency) as Currency[]),
+    ...(Object.keys(monthlyIncomesByCurrency) as Currency[]),
+  ]);
 
   return (
     <Widget
@@ -35,22 +36,27 @@ export default function RegularExpenditureSummary({
       className={classNames(className)}
     >
       <div className="grid grid-cols-6 gap-2">
-        <DigitSection
-          className="col-span-3"
-          textClassName="text-red-500"
-          value={monthlyExpenditures}
-          title="Monthly expenditure"
-          icon={FaFire}
-          formatter={(v) => `+${formatNumberAsAmount(v)}`}
-          />
-        <DigitSection
-          className="col-span-3"
-          textClassName="text-green-500"
-          value={monthlyIncomes}
-          title="Monthly incomes"
-          icon={FaMoneyBill}
-          formatter={formatNumberAsAmount}
-        />
+        {relevantCurrencies.map((currency) => (
+          <div className="contents">
+            <DigitSection
+              className="col-span-3"
+              textClassName="text-red-500"
+              value={monthlyExpendituresByCurrency[currency] ?? 0}
+              title={`Monthly expenditure (${CURRENCY_NAMES[currency]}) `}
+              icon={FaFire}
+              currency={currency}
+              formatter={(v) => `+${formatNumberAsAmount(v, currency)}`}
+            />
+            <DigitSection
+              className="col-span-3"
+              currency={currency}
+              textClassName="text-green-500"
+              value={monthlyIncomesByCurrency[currency] ?? 0}
+              title={`Monthly income (${CURRENCY_NAMES[currency]})`}
+              icon={FaMoneyBill}
+            />
+          </div>
+        ))}
       </div>
     </Widget>
   );

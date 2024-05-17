@@ -1,5 +1,7 @@
+import { startOfMonth } from "date-fns";
 import * as Fa from "react-icons/fa";
-import { CategoryWithId } from "./expenditure";
+import { ByCurrency, mapByCurrency } from "./currency";
+import { CategoryWithId, groupExpendituresByCurrency } from "./expenditure";
 import expenditureSearcher from "./expenditure-search";
 import { total } from "./expenditure-statistics";
 
@@ -11,18 +13,28 @@ export const getCategoryIcon = (category: CategoryWithId) => {
   return Fa[iconKey] ?? Fa.FaTag;
 };
 
-export const getCategoryUsage = async (category: CategoryWithId) => {
+export const getCategoryRecords = async (category: CategoryWithId) => {
   const expenditures = await expenditureSearcher.searchExpenditures({
     category: category.id,
+    fromDate: startOfMonth(Date.now()).getTime(),
   });
-
-  return total(expenditures);
+  return expenditures;
 };
 
-export const getCategoryBudgetUsage = async (category: CategoryWithId) => {
+export const getCategoryUsage = async (
+  category: CategoryWithId
+): Promise<ByCurrency<number>> => {
   const { budget } = category;
-  if (!budget) return null;
+  const categoryRecords = await getCategoryRecords(category);
+  return mapByCurrency(
+    groupExpendituresByCurrency(categoryRecords),
+    (currency, records) => {
+      const budgetForCurrency = budget?.[currency]?.amount;
+      return budgetForCurrency ? total(records) / budgetForCurrency : 0;
+    }
+  );
+};
 
-  const usage = await getCategoryUsage(category);
-  return usage / budget.amount;
+export const hasNoBudget = (category: CategoryWithId) => {
+  return Object.keys(category.budget).length === 0;
 };

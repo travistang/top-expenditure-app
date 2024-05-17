@@ -36,7 +36,7 @@ export default function RegularIncomeRecord({
       </div>
       <div className="flex flex-col items-end overflow-visible text-ellipsis whitespace-nowrap text-right">
         <span className="text-sm text-green-500">
-          +{formatNumberAsAmount(averagePerMonth)}
+          +{formatNumberAsAmount(averagePerMonth, income.currency)}
         </span>
         <span className="text-xs flex items-center gap-2">
           <LuCircleSlash2 className="text-xs flex-shrink-0" />

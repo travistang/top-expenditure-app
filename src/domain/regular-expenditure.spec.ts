@@ -1,19 +1,20 @@
 import { addDays } from "date-fns";
-import {
-  DailyRepeatInterval,
-  MonthlyRepeatInterval,
-  RepeatInterval,
-  Repeat,
-  WeeklyRepeatInterval,
-  AnnualRepeatInterval,
-} from "./repeat";
 import { RegularExpenditure } from "./expenditure";
 import { isTimeInRepeatInterval } from "./regular-expenditure";
+import {
+  AnnualRepeatInterval,
+  DailyRepeatInterval,
+  MonthlyRepeatInterval,
+  Repeat,
+  RepeatInterval,
+  WeeklyRepeatInterval,
+} from "./repeat";
 
 const createExpenditureFromSettings = (
   settings: Repeat
 ): RegularExpenditure => {
   return {
+    currency: "EUR",
     repeat: settings,
     name: "",
     date: Date.now(),

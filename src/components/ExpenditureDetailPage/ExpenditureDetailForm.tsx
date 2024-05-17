@@ -21,6 +21,7 @@ export default function ExpenditureDetailForm({ expenditure, updater }: Props) {
         onChange={updater("name")}
       />
       <AmountDisplayInput
+        currency={expenditure.currency}
         className="col-span-3 self-end"
         amount={expenditure.amount}
         onChange={updater("amount")}

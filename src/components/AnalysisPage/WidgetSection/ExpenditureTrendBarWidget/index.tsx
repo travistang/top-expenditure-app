@@ -1,6 +1,7 @@
 import { getMonth, setMonth } from "date-fns";
 import { useMemo, useState } from "react";
 import { FaChartBar } from "react-icons/fa";
+import { Currency } from "../../../../domain/currency";
 import {
   CategoryWithId,
   ExpenditureWithId,
@@ -19,12 +20,14 @@ type Props = {
   expenditures: ExpenditureWithId[];
   selectedMonth: number;
   onSelectMonth: (month: number) => void;
+  currency: Currency;
 };
 export default function ExpenditureTrendBarWidget({
   expenditures,
   categories,
   selectedMonth,
   onSelectMonth,
+  currency,
 }: Props) {
   const [mode, setMode] = useState<TrendBarDisplayMode>(
     TrendBarDisplayMode.MonthsInYear
@@ -58,6 +61,7 @@ export default function ExpenditureTrendBarWidget({
   return (
     <Widget icon={FaChartBar} title="Trend" className="col-span-full">
       <BarChart
+        currency={currency}
         className="pb-2 mb-2"
         onSelectBar={onSelectBarIndex}
         selectedBarIndex={selectedBarIndex}

@@ -1,3 +1,5 @@
+import { Currency } from "./currency";
+
 export enum RepeatInterval {
   Daily = "daily",
   Weekly = "weekly",
@@ -60,6 +62,7 @@ export interface Repeatable {
   date?: number;
   startDate?: number;
   amount: number;
+  currency: Currency;
   endDate?: number;
 }
 

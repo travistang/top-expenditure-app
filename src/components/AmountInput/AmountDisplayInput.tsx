@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
 import classNames from "classnames";
-import DisplayInputBase from "../DisplayInput/DisplayInputBase";
-import { formatNumberAsAmount } from "../../utils/strings";
+import { useEffect, useState } from "react";
 import AmountInput from ".";
+import { Currency } from "../../domain/currency";
+import { formatNumberAsAmount } from "../../utils/strings";
+import DisplayInputBase from "../DisplayInput/DisplayInputBase";
 
 type Props = {
   amount: number;
   onChange: (amount: number) => void;
   className?: string;
   label?: string;
+  currency: Currency;
 };
 export default function AmountDisplayInput({
   amount,
   onChange,
   className,
+  currency,
   label,
 }: Props) {
   const [valuePlaceholder, setValuePlaceholder] = useState(amount);
@@ -34,8 +37,8 @@ export default function AmountDisplayInput({
       inputComponent={
         <AmountInput
           className={classNames("flex-1 col-span-4")}
+          currency={currency}
           amount={valuePlaceholder}
-          formatter={formatNumberAsAmount}
           onChange={setValuePlaceholder}
         />
       }
@@ -43,7 +46,9 @@ export default function AmountDisplayInput({
       onCancel={onCancel}
       onCommit={onCommit}
     >
-      <span className="font-mono">{formatNumberAsAmount(amount)}</span>
+      <span className="font-mono">
+        {formatNumberAsAmount(amount, currency)}
+      </span>
     </DisplayInputBase>
   );
 }

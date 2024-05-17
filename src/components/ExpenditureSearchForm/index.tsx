@@ -1,13 +1,12 @@
 import classNames from "classnames";
-import { SearchParams } from "../../domain/expenditure-search";
-import { FaArrowDown, FaSearch } from "react-icons/fa";
-import { Updater } from "../../utils/objects";
 import { useState } from "react";
-import Button from "../Button";
-import DateInput from "../DateInput";
+import { FaArrowDown, FaSearch } from "react-icons/fa";
+import { SearchParams } from "../../domain/expenditure-search";
+import { Updater } from "../../utils/objects";
 import AmountInput from "../AmountInput";
-import { formatNumberAsAmount } from "../../utils/strings";
+import Button from "../Button";
 import CheckboxInput from "../CheckboxInput";
+import DateInput from "../DateInput";
 
 type Props = {
   searchParams: SearchParams;
@@ -86,18 +85,18 @@ export default function ExpenditureSearchForm({
         />
         <AmountInput
           nullable
+          currency={searchParams.currency}
           label="Minimum amount"
           className="col-span-3"
           amount={searchParams.minimumAmount}
-          formatter={formatNumberAsAmount}
           onChange={onChangeSearchParams("minimumAmount")}
         />
         <AmountInput
           nullable
+          currency={searchParams.currency}
           label="Maximum amount"
           className="col-span-3"
           amount={searchParams.maximumAmount}
-          formatter={formatNumberAsAmount}
           onChange={onChangeSearchParams("maximumAmount")}
         />
       </div>
