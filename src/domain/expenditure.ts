@@ -90,6 +90,32 @@ export class ExpenditureDatabase extends Dexie {
             }
           });
       });
+
+    this.version(3.1)
+      .stores({
+        incomes: "++id,name",
+        expenditures: "++id,name,date,category,amount,currency,*tags",
+        categories: "++id,name",
+      })
+      .upgrade((tx) => {
+        tx.table("categories")
+          .toCollection()
+          .modify((cat) => {
+            const hasOldBudgetSchema = cat.budget && "amount" in cat.budget;
+            if (hasOldBudgetSchema) {
+              cat.budget = {
+                EUR: cat.budget,
+              };
+            }
+          });
+        tx.table("incomes")
+          .toCollection()
+          .modify((income) => {
+            if (!income.currency) {
+              income.currency = "EUR";
+            }
+          });
+      });
   }
 
   private get newId(): string {
