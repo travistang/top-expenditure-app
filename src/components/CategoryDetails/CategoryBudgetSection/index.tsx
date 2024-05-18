@@ -1,15 +1,18 @@
 import classNames from "classnames";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FaChartLine } from "react-icons/fa";
+import { FaChartLine, FaPen } from "react-icons/fa";
+import { hasNoBudget } from "../../../domain/category";
+import { Currency, mapByCurrency } from "../../../domain/currency";
 import {
-  CategoryWithBudget,
   CategoryWithId,
   ExpenditureWithId,
   expenditureDatabase,
+  groupExpendituresByCurrency,
 } from "../../../domain/expenditure";
 import { total } from "../../../domain/expenditure-statistics";
 import { createUpdater } from "../../../utils/objects";
+import Button from "../../Button";
 import Widget from "../../Widget";
 import BudgetStatus from "./BudgetStatus";
 import CategoryBudgetModal from "./CategoryBudgetModal";
@@ -44,6 +47,11 @@ export default function CategoryBudgetSection({
       return;
     }
   };
+
+  const totalExpendituresByCurrency = mapByCurrency(
+    groupExpendituresByCurrency(expenditures),
+    (_, records) => total(records)
+  );
   return (
     <>
       <CategoryBudgetModal
@@ -57,20 +65,31 @@ export default function CategoryBudgetSection({
         className={classNames("flex-shrink-0", className)}
         icon={FaChartLine}
       >
-        {!budget && (
+        {hasNoBudget(category) ? (
           <span
             onClick={() => setModalOpened(true)}
             className="text-xs py-4 flex items-center justify-center cursor-pointer"
           >
             No budget is set for this category. Click to setup
           </span>
-        )}
-        {budget && (
-          <BudgetStatus
-            category={category as CategoryWithBudget}
-            used={total(expenditures)}
-            onEditBudget={() => setModalOpened(true)}
-          />
+        ) : (
+          <div className="flex flex-col items-stretch gap-4">
+            {Object.entries(budget).map(([currency, budget]) => (
+              <BudgetStatus
+                key={currency}
+                budget={budget}
+                currency={currency as Currency}
+                category={category}
+                used={totalExpendituresByCurrency[currency as Currency] ?? 0}
+              />
+            ))}
+            <Button
+              onClick={() => setModalOpened(true)}
+              text="Edit"
+              icon={FaPen}
+              className="text-xs self-end"
+            />
+          </div>
         )}
       </Widget>
     </>

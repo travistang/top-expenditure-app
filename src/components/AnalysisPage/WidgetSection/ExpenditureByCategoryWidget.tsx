@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { FaDollarSign, FaList, FaPercentage } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Currency } from "../../../domain/currency";
 import { CategoryWithId, ExpenditureWithId } from "../../../domain/expenditure";
 import {
   groupExpendituresByCategory,
@@ -17,10 +18,12 @@ import Widget from "../../Widget";
 type Props = {
   categories: CategoryWithId[];
   expenditures: ExpenditureWithId[];
+  currency: Currency;
 };
 export default function ExpenditureByCategoryWidget({
   categories,
   expenditures,
+  currency,
 }: Props) {
   const [showingPercentage, setShowingPercentage] = useState(false);
   const navigate = useNavigate();
@@ -63,7 +66,7 @@ export default function ExpenditureByCategoryWidget({
             <span className="text-xs font-bold whitespace-nowrap">
               {showingPercentage
                 ? `${((group.total / (grandTotal || 1)) * 100).toFixed(0)}%`
-                : formatNumberAsAmount(group.total)}
+                : formatNumberAsAmount(group.total, currency)}
             </span>
           </div>
         )}

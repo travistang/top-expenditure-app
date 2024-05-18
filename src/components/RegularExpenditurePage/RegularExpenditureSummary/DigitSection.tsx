@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import { IconType } from "react-icons/lib";
+import { Currency } from "../../../domain/currency";
+import { formatNumberAsAmount } from "../../../utils/strings";
 
 type Props = {
   value: number;
@@ -8,12 +10,15 @@ type Props = {
   icon?: IconType;
   className?: string;
   textClassName?: string;
+  prefix?: string;
+  currency: Currency;
 };
 export default function DigitSection({
   className,
   textClassName,
   value,
-  formatter = (v) => v.toString(),
+  prefix,
+  currency,
   title,
   icon: Icon,
 }: Props) {
@@ -29,7 +34,7 @@ export default function DigitSection({
           textClassName
         )}
       >
-        {formatter(value)}
+        {prefix ?? "" + formatNumberAsAmount(value, currency)}
       </span>
     </div>
   );

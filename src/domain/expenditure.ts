@@ -1,5 +1,7 @@
 import { Mutex } from "async-mutex";
 import Dexie, { Table } from "dexie";
+import { Budget } from "./budget";
+import { ByCurrency, Currency } from "./currency";
 import { Income, IncomeWithId } from "./income";
 import {
   getOccurrenceTimeInRange,
@@ -14,6 +16,7 @@ export type Expenditure = {
   category: string;
   amount: number;
   repeat?: Repeat;
+  currency: Currency;
 };
 
 export const DEFAULT_EXPENDITURE: Expenditure = {
@@ -22,6 +25,7 @@ export const DEFAULT_EXPENDITURE: Expenditure = {
   tags: [],
   category: "",
   amount: 0,
+  currency: "EUR",
 };
 
 export type ExpenditureWithId = Expenditure & {
@@ -36,23 +40,25 @@ export type RegularExpenditureWithId = RegularExpenditure & {
   id: string;
 };
 
-export type Budget = {
-  amount: number;
-  effectiveSince: number;
-};
-
 export type CategoryWithId = {
   name: string;
   id: string;
   color?: string;
   icon?: string;
-  budget?: Budget;
-};
-export type CategoryWithBudget = CategoryWithId & {
-  budget: Budget;
+  budget: ByCurrency<Budget>;
 };
 
-class ExpenditureDatabase extends Dexie {
+export const groupExpendituresByCurrency = <T extends Expenditure>(
+  expenditures: T[]
+): ByCurrency<T[]> => {
+  return expenditures.reduce((acc, exp) => {
+    const currency = exp.currency;
+    acc[currency] = [...(acc[currency] ?? []), exp];
+    return acc;
+  }, {} as ByCurrency<T[]>);
+};
+
+export class ExpenditureDatabase extends Dexie {
   expenditures!: Table<ExpenditureWithId>;
   categories!: Table<CategoryWithId>;
   incomes!: Table<IncomeWithId>;
@@ -69,6 +75,21 @@ class ExpenditureDatabase extends Dexie {
       expenditures: "++id,name,date,category,amount,*tags",
       categories: "++id,name",
     });
+    this.version(3)
+      .stores({
+        incomes: "++id,name",
+        expenditures: "++id,name,date,category,amount,currency,*tags",
+        categories: "++id,name",
+      })
+      .upgrade((tx) => {
+        tx.table("expenditures")
+          .toCollection()
+          .modify((exp) => {
+            if (!exp.currency) {
+              exp.currency = "EUR";
+            }
+          });
+      });
   }
 
   private get newId(): string {
@@ -122,7 +143,7 @@ class ExpenditureDatabase extends Dexie {
           return null;
         }
         const id = this.newId;
-        await this.categories.add({ name, id }, id);
+        await this.categories.add({ name, id, budget: {} }, id);
         return id;
       } catch {
         return null;

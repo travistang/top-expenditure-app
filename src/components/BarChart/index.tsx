@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import { Currency } from "../../domain/currency";
 import { formatNumberAsAmount } from "../../utils/strings";
 
 export type BarChartData = {
@@ -34,8 +35,16 @@ type BarProps = {
   className?: string;
   onClick?: () => void;
   selected?: boolean;
+  currency: Currency;
 };
-function Bar({ className, selected, onClick, data, height }: BarProps) {
+function Bar({
+  className,
+  selected,
+  onClick,
+  data,
+  height,
+  currency,
+}: BarProps) {
   const total = data.reduce((total, point) => total + point.value, 0);
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
@@ -50,7 +59,7 @@ function Bar({ className, selected, onClick, data, height }: BarProps) {
           !selected && "hidden"
         )}
       >
-        {formatNumberAsAmount(total)}
+        {formatNumberAsAmount(total, currency)}
         <div className="absolute -bottom-1 rotate-45 h-4 w-4 shadow-md bg-gray-300 -z-10" />
       </span>
       <div
@@ -87,6 +96,7 @@ type Props = {
   barClassName?: string;
   selectedBarIndex?: number;
   onSelectBar?: (id: number) => void;
+  currency: Currency;
 };
 
 export default function BarChart({
@@ -95,6 +105,7 @@ export default function BarChart({
   barClassName,
   selectedBarIndex,
   onSelectBar,
+  currency,
 }: Props) {
   const totalByBars = data.map((bar) =>
     bar.values.reduce((total, { value }) => total + value, 0)
@@ -114,6 +125,7 @@ export default function BarChart({
             )}
           >
             <Bar
+              currency={currency}
               className={barClassName}
               selected={selectedBarIndex === i}
               data={values}

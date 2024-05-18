@@ -3,12 +3,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaCheck, FaPen } from "react-icons/fa";
 import Button from "../components/Button";
+import CurrencyPicker from "../components/CurrencyPicker";
 import DateInput from "../components/DateInput";
 import DigitInputGroup from "../components/DigitInputGroup";
 import InputSectionToggle from "../components/RecordExpenditurePage/InputSectionToggle";
 import SimpleCategoryInput from "../components/RecordExpenditurePage/SimpleCategoryInput";
 import TagsInput from "../components/TagsInput";
 import TextInput from "../components/TextInput";
+import { Currency } from "../domain/currency";
 import {
   CategoryWithId,
   DEFAULT_EXPENDITURE,
@@ -19,6 +21,7 @@ import useExpenditureForm from "../hooks/useExpenditureForm";
 export default function RecordExpenditurePage() {
   const [showNumPad, setShowNumPad] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [currency, setCurrency] = useState<Currency>("EUR");
   const { formValue, updateField, isFormValid, reset, setFormValue } =
     useExpenditureForm(() => ({ ...DEFAULT_EXPENDITURE, date: Date.now() }));
   const onCategorySelected = (category: CategoryWithId) => {
@@ -31,7 +34,7 @@ export default function RecordExpenditurePage() {
 
   const onCreateExpenditure = () => {
     expenditureDatabase
-      .createExpenditure(formValue)
+      .createExpenditure({ ...formValue, currency })
       .then(() => toast.success("Expenditure recorded"))
       .then(reset)
       .catch(() => toast.error("Failed to record expenditure"));
@@ -44,11 +47,17 @@ export default function RecordExpenditurePage() {
       )}
     >
       <DigitInputGroup
+        currency={currency}
         showNumPad={showNumPad}
         toggleNumPad={() => setShowNumPad(!showNumPad)}
         value={formValue.amount}
         keypadPortalId="page"
         onChange={updateField("amount")}
+      />
+      <CurrencyPicker
+        currency={currency}
+        onChange={setCurrency}
+        className="self-end mr-4 h-12 bg-gray-500/50"
       />
       <InputSectionToggle
         showingInfoSection={showMore}
@@ -67,6 +76,7 @@ export default function RecordExpenditurePage() {
               "max-h-[calc(16px+8*32px)]"
             )}
             category={formValue.category ?? undefined}
+            currency={currency}
             onChange={onCategorySelected}
           />
         </div>

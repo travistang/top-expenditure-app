@@ -1,6 +1,7 @@
-import { Collection } from "dexie";
 import { endOfDay, isAfter, max, min, startOfDay } from "date-fns";
+import { Collection } from "dexie";
 import { containsSubstring } from "../utils/strings";
+import { Currency } from "./currency";
 import {
   ExpenditureWithId,
   RegularExpenditureWithId,
@@ -10,6 +11,7 @@ import {
 export type SearchParams = {
   searchString: string;
   category: string;
+  currency: Currency;
   page: number;
   pageSize: number;
   fromDate?: number;
@@ -26,6 +28,7 @@ export type ExpenditureSearchResult = {
 
 export const DEFAULT_SEARCH_PARAMS: SearchParams = {
   searchString: "",
+  currency: "EUR",
   category: "",
   page: 0,
   includesRepeatedExpenditure: false,
