@@ -50,7 +50,7 @@ export default function RegularExpenditureSummary({
             <DigitSection
               className="col-span-3"
               currency={currency}
-              textClassName="text-green-500"
+              textClassName="text-green-700 dark:text-green-500"
               value={monthlyIncomesByCurrency[currency] ?? 0}
               title={`Monthly income (${CURRENCY_NAMES[currency]})`}
               icon={FaMoneyBill}
